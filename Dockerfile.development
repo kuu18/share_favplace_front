@@ -12,4 +12,6 @@ ENV HOME=/${WORKDIR} \
 
 WORKDIR ${HOME}
 
-EXPOSE ${CONTAINER_PORT}
+RUN apk update && \
+    apk upgrade && \
+    apk add --no-cache make gcc g++ python3
