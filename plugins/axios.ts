@@ -1,14 +1,16 @@
-export default ({ $axios } : any) => {
+import { Context } from '@nuxt/types';
+
+export default ({ $axios } : Context) => {
   // リクエストログ
-  $axios.onRequest((config : string) => {
+  $axios.onRequest((config) => {
     console.log(config)
   })
   // レスポンスログ
-  $axios.onResponse((config : string) => {
+  $axios.onResponse((config) => {
     console.log(config)
   })
   // エラーログ
-  $axios.onError((e : any) => {
+  $axios.onError((e) => {
     console.log(e.response)
   })
 }
