@@ -1,4 +1,8 @@
 {
+  "menus": {
+    "about": "サイトについて",
+    "contact": "お問合せ"
+  },
   "title": {
     "signup": "会員登録",
     "login": "ログイン"

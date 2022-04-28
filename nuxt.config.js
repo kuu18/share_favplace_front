@@ -1,3 +1,4 @@
+
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
@@ -19,6 +20,10 @@ export default {
     ]
   },
 
+  publicRuntimeConfig: {
+    appName: process.env.APP_NAME
+  },
+
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     '~/assets/sass/main.scss'
@@ -30,12 +35,7 @@ export default {
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
-  components: {
-    dirs: [
-      '~/components',
-      '~/components/welcome'
-    ]
-  },
+  components: true,
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
