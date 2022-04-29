@@ -3,7 +3,7 @@
     <v-footer
       absolute
       dark
-      color="black"
+      color="grey darken-3"
     >
       befLoginFooter.vue
     </v-footer>

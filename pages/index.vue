@@ -5,14 +5,15 @@
 </template>
 
 <script lang = "ts">
-import { Context } from '@nuxt/types';
+import { Component, Vue } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators'
-import DefaultModule from '../store/index';
+import DefaultModule from '@/store/index';
 
-export default {
-  layout ({ store }: Context) {
-    const defaultModule = getModule(DefaultModule, store)
-    return defaultModule.getLoggedIn ? 'default' : 'welcome'
+@Component({
+  layout ({ store }) {
+    return getModule(DefaultModule, store).getLoggedIn ? 'default' : 'welcome'
   }
+})
+export default class Index extends Vue{
 }
 </script>
