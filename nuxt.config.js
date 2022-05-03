@@ -1,3 +1,4 @@
+
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
@@ -17,6 +18,10 @@ export default {
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
+  },
+
+  publicRuntimeConfig: {
+    appName: process.env.APP_NAME
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -66,7 +71,9 @@ export default {
           success: '44D69E',
           warning: 'FEB65E',
           error: 'FB8678',
-          background: 'f6f6f4'
+          background: 'f6f6f4',
+          myblue: '1867C0',
+          myred: 'c86a71'
         }
       }
     }
