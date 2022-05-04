@@ -9,9 +9,9 @@
     <app-logo 
       @click.native="goTo('scroll-top')"
     />
-    <v-toolbar-title class="hidden-mobile-and-down">
-      {{ appName }}
-    </v-toolbar-title>
+    <app-title 
+      class="hidden-mobile-and-down"
+    />
     <v-spacer />
 
     <v-toolbar-items class="ml-2 hidden-ipad-and-down">
@@ -59,11 +59,12 @@
 
 <script lang = 'ts'>
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { getModule } from 'vuex-module-decorators'
-import DefaultModule from '@/store/index';
+import { GlobalStore } from '~/store';
 import appLogo from '../ui/appLogo.vue'
-import SignupLink from '../beforeLogin/signupLink.vue';
-import LoginLink from '../beforeLogin/loginLink.vue';
+import signupLink from '../beforeLogin/signupLink.vue';
+import loginLink from '../beforeLogin/loginLink.vue';
+import appTitle from '../ui/appTitle.vue'
+
 
 export interface Menus {
   title: string;
@@ -73,14 +74,14 @@ export interface Menus {
 @Component({
   components: { 
     appLogo,
-    SignupLink,
-    LoginLink
+    signupLink,
+    loginLink,
+    appTitle
   }
 })
-export default class WelAppBar extends Vue{
-  appName: string = this.$config.appName;
+export default class welAppBar extends Vue{
   scrollY: number = 0;
-  appBarHeight: number = getModule(DefaultModule, this.$store).getAppBarHeight
+  appBarHeight: number = GlobalStore.appBarHeight
 
   @Prop({ default: [] })
   menus!: Array<Menus>;
