@@ -101,7 +101,7 @@ export default class welAppBar extends Vue{
     this.scrollY = window.scrollY
   }
 
-  goTo (id: any) {
+  goTo (id: string) {
     this.$vuetify.goTo(`#${id}`)
   }
 
