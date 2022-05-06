@@ -32,6 +32,6 @@ import { TranslateResult } from 'vue-i18n'
 @Component
 export default class befLoginFormCard extends Vue {
   appName: string = this.$config.appName
-  pageTitle: TranslateResult = this.$i18n.t(`pages.${this.$route.name}`)
+  pageTitle: TranslateResult = this.$t(`pages.${this.$route.name}`)
 }
 </script>
