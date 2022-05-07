@@ -16,6 +16,7 @@
     "noEmit": true,
     "experimentalDecorators": true,
     "removeComments": true,
+    "importHelpers": true,
     "baseUrl": ".",
     "paths": {
       "~/*": [
@@ -29,7 +30,8 @@
       "@nuxt/types",
       "@nuxtjs/axios",
       "@types/node",
-      "@nuxtjs/vuetify"
+      "@nuxtjs/vuetify",
+      "nuxt-i18n"
     ]
   },
   "exclude": [

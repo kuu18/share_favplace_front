@@ -91,7 +91,9 @@ export default {
         ja: require('./locales/ja.json'),
         en: require('./locales/en.json')
       }
-    }
+    },
+    strategy: 'no_prefix',
+    vuex: false
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
