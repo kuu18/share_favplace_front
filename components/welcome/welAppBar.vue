@@ -81,7 +81,7 @@ export interface Menus {
 })
 export default class welAppBar extends Vue{
   scrollY: number = 0;
-  appBarHeight: number = GlobalStore.appBarHeight
+  appBarHeight: number = GlobalStore.getAppBarHeight
 
   @Prop({ default: [] })
   menus!: Array<Menus>;

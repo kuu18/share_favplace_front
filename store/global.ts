@@ -1,4 +1,4 @@
-import { Module, VuexModule } from 'vuex-module-decorators'
+import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 
 @Module({
   name: 'global',
@@ -6,14 +6,24 @@ import { Module, VuexModule } from 'vuex-module-decorators'
   namespaced: true
 })
 export default class Global extends VuexModule {
-  loggedIn: boolean = false;
-  appBarHeight: number = 56;
+  private loggedIn: boolean = false;
+  private appBarHeight: number = 56;
 
-  get getLoggedIn(): boolean {
+  public get getLoggedIn(): boolean {
     return this.loggedIn;
   }
 
-  get getAppBarHeight(): number {
+  public get getAppBarHeight(): number {
     return this.appBarHeight;
+  }
+
+  @Mutation
+  private setLoggedIn(payload: boolean) {
+    this.loggedIn = payload;
+  }
+
+  @Action({ rawError: true })
+  public login() {
+    this.setLoggedIn(true);
   }
 }
