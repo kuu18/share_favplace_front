@@ -26,4 +26,9 @@ export default class Global extends VuexModule {
   public login() {
     this.setLoggedIn(true);
   }
+
+  @Action({ rawError: true })
+  public logout() {
+    this.setLoggedIn(false);
+  }
 }

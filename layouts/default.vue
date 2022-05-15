@@ -1,5 +1,22 @@
 <template>
   <v-app>
-    <nuxt />
+    <logged-in-app-bar />
+    <v-main>
+      <nuxt />
+    </v-main>
   </v-app>
 </template>
+
+<script>
+import { Component, Vue } from "vue-property-decorator";
+import LoggedInAppBar from '@/components/loggedIn/header/loggedInAppBar.vue';
+
+@Component({
+
+  components: {
+    LoggedInAppBar
+  }
+})
+export default class LoggedIn extends Vue{
+}
+</script>
