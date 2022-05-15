@@ -6,7 +6,7 @@ import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
   namespaced: true
 })
 export default class Global extends VuexModule {
-  private loggedIn: boolean = true;
+  private loggedIn: boolean = false;
   private appBarHeight: number = 56;
 
   public get getLoggedIn(): boolean {
@@ -25,5 +25,10 @@ export default class Global extends VuexModule {
   @Action({ rawError: true })
   public login() {
     this.setLoggedIn(true);
+  }
+
+  @Action({ rawError: true })
+  public logout() {
+    this.setLoggedIn(false);
   }
 }
