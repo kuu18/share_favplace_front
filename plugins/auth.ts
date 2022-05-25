@@ -3,14 +3,15 @@ import { Store } from 'vuex';
 import { NuxtAxiosInstance } from '@nuxtjs/axios';
 import { User } from '../types/user';
 import { CurrentUserStore } from '@/store';
+import { NuxtRuntimeConfig } from '@nuxt/types/config/runtime';
 
 export interface AuthenticationInterface {
-  setStorage (accessTokenExp: number, refreshTokenExp: number): void;
-  removeStorage (): void;
-  getAccessTokenExp (): Number;
-  isAccessTokenAuthenticated (): boolean;
-  login (accessTokenExp: number, refreshTokenExp: number, user: User): void;
-  logout (): void;
+  setStorage(accessTokenExp: number, refreshTokenExp: number): void;
+  removeStorage(): void;
+  getAccessTokenExp(): number;
+  isAccessTokenAuthenticated(): boolean;
+  login(accessTokenExp: number, refreshTokenExp: number, user: User): void;
+  logout(): void;
 }
 
 /**
@@ -20,12 +21,15 @@ export interface AuthenticationInterface {
 class Authentication implements AuthenticationInterface {
   store: Store<any>;
   $axios: NuxtAxiosInstance;
+  $config: NuxtRuntimeConfig;
   storage: Storage = window.localStorage;
   keys = { accessTokenExp: 'access_token_exp', refreshTokenExp: 'refresh_token_exp' };
+  cryptoJs = require('crypto-js');
 
-  constructor (ctx: Context) {
+  constructor(ctx: Context) {
     this.store = ctx.store;
     this.$axios = ctx.$axios;
+    this.$config = ctx.$config
   }
 
   /**
@@ -34,16 +38,16 @@ class Authentication implements AuthenticationInterface {
    * @param accessTokenExp 
    * @param refreshTokenExp 
    */
-  setStorage (accessTokenExp: number, refreshTokenExp: number) {
-    this.storage.setItem(this.keys.accessTokenExp, String(accessTokenExp * 1000));
-    this.storage.setItem(this.keys.refreshTokenExp, String(refreshTokenExp * 1000));
+  setStorage(accessTokenExp: number, refreshTokenExp: number) {
+    this.storage.setItem(this.keys.accessTokenExp, this.encrypt(accessTokenExp));
+    this.storage.setItem(this.keys.refreshTokenExp, this.encrypt(refreshTokenExp));
   }
 
   /**
    * ローカルストレージの値の削除
    * 
    */
-  removeStorage () {
+  removeStorage() {
     for (const key of Object.values(this.keys)) {
       this.storage.removeItem(key);
     }
@@ -54,8 +58,9 @@ class Authentication implements AuthenticationInterface {
    * 
    * @returns アクセストークンの有効期限
    */
-  getAccessTokenExp () {
-    return Number(this.storage.getItem(this.keys.accessTokenExp))
+  getAccessTokenExp() {
+    const expire = this.storage.getItem(this.keys.accessTokenExp)
+    return expire ? this.decrypt(expire) : null
   }
 
   /**
@@ -63,8 +68,9 @@ class Authentication implements AuthenticationInterface {
    * 
    * @returns リフレッシュトークンの有効期限
    */
-  getRefreshTokenExp () {
-    return Number(this.storage.getItem(this.keys.refreshTokenExp));
+  getRefreshTokenExp() {
+    const expire = this.storage.getItem(this.keys.refreshTokenExp)
+    return expire ? this.decrypt(expire) : null
   }
 
   /**
@@ -72,7 +78,7 @@ class Authentication implements AuthenticationInterface {
    * 
    * @returns 有効期限切れかの真偽値
    */
-  isAccessTokenAuthenticated () {
+  isAccessTokenAuthenticated() {
     return new Date().getTime() < this.getAccessTokenExp();
   }
 
@@ -81,7 +87,7 @@ class Authentication implements AuthenticationInterface {
    * 
    * @returns 有効期限切れかの真偽値
    */
-  isRefreshTokenAuthenticated () {
+  isRefreshTokenAuthenticated() {
     return new Date().getTime() < this.getRefreshTokenExp();
   }
 
@@ -92,7 +98,7 @@ class Authentication implements AuthenticationInterface {
    * @param refreshTokenExp 
    * @param user 
    */
-  login (accessTokenExp: number, refreshTokenExp: number, user: User) {
+  login(accessTokenExp: number, refreshTokenExp: number, user: User) {
     this.setStorage(accessTokenExp, refreshTokenExp);
     CurrentUserStore.commitCurrentUser(user);
   }
@@ -101,10 +107,36 @@ class Authentication implements AuthenticationInterface {
    * ログアウト処理
    * 
    */
-  logout () {
+  logout() {
     this.$axios.$delete('/api/v1/logout')
     this.removeStorage()
     CurrentUserStore.commitCurrentUser(null);
+  }
+
+  /**
+   * 有効期限暗号化処理
+   * 
+   * @param exp 
+   * @returns 暗号化した有効期限
+   */
+  encrypt(exp: number) {
+    const expire = String(exp * 1000)
+    return this.cryptoJs.AES.encrypt(expire, this.$config.cryptoKey).toString()
+  }
+
+  /**
+   * 有効期限複合化処理
+   * 
+   * @param exp 
+   * @returns 複合化した有効期限
+   */
+  decrypt(exp: string) {
+    try {
+      const bytes = this.cryptoJs.AES.decrypt(exp, this.$config.cryptoKey)
+      return bytes.toString(this.cryptoJs.enc.Utf8) || this.removeStorage()
+    } catch (e) {
+      return this.removeStorage()
+    }
   }
 }
 

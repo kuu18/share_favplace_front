@@ -73,17 +73,17 @@ export default class Login extends Vue {
   * 
   */
   async login () {
-      this.loading = true
-      if (this.isValid) {
-        await this.$axios.$post(
-          '/api/v1/login',
-          this.params
-        )
-        .then((response: LoginResponse) => this.authSuccessful(response))
-        .catch((error: AxiosError) => this.authFailure(error))
-      }
-      this.loading = false
+    this.loading = true
+    if (this.isValid) {
+      await this.$axios.$post(
+        '/api/v1/login',
+        this.params
+      )
+      .then((response: LoginResponse) => this.authSuccessful(response))
+      .catch((error: AxiosError) => this.authFailure(error))
     }
+    this.loading = false
+  }
     
     /**
      * ログイン成功時の処理
