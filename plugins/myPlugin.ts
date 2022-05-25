@@ -2,7 +2,10 @@ import { Plugin, Context } from '@nuxt/types'
 
 export interface MyPluginInterface {
 }
-
+/**
+ * ユーティリティメソッド群クラス
+ * 
+ */
 class MyPlugin implements MyPluginInterface {
   app
 
@@ -10,7 +13,12 @@ class MyPlugin implements MyPluginInterface {
     this.app = ctx.app
   }
 
-  // ページタイトル変換メソッド
+  /**
+   * ページタイトル変換処理
+   * 
+   * @param routeName 
+   * @returns 
+   */
   pageTitle (routeName: string) {
     const jsonPath = `pages.${routeName.replace(/-/g, '.')}`
     const title = this.app.i18n.t(jsonPath)

@@ -7,12 +7,12 @@
         ref="form"
         v-model="isValid"
       >
-        <user-form-email
-          :email.sync="params.auth.email"
+        <user-form-username
+          :username.sync="params.username"
           no-validation
         />
         <user-form-password
-          :password.sync="params.auth.password"
+          :password.sync="params.password"
           no-validation
         />
         <v-card-actions>
@@ -42,32 +42,63 @@
 
 <script lang = 'ts'>
 import { Component, Vue } from 'vue-property-decorator';
-import { AuthData } from '@/types/auth';
 import befLoginFormCard from '@/components/beforeLogin/befLoginFormCard.vue';
 import userFormPassword from '@/components/user/userFormPassword.vue';
-import userFormEmail from '@/components/user/userFormEmail.vue';
-import { GlobalStore } from '~/store';
+import userFormUsername from '@/components/user/userFormUsername.vue';
+import { GlobalStore, CurrentUserStore } from '@/store';
+import { AxiosError } from "axios";
+import { User } from '@/types/user';
+
+interface LoginResponse {
+  access_token_exp: number,
+  refresh_token_exp: number,
+  user: User
+}
 
 @Component({ 
   layout: 'beforeLogin',
   components: {
     befLoginFormCard,
     userFormPassword,
-    userFormEmail
+    userFormUsername
   }
 })
 export default class Login extends Vue {
   isValid: boolean = false;
   loading: boolean = false;
-  params:AuthData = { auth: { email: '', password: '' } };
+  params:User = { username: '', password: '' };
 
-  login () {
-    this.loading = true
-    setTimeout(() => {
-      GlobalStore.login()
-      this.$router.replace('/')
+  /**
+  *ログイン処理 
+  * 
+  */
+  async login () {
+      this.loading = true
+      if (this.isValid) {
+        await this.$axios.$post(
+          '/api/v1/login',
+          this.params
+        )
+        .then((response: LoginResponse) => this.authSuccessful(response))
+        .catch((error: AxiosError) => this.authFailure(error))
+      }
       this.loading = false
-    }, 1500)
-  }
+    }
+    
+    /**
+     * ログイン成功時の処理
+     * 
+     */
+    async authSuccessful (response: LoginResponse) {
+      await this.$auth.login(response.access_token_exp, response.refresh_token_exp, response.user);
+    }
+
+    /**
+     * ログイン失敗時の処理
+     * 
+     */
+    authFailure (error: AxiosError) {
+      console.log(error)
+    }
 }
 </script>
