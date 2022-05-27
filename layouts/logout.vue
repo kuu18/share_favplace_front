@@ -1,0 +1,7 @@
+<template>
+  <nuxt />
+</template>
+<script lang="ts">
+  export default{
+  }
+</script>

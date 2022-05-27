@@ -6,9 +6,10 @@ import { Component, Vue } from 'vue-property-decorator';
 import { GlobalStore } from '~/store';
 
 @Component({
-  async middleware ({ redirect }) {
-    await GlobalStore.logout()
-    return redirect('/login')
+  layout: 'logout',
+  async beforeCreate() {
+    await this.$auth.logout();
+    this.$router.replace('/');
   }
 })
 export default class Logout extends Vue {

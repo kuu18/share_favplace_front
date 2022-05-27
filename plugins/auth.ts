@@ -6,10 +6,14 @@ import { CurrentUserStore } from '@/store';
 import { NuxtRuntimeConfig } from '@nuxt/types/config/runtime';
 
 export interface AuthenticationInterface {
+  currentUser: User;
+  loggedIn: boolean;
   setStorage(accessTokenExp: number, refreshTokenExp: number): void;
   removeStorage(): void;
   getAccessTokenExp(): number;
+  getRefreshTokenExp(): number;
   isAccessTokenAuthenticated(): boolean;
+  isRefreshTokenAuthenticated(): boolean;
   login(accessTokenExp: number, refreshTokenExp: number, user: User): void;
   logout(): void;
 }
@@ -22,14 +26,14 @@ class Authentication implements AuthenticationInterface {
   store: Store<any>;
   $axios: NuxtAxiosInstance;
   $config: NuxtRuntimeConfig;
-  storage: Storage = window.localStorage;
+  storage = window.localStorage;
   keys = { accessTokenExp: 'access_token_exp', refreshTokenExp: 'refresh_token_exp' };
   cryptoJs = require('crypto-js');
 
   constructor(ctx: Context) {
     this.store = ctx.store;
     this.$axios = ctx.$axios;
-    this.$config = ctx.$config
+    this.$config = ctx.$config;
   }
 
   /**
@@ -59,8 +63,8 @@ class Authentication implements AuthenticationInterface {
    * @returns アクセストークンの有効期限
    */
   getAccessTokenExp() {
-    const expire = this.storage.getItem(this.keys.accessTokenExp)
-    return expire ? this.decrypt(expire) : null
+    const expire = this.storage.getItem(this.keys.accessTokenExp);
+    return expire ? this.decrypt(expire) : null;
   }
 
   /**
@@ -69,8 +73,8 @@ class Authentication implements AuthenticationInterface {
    * @returns リフレッシュトークンの有効期限
    */
   getRefreshTokenExp() {
-    const expire = this.storage.getItem(this.keys.refreshTokenExp)
-    return expire ? this.decrypt(expire) : null
+    const expire = this.storage.getItem(this.keys.refreshTokenExp);
+    return expire ? this.decrypt(expire) : null;
   }
 
   /**
@@ -90,6 +94,34 @@ class Authentication implements AuthenticationInterface {
   isRefreshTokenAuthenticated() {
     return new Date().getTime() < this.getRefreshTokenExp();
   }
+
+  /**
+   * ログイン中のユーザーの取得
+   * 
+   * @returns ログイン中のユーザー
+   */
+  get currentUser() {
+    return CurrentUserStore.getCurrentUser || {};
+  }
+
+  /**
+   * ログイン中のユーザーがいるかの判定
+   * 
+   * @returns 真偽値
+   */
+  isCurrentUserPresent () {
+    return ('id' in this.currentUser)
+  }
+
+  /**
+   * アクセストークンが期限内かつ、ログイン中のユーザーがいるかの判定
+   * 
+   * @returns 真偽値
+   */
+  get loggedIn() {
+    return this.isAccessTokenAuthenticated() && this.isCurrentUserPresent()
+  }
+
 
   /**
    * ログイン処理
@@ -120,7 +152,7 @@ class Authentication implements AuthenticationInterface {
    * @returns 暗号化した有効期限
    */
   encrypt(exp: number) {
-    const expire = String(exp * 1000)
+    const expire = String(exp)
     return this.cryptoJs.AES.encrypt(expire, this.$config.cryptoKey).toString()
   }
 

@@ -6,11 +6,10 @@
 
 <script lang = "ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { GlobalStore } from '~/store';
 
 @Component({
-  layout () {
-    return GlobalStore.getLoggedIn ? 'default' : 'welcome'
+  layout ({ $auth }) {
+    return $auth.loggedIn ? 'default' : 'welcome';
   }
 })
 export default class Index extends Vue{
