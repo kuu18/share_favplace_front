@@ -31,7 +31,7 @@ import userFormEmail from '@/components/user/userFormEmail.vue';
 import userFormUsername from '~/components/user/userFormUsername.vue';
 import userFormPassword from '@/components/user/userFormPassword.vue';
 import { User } from '@/types/user';
-import { AxiosResponse, AxiosError } from "axios"
+import { AxiosResponse, AxiosError } from "axios";
 
 @Component({
   layout: 'beforeLogin',
@@ -45,7 +45,7 @@ import { AxiosResponse, AxiosError } from "axios"
 export default class Signup extends Vue{
   isValid: boolean = false;
   loading: boolean = false;
-  params: User = { username: 'username33', email: 'email33@email.com', password: 'password' };
+  params: User = { username: '', email: '', password: '' };
 
   async signup () {
     await this.$axios.$post(
@@ -53,18 +53,19 @@ export default class Signup extends Vue{
       this.params
     )
     .then((response: AxiosResponse) => this.authSuccessful(response))
-    .catch((error: AxiosError) => this.authFailure(error))
-    this.loading = false
+    .catch((error: AxiosError) => this.authFailure(error));
+    this.loading = false;
   }
 
   // ログイン成功
   authSuccessful (response: AxiosResponse) {
-    console.log(response)
+    console.log(response);
   }
+  
 
   // ログイン失敗
   authFailure (error: AxiosError) {
-    console.log(error)
+    console.log(error);
   }
 
   formReset () {

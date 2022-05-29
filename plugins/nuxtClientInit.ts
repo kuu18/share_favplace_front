@@ -28,7 +28,8 @@ export default async ({ $auth, $axios }: Context) => {
     await $axios.$get('/api/v1/users/current_user')
       .then((response: Response) => CurrentUserStore.commitCurrentUser(response.user))
       .catch(() => $auth.removeStorage());
-  } else {
+  //アクセストークンもリフレッシュトークンも有効期限切れの場合
+  } else if (!$auth.isAccessTokenAuthenticated() && $auth.isRefreshTokenAuthenticated()) {
     // ログアウト処理
     $auth.logout();
     $auth.removeStorage();

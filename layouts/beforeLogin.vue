@@ -17,7 +17,8 @@ import BefLoginFooter from '../components/beforeLogin/befLoginFooter.vue';
   components: { 
     befLoginAppBar,
     BefLoginFooter
-  }
+  },
+  middleware: 'loggedInIsRedirects'
 })
 export default class befLogin extends Vue {
 }

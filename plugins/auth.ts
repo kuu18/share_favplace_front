@@ -1,4 +1,4 @@
-import { Plugin, Context } from '@nuxt/types'
+import { Plugin, Context, NuxtError } from '@nuxt/types';
 import { Store } from 'vuex';
 import { NuxtAxiosInstance } from '@nuxtjs/axios';
 import { User } from '../types/user';
@@ -14,8 +14,10 @@ export interface AuthenticationInterface {
   getRefreshTokenExp(): number;
   isAccessTokenAuthenticated(): boolean;
   isRefreshTokenAuthenticated(): boolean;
+  isCurrentUserPresent (): boolean;
   login(accessTokenExp: number, refreshTokenExp: number, user: User): void;
   logout(): void;
+  unauthError(): void;
 }
 
 /**
@@ -26,6 +28,7 @@ class Authentication implements AuthenticationInterface {
   store: Store<any>;
   $axios: NuxtAxiosInstance;
   $config: NuxtRuntimeConfig;
+  error: (params: NuxtError) => void;
   storage = window.localStorage;
   keys = { accessTokenExp: 'access_token_exp', refreshTokenExp: 'refresh_token_exp' };
   cryptoJs = require('crypto-js');
@@ -34,6 +37,7 @@ class Authentication implements AuthenticationInterface {
     this.store = ctx.store;
     this.$axios = ctx.$axios;
     this.$config = ctx.$config;
+    this.error = ctx.error
   }
 
   /**
@@ -110,7 +114,7 @@ class Authentication implements AuthenticationInterface {
    * @returns 真偽値
    */
   isCurrentUserPresent () {
-    return ('id' in this.currentUser)
+    return ('id' in this.currentUser);
   }
 
   /**
@@ -119,7 +123,7 @@ class Authentication implements AuthenticationInterface {
    * @returns 真偽値
    */
   get loggedIn() {
-    return this.isAccessTokenAuthenticated() && this.isCurrentUserPresent()
+    return this.isAccessTokenAuthenticated() && this.isCurrentUserPresent();
   }
 
 
@@ -140,8 +144,8 @@ class Authentication implements AuthenticationInterface {
    * 
    */
   logout() {
-    this.$axios.$delete('/api/v1/logout')
-    this.removeStorage()
+    this.$axios.$delete('/api/v1/logout');
+    this.removeStorage();
     CurrentUserStore.commitCurrentUser(null);
   }
 
@@ -152,8 +156,8 @@ class Authentication implements AuthenticationInterface {
    * @returns 暗号化した有効期限
    */
   encrypt(exp: number) {
-    const expire = String(exp)
-    return this.cryptoJs.AES.encrypt(expire, this.$config.cryptoKey).toString()
+    const expire = String(exp);
+    return this.cryptoJs.AES.encrypt(expire, this.$config.cryptoKey).toString();
   }
 
   /**
@@ -164,16 +168,26 @@ class Authentication implements AuthenticationInterface {
    */
   decrypt(exp: string) {
     try {
-      const bytes = this.cryptoJs.AES.decrypt(exp, this.$config.cryptoKey)
-      return bytes.toString(this.cryptoJs.enc.Utf8) || this.removeStorage()
+      const bytes = this.cryptoJs.AES.decrypt(exp, this.$config.cryptoKey);
+      return bytes.toString(this.cryptoJs.enc.Utf8) || this.removeStorage();
     } catch (e) {
-      return this.removeStorage()
+      return this.removeStorage();
     }
+  }
+
+
+  /**
+   * 認証エラー時の処理
+   * 
+   */
+  unauthError() {
+    this.removeStorage();
+    throw this.error({ statusCode: 401, message: 'Unauthorized' });
   }
 }
 
 const authentication: Plugin = (context: Context, inject) => {
-  inject('auth', new Authentication(context))
+  inject('auth', new Authentication(context));
 }
 
-export default authentication
+export default authentication;

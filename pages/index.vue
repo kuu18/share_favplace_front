@@ -8,6 +8,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 
 @Component({
+  middleware: 'authenticator',
   layout ({ $auth }) {
     return $auth.loggedIn ? 'default' : 'welcome';
   }

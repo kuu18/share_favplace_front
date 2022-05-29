@@ -45,7 +45,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import befLoginFormCard from '@/components/beforeLogin/befLoginFormCard.vue';
 import userFormPassword from '@/components/user/userFormPassword.vue';
 import userFormUsername from '@/components/user/userFormUsername.vue';
-import { GlobalStore, CurrentUserStore } from '@/store';
+import { GlobalStore } from '@/store';
 import { AxiosError } from "axios";
 import { User } from '@/types/user';
 
@@ -69,36 +69,37 @@ export default class Login extends Vue {
   params:User = { username: '', password: '' };
 
   /**
-  *ログイン処理 
-  * 
-  */
+   *ログイン処理 
+   * 
+   */
   async login () {
-    this.loading = true
+    this.loading = true;
     if (this.isValid) {
       await this.$axios.$post(
         '/api/v1/login',
         this.params
       )
       .then((response: LoginResponse) => this.authSuccessful(response))
-      .catch((error: AxiosError) => this.authFailure(error))
+      .catch((error: AxiosError) => this.authFailure(error));
     }
-    this.loading = false
+    this.loading = false;
   }
     
-    /**
-     * ログイン成功時の処理
-     * 
-     */
-    async authSuccessful (response: LoginResponse) {
-      await this.$auth.login(response.access_token_exp, response.refresh_token_exp, response.user);
-    }
+  /**
+   * ログイン成功時の処理
+   * 
+   */
+  async authSuccessful (response: LoginResponse) {
+    await this.$auth.login(response.access_token_exp, response.refresh_token_exp, response.user);
+    this.$router.push(GlobalStore.getRememberRoute);
+  }
 
-    /**
-     * ログイン失敗時の処理
-     * 
-     */
-    authFailure (error: AxiosError) {
-      console.log(error)
-    }
+  /**
+   * ログイン失敗時の処理
+   * 
+   */
+  authFailure (error: AxiosError) {
+    console.log(error);
+  }
 }
 </script>

@@ -8,8 +8,8 @@
 import { Component, Vue } from 'vue-property-decorator';
 @Component({
   layout: 'loggedIn',
-  validate ({ route }) {
-    return route.name !== 'account'
+  middleware ({ route, redirect }) {
+    if (route.name === 'account') { return redirect('/') }
   }
 })
 export default class Account extends Vue {
