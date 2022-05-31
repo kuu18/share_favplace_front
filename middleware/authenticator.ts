@@ -18,8 +18,7 @@ export default async ({ $auth, route, redirect }: Context) => {
       // ログイン前ユーザー
       GlobalStore.commitRememberRoute(route);
     } 
-    // TODO トースター出力
-    console.log(msg);
+    GlobalStore.commitToast({ msg: msg })
     return redirect('/login');
   // 有効期限内でユーザーが存在しない場合
   } else if (!$auth.isCurrentUserPresent()) {

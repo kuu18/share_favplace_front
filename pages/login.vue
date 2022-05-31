@@ -3,6 +3,7 @@
     <template
       #form-card-content
     >
+      <toaster />
       <v-form
         ref="form"
         v-model="isValid"
@@ -45,11 +46,14 @@ import { Component, Vue } from 'vue-property-decorator';
 import befLoginFormCard from '@/components/beforeLogin/befLoginFormCard.vue';
 import userFormPassword from '@/components/user/userFormPassword.vue';
 import userFormUsername from '@/components/user/userFormUsername.vue';
+import Toaster from '@/components/ui/toaster.vue';
 import { GlobalStore } from '@/store';
-import { AxiosError } from "axios";
+import { AxiosResponse, AxiosError } from "axios";
 import { User } from '@/types/user';
+import { ErrorResponse } from '@/types/errorResponse';
 
-interface LoginResponse {
+
+interface LoginResponse extends AxiosResponse{
   access_token_exp: number,
   refresh_token_exp: number,
   user: User
@@ -60,7 +64,8 @@ interface LoginResponse {
   components: {
     befLoginFormCard,
     userFormPassword,
-    userFormUsername
+    userFormUsername,
+    Toaster
   }
 })
 export default class Login extends Vue {
@@ -79,8 +84,8 @@ export default class Login extends Vue {
         '/api/v1/login',
         this.params
       )
-      .then((response: LoginResponse) => this.authSuccessful(response))
-      .catch((error: AxiosError) => this.authFailure(error));
+      .then((response: AxiosResponse<LoginResponse>) => this.authSuccessful(response))
+      .catch((error: AxiosError<ErrorResponse>) => this.authFailure(error));
     }
     this.loading = false;
   }
@@ -89,8 +94,8 @@ export default class Login extends Vue {
    * ログイン成功時の処理
    * 
    */
-  async authSuccessful (response: LoginResponse) {
-    await this.$auth.login(response.access_token_exp, response.refresh_token_exp, response.user);
+  async authSuccessful (response: AxiosResponse<LoginResponse>) {
+    await this.$auth.login(response.data.access_token_exp, response.data.refresh_token_exp, response.data.user);
     this.$router.push(GlobalStore.getRememberRoute);
   }
 
@@ -98,8 +103,10 @@ export default class Login extends Vue {
    * ログイン失敗時の処理
    * 
    */
-  authFailure (error: AxiosError) {
-    console.log(error);
+  authFailure (error: AxiosError<ErrorResponse>) {
+    if (error.response?.status === 401) {
+      GlobalStore.commitToast({ msg: error.response.data.error_messages })
+    }
   }
 }
 </script>
