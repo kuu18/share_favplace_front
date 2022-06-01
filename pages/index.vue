@@ -5,12 +5,12 @@
 </template>
 
 <script lang = "ts">
-import { Component, Vue } from 'vue-property-decorator';
-import { GlobalStore } from '~/store';
+import { Component, Vue } from 'nuxt-property-decorator';
 
 @Component({
-  layout () {
-    return GlobalStore.getLoggedIn ? 'default' : 'welcome'
+  middleware: 'authenticator',
+  layout ({ $auth }) {
+    return $auth.loggedIn ? 'default' : 'welcome';
   }
 })
 export default class Index extends Vue{

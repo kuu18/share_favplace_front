@@ -9,7 +9,7 @@
 </template>
 
 <script lang = 'ts'>
-import { Component, Vue, Prop, PropSync } from 'vue-property-decorator';
+import { Component, Vue, Prop, PropSync } from 'nuxt-property-decorator';
 import { Validation } from '@/types/validation';
 
 @Component

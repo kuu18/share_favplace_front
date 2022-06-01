@@ -2,13 +2,13 @@
   <div />
 </template>
 <script lang = 'ts'>
-import { Component, Vue } from 'vue-property-decorator';
-import { GlobalStore } from '~/store';
+import { Component, Vue } from 'nuxt-property-decorator';
 
 @Component({
-  async middleware ({ redirect }) {
-    await GlobalStore.logout()
-    return redirect('/login')
+  layout: 'none',
+  async beforeCreate() {
+    await this.$auth.logout();
+    this.$router.replace('/');
   }
 })
 export default class Logout extends Vue {

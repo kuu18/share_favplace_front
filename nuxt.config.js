@@ -21,7 +21,8 @@ export default {
   },
 
   publicRuntimeConfig: {
-    appName: process.env.APP_NAME
+    appName: process.env.APP_NAME,
+    cryptoKey: process.env.CRYPTO_KEY
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -31,8 +32,10 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    'plugins/auth',
     'plugins/axios',
-    'plugins/myPlugin'
+    'plugins/myPlugin',
+    'plugins/nuxtClientInit'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -57,7 +60,7 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: '/'
+    credentials: true
   },
 
   vuetify: {

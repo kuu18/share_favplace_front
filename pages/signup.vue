@@ -7,9 +7,9 @@
         v-model="isValid"
         ref="form"
       >
-        <user-form-username :username.sync="params.user.username" />
-        <user-form-email :email.sync="params.user.email" />
-        <user-form-password :password.sync="params.user.password" />
+        <user-form-username :username.sync="params.username" />
+        <user-form-email :email.sync="params.email" />
+        <user-form-password :password.sync="params.password" />
       </v-form>
       <v-btn
         block
@@ -25,12 +25,13 @@
   </bef-login-form-card>
 </template>
 <script lang = 'ts'>
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'nuxt-property-decorator';
 import befLoginFormCard from '@/components/beforeLogin/befLoginFormCard.vue';
 import userFormEmail from '@/components/user/userFormEmail.vue';
 import userFormUsername from '~/components/user/userFormUsername.vue';
 import userFormPassword from '@/components/user/userFormPassword.vue';
-import { UserData } from '@/types/user';
+import { User } from '@/types/user';
+import { AxiosResponse, AxiosError } from "axios";
 
 @Component({
   layout: 'beforeLogin',
@@ -44,19 +45,32 @@ import { UserData } from '@/types/user';
 export default class Signup extends Vue{
   isValid: boolean = false;
   loading: boolean = false;
-  params: UserData = { user: { username: '', email: '', password: '' } };
+  params: User = { username: '', email: '', password: '' };
 
-  signup () {
-    this.loading = true;
-    setTimeout(() => {
-      this.formReset();
-      this.loading = false;
-    }, 1500);
+  async signup () {
+    await this.$axios.$post(
+      '/api/v1/users/create',
+      this.params
+    )
+    .then((response: AxiosResponse) => this.authSuccessful(response))
+    .catch((error: AxiosError) => this.authFailure(error));
+    this.loading = false;
+  }
+
+  // ログイン成功
+  authSuccessful (response: AxiosResponse) {
+    console.log(response);
+  }
+  
+
+  // ログイン失敗
+  authFailure (error: AxiosError) {
+    console.log(error);
   }
 
   formReset () {
     ( this.$refs as any ).form.reset();
-    this.params = { user: { username: '', email: '', password: '' } };
+    this.params = { username: '', email: '', password: '' };
   }
 }
 </script>

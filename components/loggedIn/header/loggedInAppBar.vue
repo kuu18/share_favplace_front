@@ -42,8 +42,7 @@
         <v-list-item>
           <v-list-item-content>
             <v-list-item-subtitle>
-              <!-- TODO -->
-              ユーザー名が表示されます
+              {{ $auth.currentUser.username }}
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
@@ -78,7 +77,7 @@
 </template>
 
 <script lang = 'ts'>
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue } from "nuxt-property-decorator";
 import AppTitle from '@/components/ui/appTitle.vue';
 import AppLogo from '@/components/ui/appLogo.vue';
 
@@ -98,7 +97,7 @@ export default class LoggedInAppBar extends Vue{
   accountMenus: Array<AccountMenu> = [
     { name: 'account-settings', icon: 'mdi-account-cog' },
     { name: 'account-password', icon: 'mdi-lock-outline' },
-    { name: 'logout', icon: 'mdi-logout-variant', divider: true }
+    { name: 'logout', icon: 'mdi-logout-variant', divider: true}
   ]
 }
 </script>

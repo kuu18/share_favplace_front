@@ -3,16 +3,17 @@
     <template
       #form-card-content
     >
+      <toaster />
       <v-form
         ref="form"
         v-model="isValid"
       >
-        <user-form-email
-          :email.sync="params.auth.email"
+        <user-form-username
+          :username.sync="params.username"
           no-validation
         />
         <user-form-password
-          :password.sync="params.auth.password"
+          :password.sync="params.password"
           no-validation
         />
         <v-card-actions>
@@ -41,33 +42,72 @@
 </template>
 
 <script lang = 'ts'>
-import { Component, Vue } from 'vue-property-decorator';
-import { AuthData } from '@/types/auth';
+import { Component, Vue } from 'nuxt-property-decorator';
 import befLoginFormCard from '@/components/beforeLogin/befLoginFormCard.vue';
 import userFormPassword from '@/components/user/userFormPassword.vue';
-import userFormEmail from '@/components/user/userFormEmail.vue';
-import { GlobalStore } from '~/store';
+import userFormUsername from '@/components/user/userFormUsername.vue';
+import Toaster from '@/components/ui/toaster.vue';
+import { GlobalStore } from '@/store';
+import { AxiosError } from "axios";
+import { User } from '@/types/user';
+import { ErrorResponse } from '@/types/errorResponse';
+
+
+interface LoginResponse {
+  access_token_exp: number,
+  refresh_token_exp: number,
+  user: User
+}
 
 @Component({ 
   layout: 'beforeLogin',
   components: {
     befLoginFormCard,
     userFormPassword,
-    userFormEmail
+    userFormUsername,
+    Toaster
   }
 })
 export default class Login extends Vue {
   isValid: boolean = false;
   loading: boolean = false;
-  params:AuthData = { auth: { email: '', password: '' } };
+  params:User = { username: '', password: '' };
 
-  login () {
-    this.loading = true
-    setTimeout(() => {
-      GlobalStore.login()
-      this.$router.replace('/')
-      this.loading = false
-    }, 1500)
+  /**
+   *ログイン処理 
+   * 
+   */
+  async login () {
+    this.loading = true;
+    if (this.isValid) {
+      await this.$axios.$post(
+        '/api/v1/login',
+        this.params
+      )
+      .then((response: LoginResponse) => this.authSuccessful(response))
+      .catch((error: AxiosError<ErrorResponse>) => this.authFailure(error));
+    }
+    this.loading = false;
+  }
+    
+  /**
+   * ログイン成功時の処理
+   * 
+   */
+  async authSuccessful (response: LoginResponse) {
+    console.log(response);
+    await this.$auth.login(response.access_token_exp, response.refresh_token_exp, response.user);
+    this.$router.push(GlobalStore.getRememberRoute);
+  }
+
+  /**
+   * ログイン失敗時の処理
+   * 
+   */
+  authFailure (error: AxiosError<ErrorResponse>) {
+    return error.response?.status === 401
+    ? GlobalStore.commitToast({ msg: error.response.data.error_messages })
+    : this.$my.errorHandler(error);
   }
 }
 </script>

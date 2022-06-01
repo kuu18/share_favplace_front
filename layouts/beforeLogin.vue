@@ -9,7 +9,7 @@
 </template>
 
 <script lang = 'ts'>
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'nuxt-property-decorator';
 import befLoginAppBar from '../components/beforeLogin/befLoginAppBar.vue';
 import BefLoginFooter from '../components/beforeLogin/befLoginFooter.vue';
 
@@ -17,7 +17,8 @@ import BefLoginFooter from '../components/beforeLogin/befLoginFooter.vue';
   components: { 
     befLoginAppBar,
     BefLoginFooter
-  }
+  },
+  middleware: 'loggedInIsRedirects'
 })
 export default class befLogin extends Vue {
 }
