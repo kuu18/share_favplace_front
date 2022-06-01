@@ -1,27 +1,27 @@
-import { Context } from '@nuxt/types';
-import { GlobalStore } from '@/store';
+import { Context } from '@nuxt/types'
+import { GlobalStore } from '@/store'
 
 export default async ({ $auth, route, redirect }: Context) => {
   // トップページかつユーザーが存在しない場合、何もしない
   if (route.name === 'index' && !$auth.isCurrentUserPresent()) {
-    return false;
+    return false
   }
   // トップページでユーザーが存在する場合
   if (!$auth.isAccessTokenAuthenticated()) {
     // 有効期限外の時
-    let msg = 'ログインが必要です';
+    let msg = 'ログインが必要です'
     if ($auth.isCurrentUserPresent()) {
       // ログイン中のユーザー
-      msg = 'もう一度ログインしてください';
-      await $auth.logout();
+      msg = 'もう一度ログインしてください'
+      await $auth.logout()
     } else {
       // ログイン前ユーザー
-      GlobalStore.commitRememberRoute(route);
-    } 
-    GlobalStore.commitToast({ msg: msg })
-    return redirect('/login');
+      GlobalStore.commitRememberRoute(route)
+    }
+    GlobalStore.commitToast({ msg })
+    return redirect('/login')
   // 有効期限内でユーザーが存在しない場合
   } else if (!$auth.isCurrentUserPresent()) {
-    return $auth.unauthError();
+    return $auth.unauthError()
   }
 }

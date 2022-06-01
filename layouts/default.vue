@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import { Component, Vue } from "nuxt-property-decorator";
-import LoggedInAppBar from '@/components/loggedIn/header/loggedInAppBar.vue';
+import { Component, Vue } from 'nuxt-property-decorator'
+import LoggedInAppBar from '@/components/loggedIn/header/loggedInAppBar.vue'
 
 @Component({
   components: {
@@ -17,6 +17,6 @@ import LoggedInAppBar from '@/components/loggedIn/header/loggedInAppBar.vue';
   },
   middleware: 'authenticator'
 })
-export default class LoggedIn extends Vue{
+export default class LoggedIn extends Vue {
 }
 </script>

@@ -4,8 +4,8 @@
       #form-card-content
     >
       <v-form
-        v-model="isValid"
         ref="form"
+        v-model="isValid"
       >
         <user-form-username :username.sync="params.username" />
         <user-form-email :email.sync="params.email" />
@@ -25,13 +25,13 @@
   </bef-login-form-card>
 </template>
 <script lang = 'ts'>
-import { Component, Vue } from 'nuxt-property-decorator';
-import befLoginFormCard from '@/components/beforeLogin/befLoginFormCard.vue';
-import userFormEmail from '@/components/user/userFormEmail.vue';
-import userFormUsername from '~/components/user/userFormUsername.vue';
-import userFormPassword from '@/components/user/userFormPassword.vue';
-import { User } from '@/types/user';
-import { AxiosResponse, AxiosError } from "axios";
+import { Component, Vue } from 'nuxt-property-decorator'
+import { AxiosResponse, AxiosError } from 'axios'
+import befLoginFormCard from '@/components/beforeLogin/befLoginFormCard.vue'
+import userFormEmail from '@/components/user/userFormEmail.vue'
+import userFormUsername from '~/components/user/userFormUsername.vue'
+import userFormPassword from '@/components/user/userFormPassword.vue'
+import { User } from '@/types/user'
 
 @Component({
   layout: 'beforeLogin',
@@ -42,35 +42,34 @@ import { AxiosResponse, AxiosError } from "axios";
     userFormPassword
   }
 })
-export default class Signup extends Vue{
-  isValid: boolean = false;
-  loading: boolean = false;
-  params: User = { username: '', email: '', password: '' };
+export default class Signup extends Vue {
+  isValid: boolean = false
+  loading: boolean = false
+  params: User = { username: '', email: '', password: '' }
 
   async signup () {
     await this.$axios.$post(
       '/api/v1/users/create',
       this.params
     )
-    .then((response: AxiosResponse) => this.authSuccessful(response))
-    .catch((error: AxiosError) => this.authFailure(error));
-    this.loading = false;
+      .then((response: AxiosResponse) => this.authSuccessful(response))
+      .catch((error: AxiosError) => this.authFailure(error))
+    this.loading = false
   }
 
   // ログイン成功
   authSuccessful (response: AxiosResponse) {
-    console.log(response);
+    console.log(response)
   }
-  
 
   // ログイン失敗
   authFailure (error: AxiosError) {
-    console.log(error);
+    console.log(error)
   }
 
   formReset () {
-    ( this.$refs as any ).form.reset();
-    this.params = { username: '', email: '', password: '' };
+    (this.$refs as any).form.reset()
+    this.params = { username: '', email: '', password: '' }
   }
 }
 </script>

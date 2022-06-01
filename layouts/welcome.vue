@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <wel-app-bar 
+    <wel-app-bar
       :menus="menus"
       :img-height="imgHeight"
     />
@@ -65,12 +65,11 @@
 </template>
 
 <script lang = "ts">
-import { Component, Vue } from 'nuxt-property-decorator';
+import { Component, Vue } from 'nuxt-property-decorator'
 import BefLoginFooter from '~/components/beforeLogin/befLoginFooter.vue'
 import WelAbout from '~/components/welcome/welAbout.vue'
-import WelAppBar from '~/components/welcome/welAppBar.vue'
+import WelAppBar, { Menus } from '~/components/welcome/welAppBar.vue'
 import WelContact from '~/components/welcome/welContact.vue'
-import { Menus } from '../components/welcome/welAppBar.vue';
 
 @Component({
   components: {
@@ -80,11 +79,11 @@ import { Menus } from '../components/welcome/welAppBar.vue';
     WelAbout
   }
 })
-export default class Welcome extends Vue{
-  imgHeight: number = window.innerHeight;
+export default class Welcome extends Vue {
+  imgHeight: number = window.innerHeight
   menus: Array<Menus> = [
-        { title: 'about', subtitle: 'このサイトは行ってみたい場所やお気に入りの場所を管理、シェアできるアプリケーションです' },
-        { title: 'contact', subtitle: 'お気軽にご連絡を' }
-      ]
+    { title: 'about', subtitle: 'このサイトは行ってみたい場所やお気に入りの場所を管理、シェアできるアプリケーションです' },
+    { title: 'contact', subtitle: 'お気軽にご連絡を' }
+  ]
 }
 </script>

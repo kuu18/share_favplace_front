@@ -1,11 +1,11 @@
-import { Plugin, Context, NuxtError } from '@nuxt/types';
+import { Plugin, Context, NuxtError } from '@nuxt/types'
 
 export interface MyPluginInterface {
   errorHandler ({ statusCode, message }: NuxtError): void
 }
 /**
  * ユーティリティメソッド群クラス
- * 
+ *
  */
 class MyPlugin implements MyPluginInterface {
   private app
@@ -18,9 +18,9 @@ class MyPlugin implements MyPluginInterface {
 
   /**
    * ページタイトル変換処理
-   * 
-   * @param routeName 
-   * @returns 
+   *
+   * @param routeName
+   * @returns
    */
   pageTitle (routeName: string) {
     const jsonPath = `pages.${routeName.replace(/-/g, '.')}`
@@ -30,12 +30,12 @@ class MyPlugin implements MyPluginInterface {
 
   /**
    * エラーハンドリング
-   * 
-   * @param param0 
-   * @returns 
+   *
+   * @param param0
+   * @returns
    */
   errorHandler ({ statusCode, message }: NuxtError) {
-    return this.error({ statusCode: statusCode, message: message })
+    return this.error({ statusCode, message })
   }
 }
 

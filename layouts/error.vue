@@ -31,20 +31,19 @@
 </template>
 
 <script lang="ts">
-import { NuxtError } from "@nuxt/types";
-import { Component, Vue, Prop } from "nuxt-property-decorator";
+import { NuxtError } from '@nuxt/types'
+import { Component, Vue, Prop } from 'nuxt-property-decorator'
 
 @Component({ layout: 'none' })
-export default class Error extends Vue{
-
+export default class Error extends Vue {
   @Prop({ type: Object, default: null })
-  error!: NuxtError;
+    error!: NuxtError
 
-  get status() {
+  get status () {
     return this.error.statusCode
   }
 
-  get  message() {
+  get message () {
     const msg = this.error.message
     const path = `error.${msg}`
     return this.$te(path) ? this.$t(path) : msg
@@ -52,7 +51,8 @@ export default class Error extends Vue{
 
   redirect () {
     return this.$route.name === 'index'
-        ? this.$router.go(0) : this.$router.push('/')
+      ? this.$router.go(0)
+      : this.$router.push('/')
   }
 
   async created () {

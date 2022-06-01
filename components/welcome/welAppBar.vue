@@ -6,10 +6,10 @@
     :color="toolbarStyle.color"
     :elevation="toolbarStyle.elevation"
   >
-    <app-logo 
+    <app-logo
       @click.native="goTo('scroll-top')"
     />
-    <app-title 
+    <app-title
       class="hidden-mobile-and-down"
     />
     <v-spacer />
@@ -32,7 +32,7 @@
       nudge-left="110"
       nudge-width="100"
     >
-      <template v-slot:activator="{ on }">
+      <template #activator="{ on }">
         <v-app-bar-nav-icon
           class="hidden-ipad-and-up"
           v-on="on"
@@ -58,13 +58,12 @@
 </template>
 
 <script lang = 'ts'>
-import { Component, Prop, Vue } from 'nuxt-property-decorator';
-import { GlobalStore } from '~/store';
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import appLogo from '../ui/appLogo.vue'
-import signupLink from '../beforeLogin/signupLink.vue';
-import loginLink from '../beforeLogin/loginLink.vue';
+import signupLink from '../beforeLogin/signupLink.vue'
+import loginLink from '../beforeLogin/loginLink.vue'
 import appTitle from '../ui/appTitle.vue'
-
+import { GlobalStore } from '~/store'
 
 export interface Menus {
   title: string;
@@ -72,28 +71,28 @@ export interface Menus {
 }
 
 @Component({
-  components: { 
+  components: {
     appLogo,
     signupLink,
     loginLink,
     appTitle
   }
 })
-export default class welAppBar extends Vue{
-  scrollY: number = 0;
+export default class welAppBar extends Vue {
+  scrollY: number = 0
   appBarHeight: number = GlobalStore.getAppBarHeight
 
   @Prop({ default: [] })
-  menus!: Array<Menus>;
+    menus!: Array<Menus>
 
   @Prop({ default: 0 })
-  imgHeight!: number; 
+    imgHeight!: number
 
-  mounted() {
+  mounted () {
     window.addEventListener('scroll', this.onScroll)
   }
 
-  beforeDestroy() {
+  beforeDestroy () {
     window.removeEventListener('scroll', this.onScroll)
   }
 

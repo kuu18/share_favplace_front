@@ -13,7 +13,9 @@
         v-bind="attrs"
         @click="resetToast"
       >
-        <v-icon :color="toast.color">mdi-close-circle-outline</v-icon>
+        <v-icon :color="toast.color">
+          mdi-close-circle-outline
+        </v-icon>
       </v-btn>
     </template>
   </v-snackbar>
@@ -25,24 +27,24 @@ import { GlobalStore } from '~/store'
 
 @Component
 export default class Toaster extends Vue {
-  get toast() {
+  get toast () {
     return GlobalStore.getToast
   }
 
   @Emit()
-  public input(value: boolean) { return value }
+  public input (value: boolean) { return value }
 
-  get snackbar() {
+  get snackbar () {
     return !!this.toast.msg
   }
 
-  set snackbar(value) {
+  set snackbar (value) {
     this.resetToast()
-    this.input(value);
+    this.input(value)
   }
 
   resetToast () {
-    return GlobalStore.commitToast({ msg: null });
+    return GlobalStore.commitToast({ msg: null })
   }
 
   beforeDestroy () {

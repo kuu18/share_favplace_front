@@ -1,8 +1,8 @@
 <template>
   <v-text-field
+    v-model="syncedPassword"
     label="パスワードを入力"
     outlined
-    v-model="syncedPassword"
     :rules="form.rules"
     :counter="!noValidation"
     :hint="form.hint"
@@ -16,16 +16,17 @@
 </template>
 
 <script lang = 'ts'>
-import { Component, Vue, Prop, PropSync } from 'nuxt-property-decorator';
-import { Validation } from '@/types/validation';
+import { Component, Vue, Prop, PropSync } from 'nuxt-property-decorator'
+import { Validation } from '@/types/validation'
 
 @Component
-export default class UserFormPassword extends Vue{
+export default class UserFormPassword extends Vue {
   show: boolean = false
   @Prop({ type: Boolean, default: false })
-  noValidation!: boolean
-  @PropSync('password', { type: String, default: ''})
-  syncedPassword!: string;
+    noValidation!: boolean
+
+  @PropSync('password', { type: String, default: '' })
+    syncedPassword!: string
 
   // バリデーション
   get form () {
@@ -34,11 +35,11 @@ export default class UserFormPassword extends Vue{
     const required: Validation = v => !!v || ''
     const format: Validation = v => /^[\w-]{8,72}$/.test(v) || msg
     const rules: Array<Validation> = this.noValidation ? [required] : [format]
-    const hint: string |  undefined = this.noValidation ? undefined : msg
+    const hint: string | undefined = this.noValidation ? undefined : msg
     const placeholder: string | undefined = this.noValidation ? undefined : min
     return { rules, hint, placeholder }
   }
-  
+
   // パスワード表示
   get toggle () {
     const icon: string = this.show ? 'mdi-eye' : 'mdi-eye-off'
