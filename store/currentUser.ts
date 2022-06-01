@@ -1,5 +1,5 @@
-import { User } from '@/types/user';
-import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
+import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
+import { User } from '@/types/user'
 
 @Module({
   name: 'currentUser',
@@ -7,20 +7,19 @@ import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
   namespaced: true
 })
 export default class CurrentUser extends VuexModule {
-  public currentUser: User | null = null;
+  public currentUser: User | null = null
 
-  public get getCurrentUser() {
-    return this.currentUser;
+  public get getCurrentUser () {
+    return this.currentUser
   }
 
   @Mutation
   private setCurrentUser (payload: User | null) {
-    this.currentUser = payload;
+    this.currentUser = payload
   }
 
   @Action({ rawError: true })
-  public commitCurrentUser(user: User | null) {
-    this.setCurrentUser(user);
+  public commitCurrentUser (user: User | null) {
+    this.setCurrentUser(user)
   }
-
 }

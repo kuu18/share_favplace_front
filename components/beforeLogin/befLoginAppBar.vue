@@ -24,13 +24,12 @@
 </template>
 
 <script lang = 'ts'>
-import { Component, Vue } from 'nuxt-property-decorator';
-import { GlobalStore } from '~/store';
+import { Component, Vue } from 'nuxt-property-decorator'
 import appLogo from '../ui/appLogo.vue'
-import signupLink from '../beforeLogin/signupLink.vue';
-import loginLink from '../beforeLogin/loginLink.vue';
-import appTitle from '../ui/appTitle.vue';
-
+import signupLink from '../beforeLogin/signupLink.vue'
+import loginLink from '../beforeLogin/loginLink.vue'
+import appTitle from '../ui/appTitle.vue'
+import { GlobalStore } from '~/store'
 
 @Component({
   components: {
@@ -41,6 +40,6 @@ import appTitle from '../ui/appTitle.vue';
   }
 })
 export default class befLoginAppBar extends Vue {
-  appBarHeight: number = GlobalStore.getAppBarHeight;
+  appBarHeight: number = GlobalStore.getAppBarHeight
 }
 </script>

@@ -21,19 +21,19 @@ import BefLoginFooter from '~/components/beforeLogin/befLoginFooter.vue';
 </template>
 
 <script lang = 'ts'>
-import { Component, Vue } from 'nuxt-property-decorator';
+import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component
-export default class BefLoginFooter extends Vue{
-
-  appName: String = this.$config.appName;
+export default class BefLoginFooter extends Vue {
+  appName: String = this.$config.appName
   height: number = 32
 
-  get copyRightYear() {
+  get copyRightYear () {
     const beginningYear: number = 2022
-      const thisYear: number = new Date().getFullYear()
-      return (beginningYear < thisYear)
-        ? `${beginningYear} - ${thisYear}` : beginningYear
+    const thisYear: number = new Date().getFullYear()
+    return (beginningYear < thisYear)
+      ? `${beginningYear} - ${thisYear}`
+      : beginningYear
   }
 }
 </script>

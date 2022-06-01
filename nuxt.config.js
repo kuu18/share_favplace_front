@@ -100,6 +100,15 @@ export default {
     vuex: false
   },
 
+  typescript: {
+    // Doc: https://typescript.nuxtjs.org/guide/lint/
+    typeCheck: {
+      eslint: {
+        files: './**/*.{ts,js,vue}'
+      }
+    }
+  },
+
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     loadingScreen: false

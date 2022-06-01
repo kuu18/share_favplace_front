@@ -1,5 +1,5 @@
 import { MyPluginInterface } from '@/plugins/myPlugin'
-import { AuthenticationInterface } from '@/plugins/auth';
+import { AuthenticationInterface } from '@/plugins/auth'
 
 declare module 'vue/types/vue' {
   interface Vue {

@@ -5,14 +5,14 @@
 </template>
 
 <script lang = "ts">
-import { Component, Vue } from 'nuxt-property-decorator';
+import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component({
   middleware: 'authenticator',
   layout ({ $auth }) {
-    return $auth.loggedIn ? 'default' : 'welcome';
+    return $auth.loggedIn ? 'default' : 'welcome'
   }
 })
-export default class Index extends Vue{
+export default class Index extends Vue {
 }
 </script>

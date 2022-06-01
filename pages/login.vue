@@ -1,5 +1,5 @@
 <template>
-  <bef-login-form-card >
+  <bef-login-form-card>
     <template
       #form-card-content
     >
@@ -42,16 +42,15 @@
 </template>
 
 <script lang = 'ts'>
-import { Component, Vue } from 'nuxt-property-decorator';
-import befLoginFormCard from '@/components/beforeLogin/befLoginFormCard.vue';
-import userFormPassword from '@/components/user/userFormPassword.vue';
-import userFormUsername from '@/components/user/userFormUsername.vue';
-import Toaster from '@/components/ui/toaster.vue';
-import { GlobalStore } from '@/store';
-import { AxiosError } from "axios";
-import { User } from '@/types/user';
-import { ErrorResponse } from '@/types/errorResponse';
-
+import { Component, Vue } from 'nuxt-property-decorator'
+import { AxiosError } from 'axios'
+import befLoginFormCard from '@/components/beforeLogin/befLoginFormCard.vue'
+import userFormPassword from '@/components/user/userFormPassword.vue'
+import userFormUsername from '@/components/user/userFormUsername.vue'
+import Toaster from '@/components/ui/toaster.vue'
+import { GlobalStore } from '@/store'
+import { User } from '@/types/user'
+import { ErrorResponse } from '@/types/errorResponse'
 
 interface LoginResponse {
   access_token_exp: number,
@@ -59,7 +58,7 @@ interface LoginResponse {
   user: User
 }
 
-@Component({ 
+@Component({
   layout: 'beforeLogin',
   components: {
     befLoginFormCard,
@@ -69,45 +68,45 @@ interface LoginResponse {
   }
 })
 export default class Login extends Vue {
-  isValid: boolean = false;
-  loading: boolean = false;
-  params:User = { username: '', password: '' };
+  isValid: boolean = false
+  loading: boolean = false
+  params:User = { username: '', password: '' }
 
   /**
-   *ログイン処理 
-   * 
+   *ログイン処理
+   *
    */
   async login () {
-    this.loading = true;
+    this.loading = true
     if (this.isValid) {
       await this.$axios.$post(
         '/api/v1/login',
         this.params
       )
-      .then((response: LoginResponse) => this.authSuccessful(response))
-      .catch((error: AxiosError<ErrorResponse>) => this.authFailure(error));
+        .then((response: LoginResponse) => this.authSuccessful(response))
+        .catch((error: AxiosError<ErrorResponse>) => this.authFailure(error))
     }
-    this.loading = false;
+    this.loading = false
   }
-    
+
   /**
    * ログイン成功時の処理
-   * 
+   *
    */
   async authSuccessful (response: LoginResponse) {
-    console.log(response);
-    await this.$auth.login(response.access_token_exp, response.refresh_token_exp, response.user);
-    this.$router.push(GlobalStore.getRememberRoute);
+    console.log(response)
+    await this.$auth.login(response.access_token_exp, response.refresh_token_exp, response.user)
+    this.$router.push(GlobalStore.getRememberRoute)
   }
 
   /**
    * ログイン失敗時の処理
-   * 
+   *
    */
   authFailure (error: AxiosError<ErrorResponse>) {
     return error.response?.status === 401
-    ? GlobalStore.commitToast({ msg: error.response.data.error_messages })
-    : this.$my.errorHandler(error);
+      ? GlobalStore.commitToast({ msg: error.response.data.error_messages })
+      : this.$my.errorHandler(error)
   }
 }
 </script>

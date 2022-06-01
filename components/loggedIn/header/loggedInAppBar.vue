@@ -24,7 +24,7 @@
       offset-y
       max-width="200"
     >
-      <template v-slot:activator="{ on }">
+      <template #activator="{ on }">
         <v-btn
           icon
           v-on="on"
@@ -77,9 +77,9 @@
 </template>
 
 <script lang = 'ts'>
-import { Component, Vue } from "nuxt-property-decorator";
-import AppTitle from '@/components/ui/appTitle.vue';
-import AppLogo from '@/components/ui/appLogo.vue';
+import { Component, Vue } from 'nuxt-property-decorator'
+import AppTitle from '@/components/ui/appTitle.vue'
+import AppLogo from '@/components/ui/appLogo.vue'
 
 interface AccountMenu {
   name: string
@@ -93,11 +93,11 @@ interface AccountMenu {
     AppLogo
   }
 })
-export default class LoggedInAppBar extends Vue{
+export default class LoggedInAppBar extends Vue {
   accountMenus: Array<AccountMenu> = [
     { name: 'account-settings', icon: 'mdi-account-cog' },
     { name: 'account-password', icon: 'mdi-lock-outline' },
-    { name: 'logout', icon: 'mdi-logout-variant', divider: true}
+    { name: 'logout', icon: 'mdi-logout-variant', divider: true }
   ]
 }
 </script>
