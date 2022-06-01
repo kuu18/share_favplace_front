@@ -48,12 +48,12 @@ import userFormPassword from '@/components/user/userFormPassword.vue';
 import userFormUsername from '@/components/user/userFormUsername.vue';
 import Toaster from '@/components/ui/toaster.vue';
 import { GlobalStore } from '@/store';
-import { AxiosResponse, AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { User } from '@/types/user';
 import { ErrorResponse } from '@/types/errorResponse';
 
 
-interface LoginResponse extends AxiosResponse{
+interface LoginResponse {
   access_token_exp: number,
   refresh_token_exp: number,
   user: User
@@ -84,7 +84,7 @@ export default class Login extends Vue {
         '/api/v1/login',
         this.params
       )
-      .then((response: AxiosResponse<LoginResponse>) => this.authSuccessful(response))
+      .then((response: LoginResponse) => this.authSuccessful(response))
       .catch((error: AxiosError<ErrorResponse>) => this.authFailure(error));
     }
     this.loading = false;
@@ -94,8 +94,9 @@ export default class Login extends Vue {
    * ログイン成功時の処理
    * 
    */
-  async authSuccessful (response: AxiosResponse<LoginResponse>) {
-    await this.$auth.login(response.data.access_token_exp, response.data.refresh_token_exp, response.data.user);
+  async authSuccessful (response: LoginResponse) {
+    console.log(response);
+    await this.$auth.login(response.access_token_exp, response.refresh_token_exp, response.user);
     this.$router.push(GlobalStore.getRememberRoute);
   }
 
@@ -104,9 +105,9 @@ export default class Login extends Vue {
    * 
    */
   authFailure (error: AxiosError<ErrorResponse>) {
-    if (error.response?.status === 401) {
-      GlobalStore.commitToast({ msg: error.response.data.error_messages })
-    }
+    return error.response?.status === 401
+    ? GlobalStore.commitToast({ msg: error.response.data.error_messages })
+    : this.$my.errorHandler(error);
   }
 }
 </script>

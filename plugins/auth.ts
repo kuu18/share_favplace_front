@@ -25,13 +25,13 @@ export interface AuthenticationInterface {
  * 
  */
 class Authentication implements AuthenticationInterface {
-  store: Store<any>;
-  $axios: NuxtAxiosInstance;
-  $config: NuxtRuntimeConfig;
-  error: (params: NuxtError) => void;
-  storage = window.localStorage;
-  keys = { accessTokenExp: 'access_token_exp', refreshTokenExp: 'refresh_token_exp' };
-  cryptoJs = require('crypto-js');
+  private store: Store<any>;
+  private $axios: NuxtAxiosInstance;
+  private $config: NuxtRuntimeConfig;
+  private error: (params: NuxtError) => void;
+  private storage = window.localStorage;
+  private keys = { accessTokenExp: 'access_token_exp', refreshTokenExp: 'refresh_token_exp' };
+  private cryptoJs = require('crypto-js');
 
   constructor(ctx: Context) {
     this.store = ctx.store;

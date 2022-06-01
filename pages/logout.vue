@@ -3,10 +3,9 @@
 </template>
 <script lang = 'ts'>
 import { Component, Vue } from 'vue-property-decorator';
-import { GlobalStore } from '~/store';
 
 @Component({
-  layout: 'logout',
+  layout: 'none',
   async beforeCreate() {
     await this.$auth.logout();
     this.$router.replace('/');

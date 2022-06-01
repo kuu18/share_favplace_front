@@ -1,16 +1,19 @@
-import { Plugin, Context } from '@nuxt/types'
+import { Plugin, Context, NuxtError } from '@nuxt/types';
 
 export interface MyPluginInterface {
+  errorHandler ({ statusCode, message }: NuxtError): void
 }
 /**
  * ユーティリティメソッド群クラス
  * 
  */
 class MyPlugin implements MyPluginInterface {
-  app
+  private app
+  private error
 
   constructor (ctx: Context) {
     this.app = ctx.app
+    this.error = ctx.error
   }
 
   /**
@@ -23,6 +26,16 @@ class MyPlugin implements MyPluginInterface {
     const jsonPath = `pages.${routeName.replace(/-/g, '.')}`
     const title = this.app.i18n.t(jsonPath)
     return (typeof (title) === 'object') ? title.index : title
+  }
+
+  /**
+   * エラーハンドリング
+   * 
+   * @param param0 
+   * @returns 
+   */
+  errorHandler ({ statusCode, message }: NuxtError) {
+    return this.error({ statusCode: statusCode, message: message })
   }
 }
 
