@@ -24,7 +24,7 @@
 </template>
 
 <script lang = 'ts'>
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'nuxt-property-decorator';
 import { GlobalStore } from '~/store';
 import appLogo from '../ui/appLogo.vue'
 import signupLink from '../beforeLogin/signupLink.vue';

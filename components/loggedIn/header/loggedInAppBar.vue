@@ -77,7 +77,7 @@
 </template>
 
 <script lang = 'ts'>
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue } from "nuxt-property-decorator";
 import AppTitle from '@/components/ui/appTitle.vue';
 import AppLogo from '@/components/ui/appLogo.vue';
 

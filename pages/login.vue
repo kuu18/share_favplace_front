@@ -42,7 +42,7 @@
 </template>
 
 <script lang = 'ts'>
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'nuxt-property-decorator';
 import befLoginFormCard from '@/components/beforeLogin/befLoginFormCard.vue';
 import userFormPassword from '@/components/user/userFormPassword.vue';
 import userFormUsername from '@/components/user/userFormUsername.vue';

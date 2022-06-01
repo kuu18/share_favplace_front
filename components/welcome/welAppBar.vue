@@ -58,7 +58,7 @@
 </template>
 
 <script lang = 'ts'>
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'nuxt-property-decorator';
 import { GlobalStore } from '~/store';
 import appLogo from '../ui/appLogo.vue'
 import signupLink from '../beforeLogin/signupLink.vue';

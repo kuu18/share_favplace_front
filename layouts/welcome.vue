@@ -65,7 +65,7 @@
 </template>
 
 <script lang = "ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'nuxt-property-decorator';
 import BefLoginFooter from '~/components/beforeLogin/befLoginFooter.vue'
 import WelAbout from '~/components/welcome/welAbout.vue'
 import WelAppBar from '~/components/welcome/welAppBar.vue'

@@ -25,7 +25,7 @@
   </bef-login-form-card>
 </template>
 <script lang = 'ts'>
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'nuxt-property-decorator';
 import befLoginFormCard from '@/components/beforeLogin/befLoginFormCard.vue';
 import userFormEmail from '@/components/user/userFormEmail.vue';
 import userFormUsername from '~/components/user/userFormUsername.vue';
@@ -49,7 +49,7 @@ export default class Signup extends Vue{
 
   async signup () {
     await this.$axios.$post(
-      '/api/v1/user/create',
+      '/api/v1/users/create',
       this.params
     )
     .then((response: AxiosResponse) => this.authSuccessful(response))
