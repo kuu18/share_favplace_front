@@ -1,5 +1,5 @@
 import { Plugin, Context } from '@nuxt/types'
-import { User } from '../types/user'
+import { User, LoginResponse } from '../types/user'
 import { CurrentUserStore } from '@/store'
 
 export interface AuthenticationInterface {
@@ -12,7 +12,7 @@ export interface AuthenticationInterface {
   isAccessTokenAuthenticated(): boolean;
   isRefreshTokenAuthenticated(): boolean;
   isCurrentUserPresent (): boolean;
-  login(accessTokenExp: number, refreshTokenExp: number, user: User): void;
+  login ({ access_token_exp, refresh_token_exp, user }: LoginResponse): void;
   logout(): void;
   unauthError(): void;
 }
@@ -128,8 +128,8 @@ class Authentication implements AuthenticationInterface {
    * @param refreshTokenExp
    * @param user
    */
-  login (accessTokenExp: number, refreshTokenExp: number, user: User) {
-    this.setStorage(accessTokenExp, refreshTokenExp)
+  login ({ access_token_exp, refresh_token_exp, user }: LoginResponse) {
+    this.setStorage(access_token_exp, refresh_token_exp)
     CurrentUserStore.commitCurrentUser(user)
   }
 

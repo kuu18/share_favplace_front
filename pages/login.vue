@@ -49,14 +49,8 @@ import userFormPassword from '@/components/user/userFormPassword.vue'
 import userFormUsername from '@/components/user/userFormUsername.vue'
 import Toaster from '@/components/ui/toaster.vue'
 import { GlobalStore } from '@/store'
-import { User } from '@/types/user'
-import { ErrorResponse } from '@/types/errorResponse'
-
-interface LoginResponse {
-  access_token_exp: number,
-  refresh_token_exp: number,
-  user: User
-}
+import { LoginResponse, User } from '@/types/user'
+import { ErrorMessageResponse } from '~/types/messageResponse'
 
 @Component({
   layout: 'beforeLogin',
@@ -84,7 +78,7 @@ export default class Login extends Vue {
         this.params
       )
         .then((response: LoginResponse) => this.authSuccessful(response))
-        .catch((error: AxiosError<ErrorResponse>) => this.authFailure(error))
+        .catch((error: AxiosError<ErrorMessageResponse>) => this.authFailure(error))
     }
     this.loading = false
   }
@@ -94,8 +88,7 @@ export default class Login extends Vue {
    *
    */
   async authSuccessful (response: LoginResponse) {
-    console.log(response)
-    await this.$auth.login(response.access_token_exp, response.refresh_token_exp, response.user)
+    await this.$auth.login(response)
     this.$router.push(GlobalStore.getRememberRoute)
   }
 
@@ -103,9 +96,9 @@ export default class Login extends Vue {
    * ログイン失敗時の処理
    *
    */
-  authFailure (error: AxiosError<ErrorResponse>) {
+  authFailure (error: AxiosError<ErrorMessageResponse>) {
     return error.response?.status === 401
-      ? GlobalStore.commitToast({ msg: error.response.data.error_messages })
+      ? GlobalStore.commitToast({ msg: error.response.data.error_message })
       : this.$my.errorHandler(error)
   }
 }
