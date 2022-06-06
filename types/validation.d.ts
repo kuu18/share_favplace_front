@@ -1,3 +1,3 @@
 export interface Validation {
-  (v: string): boolean | string;
+  (v: string): boolean | string
 }

@@ -3,6 +3,7 @@
     <template
       #form-card-content
     >
+      <toaster />
       <v-form
         ref="form"
         v-model="isValid"
@@ -21,17 +22,36 @@
       >
         登録する
       </v-btn>
+      <v-spacer />
+      <v-row
+        class="my-5"
+        flat
+      >
+        <v-card-text
+          class="error--text"
+        >
+          <div
+            v-for="(message, i) in errorMessages"
+            :key="`message-text-${i}`"
+          >
+            ・{{ message }}
+          </div>
+        </v-card-text>
+      </v-row>
     </template>
   </bef-login-form-card>
 </template>
 <script lang = 'ts'>
 import { Component, Vue } from 'nuxt-property-decorator'
-import { AxiosResponse, AxiosError } from 'axios'
+import { AxiosError } from 'axios'
 import befLoginFormCard from '@/components/beforeLogin/befLoginFormCard.vue'
 import userFormEmail from '@/components/user/userFormEmail.vue'
-import userFormUsername from '~/components/user/userFormUsername.vue'
+import userFormUsername from '@/components/user/userFormUsername.vue'
 import userFormPassword from '@/components/user/userFormPassword.vue'
 import { User } from '@/types/user'
+import { MessageResponse, ErrorMessageResponse } from '@/types/messageResponse'
+import { GlobalStore } from '@/store'
+import Toaster from '@/components/ui/toaster.vue'
 
 @Component({
   layout: 'beforeLogin',
@@ -39,32 +59,40 @@ import { User } from '@/types/user'
     befLoginFormCard,
     userFormEmail,
     userFormUsername,
-    userFormPassword
+    userFormPassword,
+    Toaster
   }
 })
 export default class Signup extends Vue {
   isValid: boolean = false
   loading: boolean = false
   params: User = { username: '', email: '', password: '' }
+  errorMessages?: Array<string> | null = null
 
   async signup () {
     await this.$axios.$post(
       '/api/v1/users/create',
       this.params
     )
-      .then((response: AxiosResponse) => this.authSuccessful(response))
-      .catch((error: AxiosError) => this.authFailure(error))
+      .then((response: MessageResponse) => this.success(response))
+      .catch((error: AxiosError<ErrorMessageResponse>) => this.failure(error))
     this.loading = false
   }
 
-  // ログイン成功
-  authSuccessful (response: AxiosResponse) {
-    console.log(response)
+  // 新規登録成功
+  success (response: MessageResponse) {
+    this.formReset()
+    GlobalStore.commitToast({ msg: response.message, color: 'info' })
   }
 
-  // ログイン失敗
-  authFailure (error: AxiosError) {
-    console.log(error)
+  // 新規登録失敗
+  failure (error: AxiosError<ErrorMessageResponse>) {
+    this.formReset()
+    if (error.response?.status === 400) {
+      this.errorMessages = error.response.data.error_messages
+    } else {
+      this.$my.errorHandler(error)
+    }
   }
 
   formReset () {

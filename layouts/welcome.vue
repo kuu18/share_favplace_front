@@ -4,6 +4,7 @@
       :menus="menus"
       :img-height="imgHeight"
     />
+    <toaster />
     <v-img
       id="scroll-top"
       dark
@@ -66,17 +67,19 @@
 
 <script lang = "ts">
 import { Component, Vue } from 'nuxt-property-decorator'
-import BefLoginFooter from '~/components/beforeLogin/befLoginFooter.vue'
-import WelAbout from '~/components/welcome/welAbout.vue'
-import WelAppBar, { Menus } from '~/components/welcome/welAppBar.vue'
-import WelContact from '~/components/welcome/welContact.vue'
+import BefLoginFooter from '@/components/beforeLogin/befLoginFooter.vue'
+import WelAbout from '@/components/welcome/welAbout.vue'
+import WelAppBar, { Menus } from '@/components/welcome/welAppBar.vue'
+import WelContact from '@/components/welcome/welContact.vue'
+import Toaster from '@/components/ui/toaster.vue'
 
 @Component({
   components: {
     WelAppBar,
     BefLoginFooter,
     WelContact,
-    WelAbout
+    WelAbout,
+    Toaster
   }
 })
 export default class Welcome extends Vue {
