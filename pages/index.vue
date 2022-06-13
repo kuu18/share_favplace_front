@@ -6,6 +6,7 @@
 
 <script lang = "ts">
 import { Component, Vue } from 'nuxt-property-decorator'
+import { GlobalStore } from '~/store'
 
 @Component({
   middleware: 'authenticator',
@@ -14,5 +15,9 @@ import { Component, Vue } from 'nuxt-property-decorator'
   }
 })
 export default class Index extends Vue {
+  async created () {
+    const message = await this.$route.query.message
+    if (message) { GlobalStore.commitToast({ msg: String(message), color: 'success' }) }
+  }
 }
 </script>

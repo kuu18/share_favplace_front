@@ -31,7 +31,7 @@ class MyPlugin implements MyPluginInterface {
   /**
    * エラーハンドリング
    *
-   * @param param0
+   * @param
    * @returns
    */
   errorHandler ({ statusCode, message }: NuxtError) {

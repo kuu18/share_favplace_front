@@ -8,6 +8,6 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component
-export default class AccountSettings extends Vue {
+export default class SettingsAccount extends Vue {
 }
 </script>

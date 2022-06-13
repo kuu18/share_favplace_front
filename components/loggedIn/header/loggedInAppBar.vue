@@ -95,8 +95,8 @@ interface AccountMenu {
 })
 export default class LoggedInAppBar extends Vue {
   accountMenus: Array<AccountMenu> = [
-    { name: 'account-settings', icon: 'mdi-account-cog' },
-    { name: 'account-password', icon: 'mdi-lock-outline' },
+    { name: 'settings-account', icon: 'mdi-account-cog' },
+    { name: 'settings-password', icon: 'mdi-lock-outline' },
     { name: 'logout', icon: 'mdi-logout-variant', divider: true }
   ]
 }

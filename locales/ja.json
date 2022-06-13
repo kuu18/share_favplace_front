@@ -7,8 +7,8 @@
     "signup": "会員登録",
     "login": "ログイン",
     "logout": "ログアウト",
-    "account": {
-      "settings": "アカウント設定",
+    "settings": {
+      "account": "アカウント設定",
       "password": "パスワード変更"
     }
   },
