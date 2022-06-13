@@ -1,13 +1,12 @@
 <template>
   <v-text-field
     v-model="syncedPassword"
-    label="パスワードを入力"
+    :label="label"
     outlined
     :rules="form.rules"
     :counter="!noValidation"
     :hint="form.hint"
     :placeholder="form.placeholder"
-    :hide-details="noValidation"
     :append-icon="toggle.icon"
     :type="toggle.type"
     autocomplete="on"
@@ -24,6 +23,9 @@ export default class UserFormPassword extends Vue {
   show: boolean = false
   @Prop({ type: Boolean, default: false })
     noValidation!: boolean
+
+  @Prop({ type: String, default: 'パスワードを入力' })
+    label!: string
 
   @PropSync('password', { type: String, default: '' })
     syncedPassword!: string

@@ -18,7 +18,7 @@
         />
         <v-card-actions>
           <nuxt-link
-            to="#"
+            to="password/forget"
             class="body-2 text-decoration-none"
           >
             パスワードを忘れた?
