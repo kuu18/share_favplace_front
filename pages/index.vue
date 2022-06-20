@@ -17,7 +17,9 @@ import { GlobalStore } from '~/store'
 export default class Index extends Vue {
   async created () {
     const message = await this.$route.query.message
-    if (message) { GlobalStore.commitToast({ msg: String(message), color: 'success' }) }
+    const color = await this.$route.query.color
+    const timeout = await this.$route.query.timeout
+    if (message) { GlobalStore.commitToast({ msg: String(message), color: String(color), timeout: Number(timeout) }) }
   }
 }
 </script>

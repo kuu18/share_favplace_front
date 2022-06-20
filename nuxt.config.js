@@ -75,7 +75,7 @@ export default {
           success: '44D69E',
           warning: 'FEB65E',
           error: 'FB8678',
-          background: 'f6f6f4',
+          background: 'F8F8FF',
           myblue: '1867C0',
           myred: 'c86a71'
         }

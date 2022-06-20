@@ -7,9 +7,11 @@
     "signup": "会員登録",
     "login": "ログイン",
     "logout": "ログアウト",
-    "settings": {
-      "account": "アカウント設定",
-      "password": "パスワード変更"
+    "account": {
+      "settings": "アカウント設定",
+      "email": "メールアドレス変更",
+      "password": "パスワード変更",
+      "delete": "アカウント削除"
     }
   },
   "error": {

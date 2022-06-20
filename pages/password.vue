@@ -7,7 +7,9 @@
 <script lang = 'ts'>
 import { Component, Vue } from 'nuxt-property-decorator'
 @Component({
-  layout: 'beforeLogin',
+  layout ({ $auth }) {
+    return $auth.loggedIn ? 'default' : 'beforeLogin'
+  },
   middleware ({ route, redirect }) {
     if (route.name === 'password') { return redirect('/') }
   }

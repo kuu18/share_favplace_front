@@ -70,24 +70,27 @@ export default class Signup extends Vue {
   errorMessages?: Array<string> | null = null
 
   async signup () {
-    await this.$axios.$post(
-      '/api/v1/users/create',
-      this.params
-    )
-      .then((response: MessageResponse) => this.success(response))
-      .catch((error: AxiosError<ErrorMessageResponse>) => this.failure(error))
+    this.errorMessages = null
+    this.loading = true
+    if (this.isValid) {
+      await this.$axios.$post(
+        '/api/v1/users/create',
+        this.params
+      )
+        .then((response: MessageResponse) => this.success(response))
+        .catch((error: AxiosError<ErrorMessageResponse>) => this.failure(error))
+    }
     this.loading = false
   }
 
   // 新規登録成功
   success (response: MessageResponse) {
     this.formReset()
-    GlobalStore.commitToast({ msg: response.message, color: 'info' })
+    GlobalStore.commitToast({ msg: response.message, color: 'info', timeout: -1 })
   }
 
   // 新規登録失敗
   failure (error: AxiosError<ErrorMessageResponse>) {
-    this.formReset()
     if (error.response?.status === 400) {
       this.errorMessages = error.response.data.error_messages
     } else {

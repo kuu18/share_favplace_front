@@ -33,14 +33,13 @@
 import { Context } from '@nuxt/types'
 import { Component, Vue } from 'nuxt-property-decorator'
 import { AxiosError } from 'axios'
-import LoggedinFormCard from '../../components/loggedIn/loggedinFormCard.vue'
+import LoggedinFormCard from '../../components/loggedIn/card/loggedinFormCard.vue'
 import Toaster from '../../components/ui/toaster.vue'
 import { GlobalStore } from '~/store'
 import { ErrorMessageResponse } from '~/types/messageResponse'
 import { LoginResponse } from '~/types/user'
 
 @Component({
-  layout: 'beforeLogin',
   components: {
     LoggedinFormCard,
     Toaster
@@ -78,10 +77,10 @@ export default class PasswordReset extends Vue {
   /**
    * パスワード再設定成功時の処理
    */
-  success (response: LoginResponse) {
-    this.$auth.login(response)
+  async success (response: LoginResponse) {
+    await this.$auth.login(response)
     // 遷移するとトースターが表示されないためクエリにメッセージを付与
-    this.$router.push({ path: `/?message=${response.message}` })
+    this.$router.push({ path: `/?message=${response.message}&color=success` })
   }
 
   /**

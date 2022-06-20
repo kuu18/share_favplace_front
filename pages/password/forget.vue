@@ -29,7 +29,7 @@
 <script lang = 'ts'>
 import { Component, Vue } from 'nuxt-property-decorator'
 import { AxiosError } from 'axios'
-import LoggedinFormCard from '@/components/loggedIn/loggedinFormCard.vue'
+import LoggedinFormCard from '~/components/loggedIn/card/loggedinFormCard.vue'
 import Toaster from '@/components/ui/toaster.vue'
 import { ErrorMessageResponse, MessageResponse } from '~/types/messageResponse'
 import { GlobalStore } from '~/store'
@@ -69,7 +69,7 @@ export default class PasswordForget extends Vue {
    *
    */
   success ({ message }: MessageResponse) {
-    GlobalStore.commitToast({ msg: message, color: 'success' })
+    GlobalStore.commitToast({ msg: message, color: 'info', timeout: -1 })
   }
 
   /**
