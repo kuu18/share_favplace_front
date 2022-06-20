@@ -14,17 +14,45 @@ import { ErrorMessageResponse } from '~/types/messageResponse'
   layout: 'beforeLogin',
   async asyncData ({ route }: Context) {
     const token = await route.query.token
-    return { token }
+    const email = await route.query.email
+    return { token, email }
   }
 })
 export default class AccountActivations extends Vue {
-  private token?: string = ''
+  private token: string | null = null
+  private email: string | null = null
 
   async created () {
-    // トークンが存在する場合、トークンを検証する
-    if (this.token) { await this.verifyToken() }
+    // emailとトークンが存在する場合、トークンを検証し、メールアドレスを更新する
+    if (this.email && this.token) {
+      await this.updateEmail()
+    // トークンが存在する場合、トークンを検証し、アカウントを有効化する
+    } else if (this.token) {
+      await this.verifyToken()
     // トークンがnullの場合、何もせずリダイレクトする
-    this.$router.replace('/')
+    } else {
+      this.$router.replace('/')
+    }
+  }
+
+  /**
+   * トークンの検証とメールアドレスの更新
+   *
+   */
+  async updateEmail () {
+    const headers = {
+      headers: { Authorization: `Bearer ${this.token}` }
+    }
+    const params = {
+      email: this.email
+    }
+    await this.$axios.$post(
+      '/api/v1/account_updateemail',
+      params,
+      headers
+    )
+      .then(response => this.success(response))
+      .catch(error => this.failure(error))
   }
 
   /**
@@ -35,24 +63,29 @@ export default class AccountActivations extends Vue {
     const headers = {
       headers: { Authorization: `Bearer ${this.token}` }
     }
-    // リクエストヘッダーにトークンをつけて、認証コントローラーへ渡す
     await this.$axios.$get('/api/v1/account_activations', headers)
-      .then(response => this.validToken(response))
-    // トークンが検証エラーを吐いた場合、「もう一度処理を行ってください」などのトースターを出力する
-      .catch(error => this.invalidToken(error))
+      .then(response => this.success(response))
+      .catch(error => this.failure(error))
   }
 
-  // トークンの検証に成功した場合、ログインする
-  validToken (response: LoginResponse) {
+  /**
+   * 成功時の処理
+   */
+  success (response: LoginResponse) {
     this.$auth.login(response)
     GlobalStore.commitToast({ msg: response.message, color: 'success' })
-    this.$router.push('/')
+    this.$router.replace('/')
   }
 
-  invalidToken (error: AxiosError<ErrorMessageResponse>) {
-    error.response?.status === 400
-      ? GlobalStore.commitToast({ msg: error.response.data.error_message })
-      : this.$my.errorHandler(error)
+  /**
+   * 失敗時の処理
+   */
+  failure (error: AxiosError<ErrorMessageResponse>) {
+    if (error.response?.status === 400) {
+      this.$auth.logout()
+      GlobalStore.commitToast({ msg: error.response.data.error_message })
+      this.$router.replace('/')
+    } else { this.$my.errorHandler(error) }
   }
 }
 </script>

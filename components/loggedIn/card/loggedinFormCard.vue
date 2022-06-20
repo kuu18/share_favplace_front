@@ -5,6 +5,7 @@
       justify="center"
     >
       <v-col
+        v-if="title != ''"
         cols="12"
         class="my-8 text-center"
       >
@@ -17,7 +18,7 @@
         flat
         width="80%"
         max-width="320"
-        color="transparent"
+        color="transparent mt-10 mb-10"
       >
         <slot name="form-card-content" />
       </v-card>

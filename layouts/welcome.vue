@@ -72,6 +72,7 @@ import WelAbout from '@/components/welcome/welAbout.vue'
 import WelAppBar, { Menus } from '@/components/welcome/welAppBar.vue'
 import WelContact from '@/components/welcome/welContact.vue'
 import Toaster from '@/components/ui/toaster.vue'
+import { GlobalStore } from '~/store'
 
 @Component({
   components: {
@@ -88,5 +89,12 @@ export default class Welcome extends Vue {
     { title: 'about', subtitle: 'このサイトは行ってみたい場所やお気に入りの場所を管理、シェアできるアプリケーションです' },
     { title: 'contact', subtitle: 'お気軽にご連絡を' }
   ]
+
+  async created () {
+    const message = await this.$route.query.message
+    const color = await this.$route.query.color
+    const timeout = await this.$route.query.timeout
+    if (message) { GlobalStore.commitToast({ msg: String(message), color: String(color), timeout: Number(timeout) }) }
+  }
 }
 </script>

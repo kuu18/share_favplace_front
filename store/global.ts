@@ -2,7 +2,7 @@ import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 import { Route, Location } from 'vue-router'
 
 interface Toast {
-  msg?: string | null,
+  msg?: string | string[] | null,
   color?: string,
   timeout?: number
 }
