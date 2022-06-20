@@ -36,6 +36,17 @@
             ログインする
           </v-btn>
         </v-card-text>
+        <v-card-text class="px-0">
+          <v-btn
+            :loading="loading"
+            block
+            color="myred"
+            class="white--text"
+            @click="testLogin"
+          >
+            テストユーザーでログインする
+          </v-btn>
+        </v-card-text>
       </v-form>
     </template>
   </bef-login-form-card>
@@ -80,6 +91,24 @@ export default class Login extends Vue {
         .then((response: LoginResponse) => this.authSuccessful(response))
         .catch((error: AxiosError<ErrorMessageResponse>) => this.authFailure(error))
     }
+    this.loading = false
+  }
+
+  /**
+   * テストユーザーログイン処理
+   *
+   */
+  async testLogin () {
+    this.loading = true
+    await this.$axios.$post(
+      '/api/v1/login',
+      {
+        username: 'testuser',
+        password: this.$config.testuserPassword
+      }
+    )
+      .then((response: LoginResponse) => this.authSuccessful(response))
+      .catch((error: AxiosError<ErrorMessageResponse>) => this.authFailure(error))
     this.loading = false
   }
 

@@ -22,7 +22,8 @@ export default {
 
   publicRuntimeConfig: {
     appName: process.env.APP_NAME,
-    cryptoKey: process.env.CRYPTO_KEY
+    cryptoKey: process.env.CRYPTO_KEY,
+    testuserPassword: process.env.TESTUSER_PASSWORD
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
