@@ -7,40 +7,64 @@
         <template
           #form-card-content
         >
-          <v-form
-            ref="form"
-            v-model="isValid"
+          <v-row
+            justify="center"
+            class="mb-10 ml-5"
+            no-gutters
           >
-            <user-form-username :username.sync="params.username" />
-            <v-card-text class="px-0">
-              <v-btn
-                :disabled="!isValid || loading"
-                :loading="loading"
-                block
-                color="myred"
-                class="white--text"
-                @click="updateUser"
-              >
-                更新する
-              </v-btn>
-            </v-card-text>
-            <v-spacer />
-            <v-row
-              class="my-5"
-              flat
+            <v-col
+              cols="6"
             >
-              <v-card-text
-                class="error--text"
+              <v-avatar
+                size="100px"
+                @click.stop="avatarDialog = true"
               >
-                <div
-                  v-for="(message, i) in errorMessages"
-                  :key="`message-text-${i}`"
+                <img
+                  alt="Avatar"
+                  :src="$auth.currentUser.avatarUrl"
                 >
-                  ・{{ message }}
-                </div>
-              </v-card-text>
-            </v-row>
-          </v-form>
+              </v-avatar>
+              <user-dialog-avatar :dialog.sync="avatarDialog" />
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <v-form
+                ref="form"
+                v-model="isValid"
+              >
+                <user-form-username :username.sync="params.username" />
+                <v-card-text class="px-0">
+                  <v-btn
+                    :disabled="!isValid || loading"
+                    :loading="loading"
+                    block
+                    color="myred"
+                    class="white--text"
+                    @click="updateUser"
+                  >
+                    更新する
+                  </v-btn>
+                </v-card-text>
+                <v-spacer />
+                <v-row
+                  class="my-5"
+                  flat
+                >
+                  <v-card-text
+                    class="error--text"
+                  >
+                    <div
+                      v-for="(message, i) in errorMessages"
+                      :key="`message-text-${i}`"
+                    >
+                      ・{{ message }}
+                    </div>
+                  </v-card-text>
+                </v-row>
+              </v-form>
+            </v-col>
+          </v-row>
         </template>
       </loggedin-form-card>
     </template>
@@ -55,14 +79,17 @@ import LoggedinFormCard from '../../components/loggedIn/card/loggedinFormCard.vu
 import { ErrorMessageResponse } from '~/types/messageResponse'
 import { GlobalStore } from '~/store'
 import { LoginResponse } from '~/types/user'
+import UserDialogAvatar from '@/components/user/userDialogAvatar.vue'
 
 @Component({
   components: {
     AccountSettingsCard,
-    LoggedinFormCard
+    LoggedinFormCard,
+    UserDialogAvatar
   }
 })
 export default class AccountSettings extends Vue {
+  avatarDialog: boolean = false
   isValid: boolean = false
   loading: boolean = false
   errorMessages?: Array<string> | null = null
@@ -103,3 +130,8 @@ export default class AccountSettings extends Vue {
   }
 }
 </script>
+<style scoped>
+  .v-avatar{
+    cursor: pointer;
+  }
+</style>

@@ -6,6 +6,7 @@ export interface User {
   password?: string
   createdAt?: Date
   roles?: Array<Role>
+  avatarUrl?: string
 }
 
 export interface LoginResponse {
