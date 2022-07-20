@@ -18,8 +18,18 @@ export default class CurrentUser extends VuexModule {
     this.currentUser = payload
   }
 
+  @Mutation
+  private setAvatarUrl (payload: string) {
+    this.currentUser!.avatarUrl = payload
+  }
+
   @Action({ rawError: true })
   public commitCurrentUser (user: User | null) {
     this.setCurrentUser(user)
+  }
+
+  @Action({ rawError: true })
+  public commitAvatarUrl (url: string) {
+    this.setAvatarUrl(url)
   }
 }
