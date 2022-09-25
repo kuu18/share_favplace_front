@@ -1,7 +1,9 @@
 <template>
-  <div>
-    index.vue
-  </div>
+  <logged-in-container>
+    <template #my-content>
+      {{ $route.fullPath }}
+    </template>
+  </logged-in-container>
 </template>
 
 <script lang = "ts">

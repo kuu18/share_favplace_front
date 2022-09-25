@@ -1,0 +1,45 @@
+<template>
+  <v-select
+    v-model="syncedCategory"
+    multiple
+    :items="items"
+    item-text="categoryname"
+    item-value="id"
+    label="カテゴリー"
+    outlined
+  />
+</template>
+<script lang="ts">
+import { Component, PropSync, Vue } from 'nuxt-property-decorator'
+import { AxiosResponse } from 'axios'
+import { CategoryType } from '../../types/CategoryType'
+
+@Component
+export default class FavplaceFormCategory extends Vue {
+  items :Array<CategoryType> = []
+  categories = {}
+
+  // バリデーション
+  rules = [
+    (v: Array<number>) => !!v || 'カテゴリーは必須入力です。'
+  ]
+
+  @PropSync('category', { type: Array, default: 0 })
+    syncedCategory!: Array<number>
+
+  /**
+   * カテゴリー一覧取得処理
+   */
+  async created () {
+    await this.$axios.get('/api/v1/categories')
+      .then(response => this.success(response))
+  }
+
+  /**
+   * カテゴリー一覧取得成功時
+   */
+  success (response: AxiosResponse<Array<CategoryType>>) {
+    this.items = response.data
+  }
+}
+</script>

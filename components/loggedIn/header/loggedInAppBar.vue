@@ -7,6 +7,7 @@
     clipped-left
     color="grey darken-3"
   >
+    <slot name="nav-icon" />
     <nuxt-link
       to="/"
       class="text-decoration-none"

@@ -100,7 +100,6 @@ export default class Signup extends Vue {
 
   formReset () {
     (this.$refs as any).form.reset()
-    this.params = { username: '', email: '', password: '' }
   }
 }
 </script>

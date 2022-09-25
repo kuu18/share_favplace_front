@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <logged-in-header />
+    <logged-in-app-bar />
     <v-main>
       <toaster />
       <nuxt />
@@ -20,6 +20,6 @@ import Toaster from '@/components/ui/toaster.vue'
   },
   middleware: 'authenticator'
 })
-export default class Default extends Vue {
+export default class LoggedIn extends Vue {
 }
 </script>
