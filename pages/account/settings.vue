@@ -76,10 +76,10 @@ import { Component, Vue } from 'nuxt-property-decorator'
 import { AxiosError } from 'axios'
 import AccountSettingsCard from '../../components/loggedIn/card/accountSettingsCard.vue'
 import LoggedinFormCard from '../../components/loggedIn/card/loggedinFormCard.vue'
-import { ErrorMessageResponse } from '~/types/messageResponse'
-import { GlobalStore } from '~/store'
-import { LoginResponse } from '~/types/user'
+import { CurrentUserStore, GlobalStore } from '~/store'
+import { UpdateUserResponse } from '~/types/user'
 import UserDialogAvatar from '@/components/user/userDialogAvatar.vue'
+import { ErrorResponse } from '~/types/ErrorResponse'
 
 @Component({
   components: {
@@ -106,8 +106,8 @@ export default class AccountSettings extends Vue {
         '/api/v1/users/update',
         this.params
       )
-        .then((response: LoginResponse) => this.updateSuccess(response))
-        .catch((error: AxiosError) => this.updateFailure(error))
+        .then((response: UpdateUserResponse) => this.updateSuccess(response))
+        .catch((error: AxiosError<ErrorResponse>) => this.updateFailure(error))
     }
     this.loading = false
   }
@@ -116,8 +116,8 @@ export default class AccountSettings extends Vue {
    * 成功時の処理
    *
    */
-  async updateSuccess (response: LoginResponse) {
-    await this.$auth.login(response)
+  async updateSuccess (response: UpdateUserResponse) {
+    await CurrentUserStore.commitCurrentUser(response.user)
     GlobalStore.commitToast({ msg: response.message, color: 'success' })
   }
 
@@ -125,8 +125,8 @@ export default class AccountSettings extends Vue {
    * 失敗時の処理
    *
    */
-  updateFailure (error: AxiosError<ErrorMessageResponse>) {
-    this.errorMessages = error.response?.data.error_messages
+  updateFailure (error: AxiosError<ErrorResponse>) {
+    this.errorMessages = error.response?.data.messages
   }
 }
 </script>

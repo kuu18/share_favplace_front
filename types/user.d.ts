@@ -15,3 +15,8 @@ export interface LoginResponse {
   refresh_token_exp: number
   user: User
 }
+
+export interface UpdateUserResponse {
+  message?: string
+  user: User
+}

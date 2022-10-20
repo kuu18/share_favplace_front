@@ -94,8 +94,9 @@ import { Component, Vue } from 'nuxt-property-decorator'
 import { AxiosError } from 'axios'
 import AccountSettingsCard from '../../components/loggedIn/card/accountSettingsCard.vue'
 import LoggedinFormCard from '../../components/loggedIn/card/loggedinFormCard.vue'
-import { ErrorMessageResponse, MessageResponse } from '~/types/messageResponse'
+import { MessageResponse } from '~/types/messageResponse'
 import { GlobalStore } from '~/store'
+import { ErrorResponse } from '~/types/ErrorResponse'
 
 @Component({
   components: {
@@ -117,7 +118,7 @@ export default class AcccountDelete extends Vue {
         { data: this.params }
       )
         .then((response: MessageResponse) => this.success(response))
-        .catch((error: AxiosError<ErrorMessageResponse>) => this.failure(error))
+        .catch((error: AxiosError<ErrorResponse>) => this.failure(error))
     }
     this.loading = false
   }
@@ -127,9 +128,9 @@ export default class AcccountDelete extends Vue {
     this.$router.replace({ path: `/?message=${message}&color=success` })
   }
 
-  failure (error: AxiosError<ErrorMessageResponse>) {
+  failure (error: AxiosError<ErrorResponse>) {
     this.dialog = false
-    GlobalStore.commitToast({ msg: error.response?.data.error_message })
+    GlobalStore.commitToast({ msg: error.response?.data.message })
   }
 }
 </script>

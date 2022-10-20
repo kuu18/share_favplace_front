@@ -55,7 +55,8 @@ import { Component, Vue } from 'nuxt-property-decorator'
 import { AxiosError } from 'axios'
 import AccountSettingsCard from '../../components/loggedIn/card/accountSettingsCard.vue'
 import LoggedinFormCard from '~/components/loggedIn/card/loggedinFormCard.vue'
-import { ErrorMessageResponse, MessageResponse } from '~/types/messageResponse'
+import { MessageResponse } from '~/types/messageResponse'
+import { ErrorResponse } from '~/types/ErrorResponse'
 
 @Component(
   {
@@ -80,7 +81,7 @@ export default class AccountPassword extends Vue {
         this.params
       )
         .then((response: MessageResponse) => this.success(response))
-        .catch((error: AxiosError<ErrorMessageResponse>) => this.failure(error))
+        .catch((error: AxiosError<ErrorResponse>) => this.failure(error))
     }
     this.loading = false
   }
@@ -98,8 +99,8 @@ export default class AccountPassword extends Vue {
    * 失敗時の処理
    *
    */
-  failure (error: AxiosError<ErrorMessageResponse>) {
-    this.errorMessages = error.response?.data.error_messages
+  failure (error: AxiosError<ErrorResponse>) {
+    this.errorMessages = error.response?.data.messages
   }
 }
 </script>
