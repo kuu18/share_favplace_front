@@ -8,8 +8,7 @@
     <v-img
       id="scroll-top"
       dark
-      src="/images/heroimg.jpg"
-      gradient="to top right, rgba(245,245,245,.3), rgba(69, 90, 100,.9)"
+      src="https://share-favplace-local.s3.ap-northeast-1.amazonaws.com/default/heroimg.jpg"
       :height="imgHeight"
     >
       <v-row
@@ -18,48 +17,64 @@
         :style="{ height: `${imgHeight}px` }"
       >
         <v-col
+          class="white--text text-center"
           cols="12"
-          class="text-center"
+          tag="h1"
         >
-          <h1 class="display-1 mb-4">
-            もう迷わない。行きたい場所がすぐ見つかる。
-          </h1>
-          <h4
-            class="subheading"
-            :style="{ letterSpacing: '5px' }"
+          <span
+            :class="h3TextResponsive"
+            class="font-weight-light"
           >
-            お気に入りの場所を管理、シェアしよう
-          </h4>
+            WELCOME TO
+          </span>
+
+          <br>
+
+          <span
+            :class="[$vuetify.breakpoint.smAndDown ? 'text-h4': 'text-h1']"
+            class="font-weight-black"
+          >
+            SHAREFAVPLACE
+          </span>
+          <br>
+          <v-btn
+            class="align-self-end"
+            fab
+            outlined
+            @click="$vuetify.goTo('#about')"
+          >
+            <v-icon>mdi-chevron-double-down</v-icon>
+          </v-btn>
         </v-col>
       </v-row>
     </v-img>
-    <v-sheet>
+    <v-sheet
+      v-for="(menu, i) in menus"
+      :key="`menu-${i}`"
+      :color="menu.color"
+      menu.theme
+    >
+      <div class="py-12" />
       <v-container
         fluid
-        :style="{ maxWidth: '1280px', height: '1500px' }"
       >
-        <v-row
-          v-for="(menu, i) in menus"
-          :key="`menu-${i}`"
+        <v-col
+          :id="menu.title"
+          cols="12"
+          :class="[menu.title === 'contact' ? 'white--text' : 'black--text']"
         >
-          <v-col
-            :id="menu.title"
-            cols="12"
-          >
-            <v-card flat>
-              <v-card-title class="justify-center display-1">
-                {{ $t(`menus.${menu.title}`) }}
-              </v-card-title>
-              <v-card-text class="text-center">
-                {{ menu.subtitle }}
-              </v-card-text>
-            </v-card>
-          </v-col>
-          <v-col cols="12">
-            <div :is="`wel-${menu.title}`" />
-          </v-col>
-        </v-row>
+          <v-card-title class="justify-center" :class="h3TextResponsive">
+            {{ $t(`menus.${menu.title}`) }}
+          </v-card-title>
+          <v-card-text class="text-center">
+            {{ menu.subtitle }}
+          </v-card-text>
+        </v-col>
+        <v-col cols="12">
+          <div :is="`wel-${menu.title}`" />
+        </v-col>
       </v-container>
+      <div class="py-12" />
     </v-sheet>
     <bef-login-footer />
   </v-app>
@@ -85,16 +100,19 @@ import { GlobalStore } from '~/store'
 })
 export default class Welcome extends Vue {
   imgHeight: number = window.innerHeight
+  h3TextResponsive = this.$vuetify.breakpoint.smAndDown ? 'text-h5' : 'text-h3'
   menus: Array<Menus> = [
-    { title: 'about', subtitle: 'このサイトは行ってみたい場所やお気に入りの場所を管理、シェアできるアプリケーションです' },
-    { title: 'contact', subtitle: 'お気軽にご連絡を' }
+    { title: 'about', subtitle: 'このサイトは行ってみたい場所やお気に入りの場所を管理、シェアできるアプリケーションです', color: 'grey lighten-3' },
+    { title: 'contact', subtitle: 'お気軽にご連絡を', color: 'grey darken-3' }
   ]
 
   async created () {
     const message = await this.$route.query.message
-    const color = await this.$route.query.color
-    const timeout = await this.$route.query.timeout
-    if (message) { GlobalStore.commitToast({ msg: String(message), color: String(color), timeout: Number(timeout) }) }
+    if (message) {
+      const color = await this.$route.query.color
+      const timeout = await this.$route.query.timeout
+      GlobalStore.commitToast({ msg: String(message), color: String(color), timeout: Number(timeout) })
+    }
   }
 }
 </script>
