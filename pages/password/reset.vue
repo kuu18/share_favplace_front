@@ -36,8 +36,8 @@ import { AxiosError } from 'axios'
 import LoggedinFormCard from '../../components/loggedIn/card/loggedinFormCard.vue'
 import Toaster from '../../components/ui/toaster.vue'
 import { GlobalStore } from '~/store'
-import { ErrorMessageResponse } from '~/types/messageResponse'
 import { LoginResponse } from '~/types/user'
+import { ErrorResponse } from '~/types/ErrorResponse'
 
 @Component({
   components: {
@@ -86,9 +86,9 @@ export default class PasswordReset extends Vue {
   /**
    * パスワード再設定失敗時の処理
    */
-  failure (error: AxiosError<ErrorMessageResponse>) {
-    error.response?.status === 401
-      ? GlobalStore.commitToast({ msg: error.response.data.error_message })
+  failure (error: AxiosError<ErrorResponse>) {
+    error.response?.status === 401 || error.response?.status === 400
+      ? GlobalStore.commitToast({ msg: error.response.data.message })
       : this.$my.errorHandler(error)
   }
 }

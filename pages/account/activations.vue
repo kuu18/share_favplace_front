@@ -8,7 +8,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
 import { AxiosError } from 'axios'
 import { GlobalStore } from '~/store'
 import { LoginResponse } from '@/types/user'
-import { ErrorMessageResponse } from '~/types/messageResponse'
+import { ErrorResponse } from '../../types/ErrorResponse';
 
 @Component({
   layout: 'beforeLogin',
@@ -80,10 +80,10 @@ export default class AccountActivations extends Vue {
   /**
    * 失敗時の処理
    */
-  failure (error: AxiosError<ErrorMessageResponse>) {
+  failure (error: AxiosError<ErrorResponse>) {
     if (error.response?.status === 400) {
       this.$auth.logout()
-      GlobalStore.commitToast({ msg: error.response.data.error_message })
+      GlobalStore.commitToast({ msg: error.response.data.message })
       this.$router.replace('/')
     } else { this.$my.errorHandler(error) }
   }

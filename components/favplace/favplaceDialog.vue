@@ -165,8 +165,8 @@
 import { Component, PropSync, Vue } from 'nuxt-property-decorator'
 import { AxiosError } from 'axios'
 import { Favplace, FavplaceSaveResponse } from '../../types/Favplace'
-import { ErrorMessageResponse } from '~/types/messageResponse'
 import { GlobalStore } from '~/store'
+import { ErrorResponse } from '~/types/ErrorResponse'
 
 interface Image {
   url: string
@@ -241,7 +241,7 @@ export default class FavPlaceDialog extends Vue {
         hedears
       )
         .then((response: FavplaceSaveResponse) => this.success(response))
-        .catch((error: AxiosError<ErrorMessageResponse>) => this.failure(error))
+        .catch((error: AxiosError<ErrorResponse>) => this.failure(error))
     }
     this.loading = false
   }
@@ -252,8 +252,8 @@ export default class FavPlaceDialog extends Vue {
     GlobalStore.commitToast({ msg: response.message, color: 'info' })
   }
 
-  failure (error: AxiosError<ErrorMessageResponse>) {
-    console.log(error)
+  failure (error: AxiosError<ErrorResponse>) {
+    GlobalStore.commitToast({ msg: error.response?.data.message })
   }
 }
 </script>

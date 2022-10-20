@@ -49,9 +49,10 @@ import userFormEmail from '@/components/user/userFormEmail.vue'
 import userFormUsername from '@/components/user/userFormUsername.vue'
 import userFormPassword from '@/components/user/userFormPassword.vue'
 import { User } from '@/types/user'
-import { MessageResponse, ErrorMessageResponse } from '@/types/messageResponse'
+import { MessageResponse } from '@/types/messageResponse'
 import { GlobalStore } from '@/store'
 import Toaster from '@/components/ui/toaster.vue'
+import { ErrorResponse } from '~/types/ErrorResponse'
 
 @Component({
   layout: 'beforeLogin',
@@ -78,7 +79,7 @@ export default class Signup extends Vue {
         this.params
       )
         .then((response: MessageResponse) => this.success(response))
-        .catch((error: AxiosError<ErrorMessageResponse>) => this.failure(error))
+        .catch((error: AxiosError<ErrorResponse>) => this.failure(error))
     }
     this.loading = false
   }
@@ -90,9 +91,9 @@ export default class Signup extends Vue {
   }
 
   // 新規登録失敗
-  failure (error: AxiosError<ErrorMessageResponse>) {
+  failure (error: AxiosError<ErrorResponse>) {
     if (error.response?.status === 400) {
-      this.errorMessages = error.response.data.error_messages
+      this.errorMessages = error.response.data.messages
     } else {
       this.$my.errorHandler(error)
     }
