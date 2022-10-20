@@ -6,9 +6,9 @@
 import { Context } from '@nuxt/types'
 import { Component, Vue } from 'nuxt-property-decorator'
 import { AxiosError } from 'axios'
+import { ErrorResponse } from '../../types/ErrorResponse'
 import { GlobalStore } from '~/store'
 import { LoginResponse } from '@/types/user'
-import { ErrorResponse } from '../../types/ErrorResponse';
 
 @Component({
   layout: 'beforeLogin',

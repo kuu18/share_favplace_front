@@ -66,8 +66,9 @@ import appTitle from '../ui/appTitle.vue'
 import { GlobalStore } from '~/store'
 
 export interface Menus {
-  title: string;
-  subtitle: string;
+  title: string
+  subtitle: string
+  color?: string
 }
 
 @Component({

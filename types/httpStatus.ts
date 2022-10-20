@@ -1,4 +1,4 @@
-"use strict";
+'use strict'
 
 /**
  * Hypertext Transfer Protocol (HTTP) response status codes.
@@ -380,4 +380,4 @@ enum HttpStatusCode {
     NETWORK_AUTHENTICATION_REQUIRED = 511
 }
 
-export default HttpStatusCode;
+export default HttpStatusCode

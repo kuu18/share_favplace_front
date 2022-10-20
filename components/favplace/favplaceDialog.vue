@@ -222,12 +222,9 @@ export default class FavPlaceDialog extends Vue {
     const formData = new FormData()
     const userId = this.$auth.currentUser.id
     if (userId) { this.favplace.userId = userId }
-    const params = new Blob([JSON.stringify(this.favplace)], {type : 'application/json'})
-    console.log(this.blob.type);
+    const params = new Blob([JSON.stringify(this.favplace)], { type: 'application/json' })
     formData.append('image', this.blob)
     formData.append('params', params)
-    console.log(this.blob)
-    console.log(formData)
     const hedears = {
       headers: {
         'content-type': 'multipart/form-data'

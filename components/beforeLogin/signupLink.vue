@@ -1,9 +1,9 @@
 <template>
   <v-btn
-    outlined
+    depressed
     dark
     color="myred"
-    class="ml-2 font-weight-bold"
+    class="ml-2 font-weight-bold white--text"
     to="/signup"
   >
     {{ $t('pages.signup') }}
