@@ -4,28 +4,32 @@
     app
     clipped
     mobile-breakpoint="960"
+    dark
+    color="grey darken-3"
   >
-    <v-sheet
-      color="grey lighten-4"
-      class="pa-4"
-    >
-      <v-avatar
-        class="mb-4"
-        color="grey darken-1"
-        size="64"
-      >
-        <img
-          alt="Avatar"
-          :src="$auth.currentUser.avatarUrl"
-        >
-      </v-avatar>
+    <v-list>
+      <v-list-item class="px-2">
+        <v-list-item-avatar size="64">
+          <v-img
+            alt="Avatar"
+            :src="$auth.currentUser.avatarUrl"
+          />
+        </v-list-item-avatar>
+      </v-list-item>
 
-      <div>{{ $auth.currentUser.username }}</div>
-    </v-sheet>
+      <v-list-item link>
+        <v-list-item-content>
+          <v-list-item-title class="text-h6">
+            {{ $auth.currentUser.username }}
+          </v-list-item-title>
+          <v-list-item-subtitle>{{ $auth.currentUser.email }}</v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+    </v-list>
 
     <v-divider />
 
-    <v-list>
+    <v-list color="grey darken-3">
       <v-list-item
         v-for="[icon, text] in links"
         :key="icon"
