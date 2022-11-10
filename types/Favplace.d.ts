@@ -43,3 +43,9 @@ export interface FavplaceSaveResponse {
   favplece: ResponseFavplace
   message: string
 }
+
+export interface FavplacesGetResponse {
+  favplaces:Array<ResponseFavplace>
+  message?: string
+  count?: number
+}

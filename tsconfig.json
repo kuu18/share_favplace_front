@@ -36,6 +36,9 @@
       "nuxt-i18n"
     ]
   },
+  "vueCompilerOptions": {
+    "target": 2
+  },
   "exclude": [
     "node_modules",
     ".nuxt",

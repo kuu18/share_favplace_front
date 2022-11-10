@@ -124,12 +124,13 @@
             class="mr-4
             grey--text"
           >
-            {{ page }} / {{ numberOfPages }}
+            {{ page }}/{{ maxNumberOfPages }}
           </span>
           <v-btn
             fab
             icon
             color="blue darken-3"
+            :disabled="page === 1"
             @click="formerPage"
           >
             <v-icon>mdi-chevron-left</v-icon>
@@ -138,6 +139,7 @@
             fab
             icon
             color="blue darken-3"
+            :disabled="page === maxNumberOfPages"
             @click="nextPage"
           >
             <v-icon>mdi-chevron-right</v-icon>
@@ -151,6 +153,7 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 import FavplaceInformation from './favplace/favplaceInformation.vue'
 import { FavplacesStore } from '~/store'
+import { FavplacesGetResponse } from '~/types/Favplace'
 
 @Component({
   components: {
@@ -163,6 +166,7 @@ export default class DataIteratorCard extends Vue {
   filter = {}
   sortDesc = false
   page = 1
+  pagenationIndex = 1
   itemsPerPage = this.$vuetify.breakpoint.xlOnly ? 4 : 2
   sortBy = ''
   sortKeys = [
@@ -180,24 +184,59 @@ export default class DataIteratorCard extends Vue {
     }
   ]
 
+  /**
+   * ユーザーの全Favplaceのページ数
+   */
+  get maxNumberOfPages () {
+    return Math.ceil(this.getFavplaceCount / this.itemsPerPage)
+  }
+
+  /**
+   * ユーザーの取得済みFavplaceのページ数
+   */
   get numberOfPages () {
     return Math.ceil(this.getCurrenUserFavplaces.length / this.itemsPerPage)
   }
 
-  nextPage () {
-    if (this.page + 1 <= this.numberOfPages) { this.page += 1 }
+  /**
+   * ページネーション
+   */
+  async nextPage () {
+    // 取得済みのFavplaceのページ数より現在のページを+1した数が少ない、または取得済みのFavplaceの数と全てのFavplceの数が同じ場合
+    if (this.page + 1 <= this.numberOfPages || this.getCurrenUserFavplaces.length === this.getFavplaceCount) {
+      this.page += 1
+    // 取得済みのFavplaceのページ数より現在のページを+1した数が多い、かつ取得済みのFavplaceの数が全てのFavplceの数より少ない場合
+    } else if (this.page + 1 >= this.numberOfPages && this.getCurrenUserFavplaces.length < this.getFavplaceCount) {
+      // 現在のユーザーが取得できない場合ページをリロードして取得し直す
+      if (!this.$auth.currentUser.id) { this.$router.go(0) }
+      // 次のページを取得する
+      await this.$axios.$get(`/api/v1/favplaces/user/${this.$auth.currentUser.id}/${this.pagenationIndex}`)
+        .then((response: FavplacesGetResponse) => {
+          FavplacesStore.commitCurrenUserFavplaces(response.favplaces)
+          this.pagenationIndex += 1
+          this.page += 1
+        })
+    }
   }
 
   formerPage () {
     if (this.page - 1 >= 1) { this.page -= 1 }
   }
 
+  /**
+   * ページ毎のレコード数の設定
+   * @param number
+   */
   updateItemsPerPage (number: number) {
     this.itemsPerPage = number
   }
 
   get getCurrenUserFavplaces () {
     return FavplacesStore.getCurrenUserFavplaces
+  }
+
+  get getFavplaceCount () {
+    return FavplacesStore.getFavplaceCount ? FavplacesStore.getFavplaceCount : 0
   }
 
   get getSortKeys () {
