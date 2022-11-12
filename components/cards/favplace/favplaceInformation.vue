@@ -54,7 +54,7 @@
         </v-list-item-icon>
         <v-list-item-content>
           <v-list-item-title>Category</v-list-item-title>
-          <v-list-item-subtitle>{{ favplace.categoryName }}</v-list-item-subtitle>
+          <v-list-item-subtitle>{{ getCategoryName }}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
 
@@ -102,5 +102,11 @@ export default class FavplaceInformation extends Vue {
 
   @Prop({ type: Object, default: () => {}, required: true })
     favplace!: Favplace
+
+  get getCategoryName () {
+    return this.favplace.categoryName
+      ? this.favplace.categoryName
+      : '未設定'
+  }
 }
 </script>

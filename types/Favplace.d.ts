@@ -1,5 +1,5 @@
-import { Category } from './Category'
 import { User } from './user'
+import { Schedule } from './schedule'
 
 export interface Favplace {
   id?: number
@@ -7,12 +7,12 @@ export interface Favplace {
   prefecture?: string
   municipality?: string
   address?: string
-  categories?: Array<Category>
-  categoryName?: string
+  categoryName?: String
   referenceUrl?: string
   imageUrl?: string
   remarks?: string
   user?: User
+  schedule?: Schedule
   createdAt?: Date
   updatedAt?: Date
 }
@@ -22,7 +22,7 @@ export interface RequestFavplace extends Favplace {
   prefecture: string
   municipality: string
   address: string
-  categoryIds: Array<number>
+  categoryId: number
   userId: number
 }
 
@@ -32,9 +32,9 @@ export interface ResponseFavplace extends Favplace {
   prefecture: string
   municipality: string
   address: string
-  categories: Array<Category>
-  categoryName: string
+  categoryName: String
   user: User
+  schedule?: Schedule
   createdAt: Date
   updatedAt: Date
 }

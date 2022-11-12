@@ -1,7 +1,6 @@
 <template>
   <v-select
     v-model="syncedCategory"
-    multiple
     :items="items"
     item-text="categoryname"
     item-value="id"

@@ -1,5 +1,5 @@
 <template>
-  <v-card min-height="400">
+  <v-card min-height="600">
     <v-card-title class="align-start">
       <v-sheet
         :color="color"

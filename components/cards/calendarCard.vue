@@ -34,8 +34,11 @@
             mdi-chevron-right
           </v-icon>
         </v-btn>
-        <v-toolbar-title v-if="$refs.calendar">
+        <v-toolbar-title v-if="calendar">
           {{ calendar.title }}
+        </v-toolbar-title>
+        <v-toolbar-title v-if="!calendar">
+          {{ getDateTitle }}
         </v-toolbar-title>
         <v-spacer />
         <v-menu
@@ -77,10 +80,10 @@
         ref="calendar"
         v-model="focus"
         color="primary"
-        :events="events"
+        :events="getSchedules"
         :event-color="getEventColor"
         :type="type"
-        @click:event="showEvent"
+        @click:event="showSchedule"
         @click:more="viewDay"
         @click:date="viewDay"
       />
@@ -130,6 +133,8 @@
 </template>
 <script lang='ts'>
 import { Component, Ref, Vue } from 'nuxt-property-decorator'
+import { SchedulesStore } from '~/store'
+import { Schedule } from '~/types/schedule'
 
 interface Event {
   name?: string
@@ -170,9 +175,6 @@ export default class CalendarCard extends Vue {
     details: 'テストイベントテストイベントテストイベント'
   }]
 
-  colors = ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1']
-  names = []
-
   @Ref()
     calendar!: Vue & {
     title: string
@@ -185,17 +187,18 @@ export default class CalendarCard extends Vue {
     this.calendar.checkChange()
   }
 
-  viewDay ({ date }: any) {
+  viewDay ({ date }: {date: string}) {
     this.focus = date
     this.type = 'day'
   }
 
-  getEventColor (event: any) {
-    return event.color
+  getEventColor (event: Schedule) {
+    return event.color ? event.color : 'blue'
   }
 
   setToday () {
     this.focus = ''
+    this.type = 'day'
   }
 
   prev () {
@@ -206,21 +209,19 @@ export default class CalendarCard extends Vue {
     this.calendar.next()
   }
 
-  showEvent ({ nativeEvent, event }: any) {
-    const open = () => {
-      this.selectedEvent = event
-      this.selectedElement = nativeEvent.target
-      requestAnimationFrame(() => { requestAnimationFrame(() => { this.selectedOpen = true }) })
-    }
+  showSchedule ({ event }: {event: Schedule}) {
+    this.$router.push(`/favplace/${event.favplace.id}`)
+  }
 
-    if (this.selectedOpen) {
-      this.selectedOpen = false
-      requestAnimationFrame(() => { return requestAnimationFrame(() => open()) })
-    } else {
-      open()
-    }
+  get getSchedules () {
+    return SchedulesStore.getSchedules
+  }
 
-    nativeEvent.stopPropagation()
+  get getDateTitle () {
+    const today = new Date()
+    const year = today.getFullYear()
+    const month = today.getMonth() + 1
+    return month + '月 ' + year
   }
 }
 </script>

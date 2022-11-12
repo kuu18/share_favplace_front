@@ -153,7 +153,6 @@
 import { Component, Vue } from 'nuxt-property-decorator'
 import FavplaceInformation from './favplace/favplaceInformation.vue'
 import { FavplacesStore } from '~/store'
-import { FavplacesGetResponse } from '~/types/Favplace'
 
 @Component({
   components: {
@@ -207,15 +206,18 @@ export default class DataIteratorCard extends Vue {
       this.page += 1
     // 取得済みのFavplaceのページ数より現在のページを+1した数が多い、かつ取得済みのFavplaceの数が全てのFavplceの数より少ない場合
     } else if (this.page + 1 >= this.numberOfPages && this.getCurrenUserFavplaces.length < this.getFavplaceCount) {
-      // 現在のユーザーが取得できない場合ページをリロードして取得し直す
-      if (!this.$auth.currentUser.id) { this.$router.go(0) }
-      // 次のページを取得する
-      await this.$axios.$get(`/api/v1/favplaces/user/${this.$auth.currentUser.id}/${this.pagenationIndex}`)
-        .then((response: FavplacesGetResponse) => {
-          FavplacesStore.commitCurrenUserFavplaces(response.favplaces)
-          this.pagenationIndex += 1
-          this.page += 1
+      if (this.$auth.currentUser.id) {
+        // 次のページを取得する
+        await FavplacesStore.fetchCurrenUserFavplaces({
+          userId: this.$auth.currentUser.id,
+          pageIndex: this.pagenationIndex
         })
+        this.pagenationIndex += 1
+        this.page += 1
+      // 現在のユーザーが取得できない場合ページをリロードして取得し直す
+      } else {
+        this.$router.go(0)
+      }
     }
   }
 

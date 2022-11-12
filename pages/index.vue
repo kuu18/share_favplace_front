@@ -8,10 +8,10 @@
           :class="[$vuetify.breakpoint.smAndDown ? 'mb-5': '']"
         >
           <favplace-card
-            v-if="getNextFavplace"
+            v-if="getNextSchedule"
             card-title="NextFavplace"
             color="myred"
-            :favplace="getNextFavplace"
+            :favplace="getNextSchedule.favplace"
           />
         </v-col>
         <v-col
@@ -58,7 +58,7 @@ import { Component, Vue } from 'nuxt-property-decorator'
 
 import FavplaceCard from '../components/cards/favplace/favplaceCard.vue'
 import BaseCard from '../components/cards/baseCard.vue'
-import { FavplacesStore, GlobalStore } from '~/store'
+import { GlobalStore, SchedulesStore } from '~/store'
 
 @Component({
   middleware: 'authenticator',
@@ -78,8 +78,8 @@ export default class Index extends Vue {
     if (message) { GlobalStore.commitToast({ msg: String(message), color: String(color), timeout: Number(timeout) }) }
   }
 
-  get getNextFavplace () {
-    return FavplacesStore.getNextFavplace
+  get getNextSchedule () {
+    return SchedulesStore.getNextSchedule
   }
 }
 </script>
