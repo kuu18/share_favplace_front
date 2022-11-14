@@ -26,7 +26,7 @@
         </v-list-item-icon>
         <v-list-item-content>
           <v-list-item-title>Address</v-list-item-title>
-          <v-list-item-subtitle>{{ favplace.address }}</v-list-item-subtitle>
+          <v-list-item-subtitle>{{ getAddress }}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
 
@@ -74,6 +74,20 @@
 
       <v-divider inset />
 
+      <v-list-item>
+        <v-list-item-icon>
+          <v-icon color="indigo">
+            mdi-calendar
+          </v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>Schedule</v-list-item-title>
+          <v-list-item-subtitle>{{ getScheduleById }}</v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-divider inset />
+
       <v-expansion-panels accordion flat>
         <v-expansion-panel>
           <v-expansion-panel-header>More</v-expansion-panel-header>
@@ -93,7 +107,8 @@
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import { Favplace } from '~/types/Favplace'
+import { FavplacesStore, SchedulesStore } from '~/store'
+import { ResponseFavplace } from '~/types/Favplace'
 
 @Component
 export default class FavplaceInformation extends Vue {
@@ -101,12 +116,51 @@ export default class FavplaceInformation extends Vue {
     showBtn!: boolean
 
   @Prop({ type: Object, default: () => {}, required: true })
-    favplace!: Favplace
+    favplace!: ResponseFavplace
 
   get getCategoryName () {
     return this.favplace.categoryName
       ? this.favplace.categoryName
       : '未設定'
+  }
+
+  get getAddress () {
+    return FavplacesStore.getAddress(this.favplace)
+  }
+
+  get getScheduleById () {
+    const schedule = SchedulesStore.getScheduleById(this.favplace.scheduleId)
+    if (schedule) {
+      const start = new Date(schedule.start)
+      const end = new Date(schedule.end)
+      let format = ''
+      if (schedule.timed) {
+        format = 'YYYY年MM月DD日HH時mm分'
+        return this.dateTimeFormat(start, format) + ' 〜 ' + this.dateTimeFormat(end, format)
+      } else {
+        format = 'YYYY年MM月DD日'
+        return this.dateFormat(start, format) + ' 〜 ' + this.dateFormat(end, format)
+      }
+    }
+    return '未設定'
+  }
+
+  dateTimeFormat (date: Date, format: string) {
+    format = format.replace(/YYYY/, String(date.getFullYear()))
+    format = format.replace(/MM/, String(date.getMonth() + 1))
+    format = format.replace(/DD/, String(date.getDate()))
+    format = format.replace(/HH/, String(date.getHours()))
+    format = date.getMinutes() !== 0
+      ? format.replace(/mm/, String(date.getMinutes()))
+      : format.substring(0, format.length - 3)
+    return format
+  }
+
+  dateFormat (date: Date, format: string) {
+    format = format.replace(/YYYY/, String(date.getFullYear()))
+    format = format.replace(/MM/, String(date.getMonth() + 1))
+    format = format.replace(/DD/, String(date.getDate()))
+    return format
   }
 }
 </script>

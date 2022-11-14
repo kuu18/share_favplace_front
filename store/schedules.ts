@@ -19,6 +19,11 @@ export default class Schedules extends VuexModule {
     return this.nextSchedule
   }
 
+  public get getScheduleById () {
+    const findSchedule = (id: number) => this.schedules.find(schedule => schedule.id === id)
+    return findSchedule
+  }
+
   @Mutation
   private setSchedules (payload: Array<Schedule>) {
     this.schedules = payload

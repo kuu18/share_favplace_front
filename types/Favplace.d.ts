@@ -1,5 +1,4 @@
 import { User } from './user'
-import { Schedule } from './schedule'
 
 export interface Favplace {
   id?: number
@@ -12,7 +11,7 @@ export interface Favplace {
   imageUrl?: string
   remarks?: string
   user?: User
-  schedule?: Schedule
+  scheduleId?: number
   createdAt?: Date
   updatedAt?: Date
 }
@@ -34,7 +33,7 @@ export interface ResponseFavplace extends Favplace {
   address: string
   categoryName: String
   user: User
-  schedule?: Schedule
+  scheduleId: number
   createdAt: Date
   updatedAt: Date
 }

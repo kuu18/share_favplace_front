@@ -10,7 +10,9 @@
             :favplace="getFavplace"
             :show-btn="false"
           />
-          <favplace-map />
+          <favplace-map
+            :address="getAddress"
+          />
         </v-card>
       </v-col>
     </v-row>
@@ -33,18 +35,20 @@ import { FavplacesStore } from '~/store'
   },
   async asyncData (route: Context) {
     const id = await Number(route.params.id)
-    return { id }
+    await FavplacesStore.fetchFavplaceById(id)
   }
 })
 export default class FavplaceShow extends Vue {
-  id!: number
-
   get getFavplace () {
-    return FavplacesStore.getFavplace(this.id)
+    return FavplacesStore.getFavplace
   }
 
   get getImageUrl () {
     return this.getFavplace?.imageUrl
+  }
+
+  get getAddress () {
+    if (this.getFavplace) { return FavplacesStore.getAddress(this.getFavplace) }
   }
 }
 </script>

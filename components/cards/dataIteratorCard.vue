@@ -27,16 +27,14 @@
           <template v-if="$vuetify.breakpoint.mdAndUp">
             <v-spacer />
             <v-select
-              v-model="sortBy"
+              v-model="search"
               color="yellow darken-2"
               flat
               solo-inverted
               hide-details
               :items="getSortKeys"
-              item-text="label"
-              item-value="value"
               prepend-inner-icon="mdi-magnify"
-              label="Sort by"
+              label="CategorySearch"
             />
             <v-spacer />
             <v-btn-toggle
@@ -169,18 +167,10 @@ export default class DataIteratorCard extends Vue {
   itemsPerPage = this.$vuetify.breakpoint.xlOnly ? 4 : 2
   sortBy = ''
   sortKeys = [
-    {
-      label: this.$t('favplace.favplacename'),
-      value: 'favplacename'
-    },
-    {
-      label: this.$t('favplace.prefecture'),
-      value: 'prefecture'
-    },
-    {
-      label: this.$t('favplace.category'),
-      value: 'categories'
-    }
+    '飲食店',
+    'レジャースポット',
+    '観光地',
+    '自然'
   ]
 
   /**

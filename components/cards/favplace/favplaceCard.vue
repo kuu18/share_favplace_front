@@ -64,7 +64,9 @@
         />
       </v-tab-item>
       <v-tab-item value="map">
-        <favplace-map />
+        <favplace-map
+          :address="getAddress"
+        />
       </v-tab-item>
     </v-tabs-items>
   </v-card>
@@ -76,6 +78,7 @@ import FavplaceImage from './favplaceImage.vue'
 import FavplaceMap from './favplaceMap.vue'
 import FavplaceInformation from './favplaceInformation.vue'
 import { ResponseFavplace } from '~/types/Favplace'
+import { FavplacesStore } from '~/store'
 
 @Component({
   components: {
@@ -97,5 +100,9 @@ export default class FavplaceCard extends Vue {
 
   @Prop({ type: Object, default: () => {}, required: true })
     favplace!: ResponseFavplace
+
+  get getAddress () {
+    return FavplacesStore.getAddress(this.favplace)
+  }
 }
 </script>

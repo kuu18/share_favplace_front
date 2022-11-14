@@ -8,16 +8,12 @@ import { $axios } from '~/utils/api'
   namespaced: true
 })
 export default class Favplaces extends VuexModule {
-  private favplaces: Array<ResponseFavplace> = []
+  private favplace: ResponseFavplace | null = null
   private timeLineFavplaces: Array<ResponseFavplace> = []
   private currentUserFavplaces: Array<ResponseFavplace> = []
   private favplaceCount?: number
 
-  public get getFavplaces () {
-    return this.favplaces
-  }
-
-  public get gettimeLineFavplaces () {
+  public get getTimeLineFavplaces () {
     return this.timeLineFavplaces
   }
 
@@ -25,20 +21,17 @@ export default class Favplaces extends VuexModule {
     return this.currentUserFavplaces
   }
 
-  public get getFavplace () {
-    const favplace = (id: number) => this.favplaces.find(favplace => favplace.id === id)
-    return favplace
-  }
-
   public get getFavplaceCount () {
     return this.favplaceCount
   }
 
-  @Mutation
-  private setFavplaces (payload: Array<ResponseFavplace>) {
-    payload.forEach((responseFavplace) => {
-      if (!this.favplaces.find(favplace => favplace.id === responseFavplace.id)) { this.favplaces.push(responseFavplace) }
-    })
+  public get getFavplace () {
+    return this.favplace
+  }
+
+  public get getAddress () {
+    const address = (favplace: ResponseFavplace) => favplace.prefecture + ' ' + favplace.municipality + favplace.address
+    return address
   }
 
   @Mutation
@@ -56,6 +49,11 @@ export default class Favplaces extends VuexModule {
     this.favplaceCount = payload
   }
 
+  @Mutation
+  private setFavplace (payload: ResponseFavplace) {
+    this.favplace = payload
+  }
+
   @Action({ rawError: true })
   public commitTimeLineFavplaces (favplaces: Array<ResponseFavplace>) {
     this.setTimeLineFavplaces(favplaces)
@@ -65,7 +63,12 @@ export default class Favplaces extends VuexModule {
   public async fetchCurrenUserFavplaces ({ userId, pageIndex }: {userId: number, pageIndex: number}) {
     const { data } = await $axios.get<FavplacesGetResponse>(`/api/v1/favplaces/user/${userId}/${pageIndex}`)
     this.setCurrenUserFavplaces(data.favplaces)
-    this.setFavplaces(data.favplaces)
     this.setFavplaceCount(data.count)
+  }
+
+  @Action({ rawError: true })
+  public async fetchFavplaceById (favplaceId: number) {
+    const { data } = await $axios.get<ResponseFavplace>(`/api/v1/favplaces/${favplaceId}`)
+    this.setFavplace(data)
   }
 }
