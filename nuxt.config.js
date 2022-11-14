@@ -24,7 +24,8 @@ export default {
     appName: process.env.APP_NAME,
     cryptoKey: process.env.CRYPTO_KEY,
     testuserPassword: process.env.TESTUSER_PASSWORD,
-    resasApiKey: process.env.RESAS_API_KEY
+    resasApiKey: process.env.RESAS_API_KEY,
+    defaultImage: process.env.DEFAULT_IMAGE
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -37,7 +38,8 @@ export default {
     'plugins/auth',
     'plugins/axios',
     'plugins/myPlugin',
-    'plugins/nuxtClientInit'
+    'plugins/nuxtClientInit',
+    'plugins/axios-accessor'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

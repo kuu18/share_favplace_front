@@ -18,7 +18,7 @@ import Toaster from '@/components/ui/toaster.vue'
     LoggedInAppBar,
     Toaster
   },
-  middleware: 'authenticator'
+  middleware: ['authenticator', 'getFavplaces']
 })
 export default class LoggedIn extends Vue {
 }

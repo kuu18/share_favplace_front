@@ -12,6 +12,7 @@ module.exports = {
   ],
   // add your custom rules here
   rules: {
-    camelcase: 'off'
+    camelcase: 'off',
+    'vue/no-v-html': 'off'
   }
 }

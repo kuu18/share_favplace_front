@@ -18,5 +18,10 @@
     "Unauthorized": "認証に失敗しました",
     "This page could not be found": "ページが見つかりません",
     "Network Error": "サーバーで問題が発生しました"
+  },
+  "favplace": {
+    "favplacename": "場所名",
+    "prefecture": "住所",
+    "category": "カテゴリー"
   }
 }

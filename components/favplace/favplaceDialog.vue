@@ -164,7 +164,7 @@
 <script lang='ts'>
 import { Component, PropSync, Vue } from 'nuxt-property-decorator'
 import { AxiosError } from 'axios'
-import { Favplace, FavplaceSaveResponse } from '../../types/Favplace'
+import { RequestFavplace, FavplaceSaveResponse } from '../../types/Favplace'
 import { GlobalStore } from '~/store'
 import { ErrorResponse } from '~/types/ErrorResponse'
 
@@ -181,8 +181,8 @@ export default class FavPlaceDialog extends Vue {
   loading: boolean = false
   base64Url: string = ''
   blob: Blob = new Blob()
-  canvas: HTMLCanvasElement | null = null
-  favplace: Favplace = {
+  canvas!: HTMLCanvasElement
+  favplace: RequestFavplace = {
     favplacename: '',
     prefecture: '',
     municipality: '',

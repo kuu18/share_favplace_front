@@ -1,6 +1,9 @@
+
+import { LocaleMessageObject } from 'vue-i18n'
 import { Plugin, Context, NuxtError } from '@nuxt/types'
 
 export interface MyPluginInterface {
+  pageTitle (routeName: string) : string | LocaleMessageObject
   errorHandler ({ statusCode, message }: NuxtError): void
 }
 /**

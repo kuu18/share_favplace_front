@@ -1,7 +1,6 @@
 <template>
   <v-select
     v-model="syncedCategory"
-    multiple
     :items="items"
     item-text="categoryname"
     item-value="id"
@@ -12,11 +11,11 @@
 <script lang="ts">
 import { Component, PropSync, Vue } from 'nuxt-property-decorator'
 import { AxiosResponse } from 'axios'
-import { CategoryType } from '../../types/CategoryType'
+import { Category } from '~/types/Category'
 
 @Component
 export default class FavplaceFormCategory extends Vue {
-  items :Array<CategoryType> = []
+  items :Array<Category> = []
   categories = {}
 
   // バリデーション
@@ -38,7 +37,7 @@ export default class FavplaceFormCategory extends Vue {
   /**
    * カテゴリー一覧取得成功時
    */
-  success (response: AxiosResponse<Array<CategoryType>>) {
+  success (response: AxiosResponse<Array<Category>>) {
     this.items = response.data
   }
 }
