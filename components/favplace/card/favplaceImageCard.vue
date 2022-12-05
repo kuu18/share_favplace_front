@@ -12,7 +12,7 @@
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component
-export default class FavplaceImage extends Vue {
+export default class favplaceImageCard extends Vue {
   defaultImage = this.$config.defaultImage
 
   @Prop({ type: Number, default: 400 })

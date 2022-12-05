@@ -1,26 +1,12 @@
 <template>
   <v-card-text>
-    <v-list class="transparent" min-height="400">
-      <v-list-item>
-        <v-card-subtitle class="font-weight-bold">
-          {{ favplace.favplacename }}
-        </v-card-subtitle>
-        <v-spacer />
-        <v-btn
-          v-if="showBtn"
-          icon
-          nuxt
-          :to="`/favplace/${favplace.id}`"
-        >
-          <v-icon>mdi-open-in-new</v-icon>
-        </v-btn>
-      </v-list-item>
-
-      <v-divider />
-
+    <v-card-subtitle class="font-weight-bold">
+      {{ favplace.favplacename }}
+    </v-card-subtitle>
+    <v-list class="transparent" min-height="200">
       <v-list-item>
         <v-list-item-icon>
-          <v-icon color="indigo">
+          <v-icon :color="color">
             mdi-map-marker
           </v-icon>
         </v-list-item-icon>
@@ -34,7 +20,7 @@
 
       <v-list-item>
         <v-list-item-icon>
-          <v-icon color="indigo">
+          <v-icon :color="color">
             mdi-phone
           </v-icon>
         </v-list-item-icon>
@@ -48,7 +34,7 @@
 
       <v-list-item>
         <v-list-item-icon>
-          <v-icon color="indigo">
+          <v-icon :color="color">
             mdi-tag
           </v-icon>
         </v-list-item-icon>
@@ -62,7 +48,7 @@
 
       <v-list-item>
         <v-list-item-icon>
-          <v-icon color="indigo">
+          <v-icon :color="color">
             mdi-web
           </v-icon>
         </v-list-item-icon>
@@ -76,7 +62,7 @@
 
       <v-list-item>
         <v-list-item-icon>
-          <v-icon color="indigo">
+          <v-icon :color="color">
             mdi-calendar
           </v-icon>
         </v-list-item-icon>
@@ -93,7 +79,7 @@
           <v-expansion-panel-header>More</v-expansion-panel-header>
           <v-expansion-panel-content>
             <v-card-subtitle>
-              <v-icon color="indigo">
+              <v-icon :color="color">
                 mdi-tooltip-plus-outline
               </v-icon>
               Remarks
@@ -111,12 +97,12 @@ import { FavplacesStore, SchedulesStore } from '~/store'
 import { ResponseFavplace } from '~/types/Favplace'
 
 @Component
-export default class FavplaceInformation extends Vue {
-  @Prop({ type: Boolean, default: true })
-    showBtn!: boolean
-
+export default class favplaceInformationCard extends Vue {
   @Prop({ type: Object, default: () => {}, required: true })
     favplace!: ResponseFavplace
+
+  @Prop({ type: String, default: '' })
+  readonly color!: string
 
   get getCategoryName () {
     return this.favplace.categoryName

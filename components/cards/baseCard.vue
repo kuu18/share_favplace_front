@@ -1,5 +1,5 @@
 <template>
-  <v-card min-height="600">
+  <v-card min-height="650">
     <v-card-title class="align-start">
       <v-sheet
         :color="color"
@@ -31,18 +31,19 @@
     </v-card-title>
     <component
       :is="viewComponent"
+      :color="color"
+      :favplace="favplace"
     />
   </v-card>
 </template>
 
 <script lang='ts'>
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import CalendarCard from './calendarCard.vue'
+import FavplaceCard from '../favplace/card/favplaceCard.vue'
+import CalendarCard from '../shedule/cards/calendarCard.vue'
 import DataIteratorCard from './dataIteratorCard.vue'
 import TimeLineCard from './timeLineCard.vue'
-import FavplaceInformation from './favplace/favplaceInformation.vue'
-import FavplaceImage from './favplace/favplaceImage.vue'
-import FavplaceMap from './favplace/favplaceMap.vue'
+import { ResponseFavplace } from '~/types/Favplace'
 
 export interface Tab {
   name: string,
@@ -55,9 +56,7 @@ export interface Tab {
     CalendarCard,
     DataIteratorCard,
     TimeLineCard,
-    FavplaceInformation,
-    FavplaceImage,
-    FavplaceMap
+    FavplaceCard
   }
 })
 export default class BaseCard extends Vue {
@@ -75,5 +74,8 @@ export default class BaseCard extends Vue {
 
   @Prop({ type: String, default: '' })
     viewComponent!: string
+
+  @Prop({ type: Object, default: () => {} })
+    favplace!: ResponseFavplace
 }
 </script>

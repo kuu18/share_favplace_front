@@ -3,14 +3,13 @@
     <v-row>
       <v-col>
         <v-card>
-          <favplace-image
+          <favplace-image-card
             :image-url="getImageUrl"
           />
-          <favplace-information
+          <favplace-information-card
             :favplace="getFavplace"
-            :show-btn="false"
           />
-          <favplace-map
+          <favplace-map-card
             :address="getAddress"
           />
         </v-card>
@@ -22,16 +21,16 @@
 <script lang = 'ts'>
 import { Component, Vue } from 'nuxt-property-decorator'
 import { Context } from '@nuxt/types'
-import FavplaceInformation from '../../components/cards/favplace/favplaceInformation.vue'
-import FavplaceImage from '../../components/cards/favplace/favplaceImage.vue'
-import FavplaceMap from '../../components/cards/favplace/favplaceMap.vue'
+import favplaceInformationCard from '../../components/favplace/card/favplaceInformationCard.vue'
+import favplaceImageCard from '../../components/favplace/card/favplaceImageCard.vue'
+import favplaceMapCard from '../../components/favplace/card/favplaceMapCard.vue'
 import { FavplacesStore } from '~/store'
 
 @Component({
   components: {
-    FavplaceInformation,
-    FavplaceImage,
-    FavplaceMap
+    favplaceInformationCard,
+    favplaceImageCard,
+    favplaceMapCard
   },
   async asyncData (route: Context) {
     const id = await Number(route.params.id)

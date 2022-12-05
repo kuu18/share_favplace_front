@@ -16,7 +16,7 @@
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component
-export default class FavplaceMap extends Vue {
+export default class favplaceMapCard extends Vue {
   @Prop({ type: String, default: '' })
     address!: string
 }

@@ -2,10 +2,8 @@
   <v-dialog
     v-model="syncedDialog"
     transition="dialog-bottom-transition"
-    scrollable
-    persistent
   >
-    <v-card tile :height="height">
+    <v-card>
       <v-app-bar
         dark
         color="grey darken-3"
@@ -44,7 +42,7 @@
                   cols="12"
                 >
                   <favplace-form-name
-                    :name.sync="favplace.favplacename"
+                    :name.sync="favplaceParams.favplacename"
                   />
                 </v-col>
                 <v-col
@@ -53,7 +51,7 @@
                   sm="6"
                 >
                   <favplace-form-prefecture
-                    :prefecture.sync="favplace.prefecture"
+                    :prefecture.sync="favplaceParams.prefecture"
                   />
                 </v-col>
                 <v-col
@@ -62,14 +60,14 @@
                   sm="6"
                 >
                   <favplace-form-municipality
-                    :municipality.sync="favplace.municipality"
+                    :municipality.sync="favplaceParams.municipality"
                   />
                 </v-col>
                 <v-col
                   cols="12"
                 >
                   <favplace-form-address
-                    :address.sync="favplace.address"
+                    :address.sync="favplaceParams.address"
                   />
                 </v-col>
                 <v-col
@@ -78,14 +76,14 @@
                   sm="6"
                 >
                   <favplace-form-category
-                    :category.sync="favplace.categoryIds"
+                    :category.sync="favplaceParams.categoryId"
                   />
                 </v-col>
                 <v-col
                   cols="12"
                 >
                   <favplace-form-reference-url
-                    :reference-url.sync="favplace.referenceUrl"
+                    :reference-url.sync="favplaceParams.referenceUrl"
                   />
                 </v-col>
                 <v-col
@@ -110,7 +108,14 @@
                 <v-col
                   cols="12"
                 >
-                  <favplace-form-remarks :remarks.sync="favplace.remarks" />
+                  <favplace-form-remarks :remarks.sync="favplaceParams.remarks" />
+                </v-col>
+                <v-col
+                  cols="12"
+                >
+                  <schedule-form
+                    :schedule.sync="scheduleData"
+                  />
                 </v-col>
               </v-row>
             </v-card-text>
@@ -150,22 +155,29 @@
                 :disabled="!isValid || loading"
                 :loading="loading"
                 @click="register"
+                @click.stop="lDialog = true"
               >
                 <span style="color: white;">登録する</span>
               </v-btn>
+              <loading-dialog
+                :dialog.sync="lDialog"
+                :loading="loading"
+                :error="errorFlg"
+                :title="lDialogTitle"
+              />
             </v-card-actions>
           </v-form>
         </v-col>
       </v-row>
-      <div style="flex: 1 1 auto;" />
     </v-card>
   </v-dialog>
 </template>
 <script lang='ts'>
 import { Component, PropSync, Vue } from 'nuxt-property-decorator'
 import { AxiosError } from 'axios'
-import { RequestFavplace, FavplaceSaveResponse } from '../../types/Favplace'
-import { GlobalStore } from '~/store'
+import { FavplaceSaveResponse } from '../../types/Favplace'
+import ScheduleForm, { ScheduleData } from '../shedule/form/scheduleForm.vue'
+import LoadingDialog from '../dialogs/loadingDialog.vue'
 import { ErrorResponse } from '~/types/ErrorResponse'
 
 interface Image {
@@ -174,24 +186,46 @@ interface Image {
   canvas: HTMLCanvasElement
 }
 
-@Component
+interface FavplaceParams {
+  favplacename: string
+  prefecture: string
+  municipality: string
+  address: string
+  categoryId: number
+  referenceUrl?: string
+  remarks?: string
+  userId: number
+}
+
+interface ScheduleParams {
+  start: string
+  end: string
+  timed: boolean
+}
+
+@Component({
+  components: {
+    ScheduleForm,
+    LoadingDialog
+  }
+})
 export default class FavPlaceDialog extends Vue {
-  height = 1250
+  errorFlg: boolean = false
   isValid: boolean = false
   loading: boolean = false
+  lDialog = false
+  lDialogTitle = ''
   base64Url: string = ''
   blob: Blob = new Blob()
   canvas!: HTMLCanvasElement
-  favplace: RequestFavplace = {
-    favplacename: '',
-    prefecture: '',
-    municipality: '',
-    address: '',
-    categoryIds: [],
-    referenceUrl: '',
-    remarks: '',
-    userId: 0
-  }
+  favplaceParams = {} as FavplaceParams
+  scheduleParams = {
+    timed: false
+  } as ScheduleParams
+
+  scheduleData = {
+    allDay: false
+  } as ScheduleData
 
   @PropSync('dialog', { type: Boolean, default: false })
     syncedDialog!: boolean
@@ -202,7 +236,6 @@ export default class FavPlaceDialog extends Vue {
   resetForm () {
     (this.$refs as any).form.reset()
     this.base64Url = ''
-    this.height = 1250
   }
 
   /**
@@ -212,25 +245,37 @@ export default class FavPlaceDialog extends Vue {
     this.blob = blob
     this.base64Url = url
     this.canvas = canvas
-    if (canvas && !this.$vuetify.breakpoint.xs) { this.height = 1250 + canvas.height } else { this.height = 1250 }
   }
 
   /**
    * favplaceフォーム新規登録処理
    */
   async register () {
+    this.loading = true
     const formData = new FormData()
-    const userId = this.$auth.currentUser.id
-    if (userId) { this.favplace.userId = userId }
-    const params = new Blob([JSON.stringify(this.favplace)], { type: 'application/json' })
-    formData.append('image', this.blob)
-    formData.append('params', params)
     const hedears = {
       headers: {
         'content-type': 'multipart/form-data'
       }
     }
-    this.loading = true
+    const userId = this.$auth.currentUser.id
+    if (userId) { this.favplaceParams.userId = userId }
+    const favplaceParams = new Blob([JSON.stringify(this.favplaceParams)], { type: 'application/json' })
+    formData.append('image', this.blob)
+    formData.append('favplaceParams', favplaceParams)
+    // スケジュール登録がある場合
+    if (this.scheduleData.startDate != null) {
+      if (!this.scheduleData.allDay) {
+        this.scheduleParams.start = this.scheduleData.startDate + ' ' + this.scheduleData.startTime
+        this.scheduleParams.end = this.scheduleData.endDate + ' ' + this.scheduleData.endTime
+        this.scheduleParams.timed = true
+      } else {
+        this.scheduleParams.start = this.scheduleData.startDate
+        this.scheduleParams.end = this.scheduleData.endDate
+      }
+      const scheduleParams = new Blob([JSON.stringify(this.scheduleParams)], { type: 'application/json' })
+      formData.append('scheduleParams', scheduleParams)
+    }
     if (this.isValid) {
       await this.$axios.$post(
         '/api/v1/favplaces/create',
@@ -244,13 +289,13 @@ export default class FavPlaceDialog extends Vue {
   }
 
   success (response: FavplaceSaveResponse) {
-    this.syncedDialog = false
+    this.lDialogTitle = response.message
     this.resetForm()
-    GlobalStore.commitToast({ msg: response.message, color: 'info' })
   }
 
   failure (error: AxiosError<ErrorResponse>) {
-    GlobalStore.commitToast({ msg: error.response?.data.message })
+    this.lDialogTitle = error.message
+    this.errorFlg = true
   }
 }
 </script>

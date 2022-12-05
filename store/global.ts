@@ -12,6 +12,7 @@ interface Toast {
   namespaced: true
 })
 export default class Global extends VuexModule {
+  private renderingKey = 0
   private appBarHeight = 56
   private rememberRoute: Location = {
     name: 'index',
@@ -36,10 +37,19 @@ export default class Global extends VuexModule {
     return this.toast
   }
 
+  public get getRenderingKey () {
+    return this.renderingKey
+  }
+
   @Mutation
   private setRememberRoute (payload: Route) {
     this.rememberRoute.name = String(payload.name)
     this.rememberRoute.params = payload.params
+  }
+
+  @Mutation
+  private incrementRenderingKey () {
+    this.renderingKey++
   }
 
   @Action({ rawError: true })
@@ -58,5 +68,10 @@ export default class Global extends VuexModule {
   @Action({ rawError: true })
   public commitToast (toast: Toast) {
     this.setToast(toast)
+  }
+
+  @Action({ rawError: true })
+  public commitRenderingKey () {
+    this.incrementRenderingKey()
   }
 }

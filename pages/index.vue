@@ -7,11 +7,12 @@
           md="6"
           :class="[$vuetify.breakpoint.smAndDown ? 'mb-5': '']"
         >
-          <favplace-card
+          <base-card
             v-if="getNextSchedule"
             card-title="NextFavplace"
             color="myred"
             :favplace="getNextSchedule.favplace"
+            view-component="favplace-card"
           />
         </v-col>
         <v-col
@@ -56,7 +57,6 @@
 <script lang = "ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 
-import FavplaceCard from '../components/cards/favplace/favplaceCard.vue'
 import BaseCard from '../components/cards/baseCard.vue'
 import { GlobalStore, SchedulesStore } from '~/store'
 
@@ -66,7 +66,6 @@ import { GlobalStore, SchedulesStore } from '~/store'
     return $auth.loggedIn ? 'default' : 'welcome'
   },
   components: {
-    FavplaceCard,
     BaseCard
   }
 })
