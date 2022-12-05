@@ -8,10 +8,10 @@ import { $axios } from '~/utils/api'
   namespaced: true
 })
 export default class Favplaces extends VuexModule {
-  private favplace: ResponseFavplace | null = null
+  private favplace = {} as ResponseFavplace
   private timeLineFavplaces: Array<ResponseFavplace> = []
   private currentUserFavplaces: Array<ResponseFavplace> = []
-  private favplaceCount?: number
+  private favplaceCount: number = 0
 
   public get getTimeLineFavplaces () {
     return this.timeLineFavplaces
@@ -45,7 +45,7 @@ export default class Favplaces extends VuexModule {
   }
 
   @Mutation
-  private setFavplaceCount (payload: number | undefined) {
+  private setFavplaceCount (payload: number) {
     this.favplaceCount = payload
   }
 

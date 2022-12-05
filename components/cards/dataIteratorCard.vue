@@ -66,7 +66,7 @@
       </template>
 
       <template #default="props">
-        <v-row>
+        <v-row class="mt-5">
           <v-col
             v-for="item in props.items"
             :key="item.favplacename"
@@ -75,11 +75,12 @@
             md="6"
             xl="3"
           >
-            <v-card>
-              <favplace-information
-                :favplace="item"
-              />
-            </v-card>
+            <favplace-card
+              card-title=""
+              color="yellow darken-2"
+              :favplace="item"
+              :elevation="8"
+            />
           </v-col>
         </v-row>
       </template>
@@ -149,12 +150,12 @@
 </template>
 <script lang='ts'>
 import { Component, Vue } from 'nuxt-property-decorator'
-import FavplaceInformation from './favplace/favplaceInformation.vue'
+import FavplaceCard from '../favplace/card/favplaceCard.vue'
 import { FavplacesStore } from '~/store'
 
 @Component({
   components: {
-    FavplaceInformation
+    FavplaceCard
   }
 })
 export default class DataIteratorCard extends Vue {

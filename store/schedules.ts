@@ -9,7 +9,7 @@ import { $axios } from '~/utils/api'
 })
 export default class Schedules extends VuexModule {
   public schedules: Array<Schedule> = []
-  public nextSchedule: Schedule | null = null
+  public nextSchedule?: Schedule
 
   public get getSchedules () {
     return this.schedules
@@ -36,7 +36,7 @@ export default class Schedules extends VuexModule {
       return new Date(a.start) < new Date(b.start) ? a : b
     }
     const schedules = payload.filter(sc => today <= new Date(sc.end))
-    if (schedules.length > 1) {
+    if (schedules.length >= 1) {
       this.nextSchedule = schedules.reduce(getLatestSchedule, schedules[0])
     }
   }
@@ -45,6 +45,6 @@ export default class Schedules extends VuexModule {
   public async fetchSchedules (userId: number) {
     const { data } = await $axios.get<Array<Schedule>>(`/api/v1/schedules/user/${userId}`)
     this.setSchedules(data)
-    this.setNextSchedule(data)
+    await this.setNextSchedule(data)
   }
 }

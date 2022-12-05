@@ -23,8 +23,8 @@ export default class FavplaceFormCategory extends Vue {
     (v: Array<number>) => !!v || 'カテゴリーは必須入力です。'
   ]
 
-  @PropSync('category', { type: Array, default: 0 })
-    syncedCategory!: Array<number>
+  @PropSync('category', { type: Number, default: 0 })
+    syncedCategory!: number
 
   /**
    * カテゴリー一覧取得処理

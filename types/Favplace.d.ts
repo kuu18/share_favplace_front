@@ -1,4 +1,5 @@
 import { User } from './user'
+import { Schedule } from './schedule'
 
 export interface Favplace {
   id?: number
@@ -11,6 +12,7 @@ export interface Favplace {
   imageUrl?: string
   remarks?: string
   user?: User
+  schedule?: Schedule
   scheduleId?: number
   createdAt?: Date
   updatedAt?: Date
@@ -23,6 +25,9 @@ export interface RequestFavplace extends Favplace {
   address: string
   categoryId: number
   userId: number
+  start: string
+  end: string
+  timed: Boolean
 }
 
 export interface ResponseFavplace extends Favplace {
@@ -39,12 +44,12 @@ export interface ResponseFavplace extends Favplace {
 }
 
 export interface FavplaceSaveResponse {
-  favplece: ResponseFavplace
+  favplace: ResponseFavplace
   message: string
 }
 
 export interface FavplacesGetResponse {
   favplaces:Array<ResponseFavplace>
   message?: string
-  count?: number
+  count: number
 }
