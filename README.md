@@ -1,69 +1,94 @@
-# share_favplace
+# ShareFavplace
 
-## Build Setup
+ShareFavplaceはお気に入りの場所を管理、シェアするアプリケーションです。
+旅の思い出を残すアルバムのように使用したり、友達との旅行計画に使用するなど自由に使用できます。
 
-```bash
-# install dependencies
-$ yarn install
+1. 管理機能
+今後行ってみたい場所や実際に行ってみて気に入った場所を登録し、管理することができます。
+2. スケジュール機能
+行ってみたい場所のスケジュールを登録することができます。
+3. 共有機能
+他のユーザーをフォローし、お気に入りの場所を共有することができます。
+## アプリURL
 
-# serve with hot reload at localhost:3000
-$ yarn dev
+https://sharefavplace.com
+バックエンド　[github](https://github.com/kuu18/share_favplace_api)
+![](https://user-images.githubusercontent.com/64303128/217571306-56f1acd3-b020-4222-8439-c583bcc2718b.png)
 
-# build for production and launch server
-$ yarn build
-$ yarn start
+## AWS構成図
 
-# generate static project
-$ yarn generate
-```
+![](https://user-images.githubusercontent.com/64303128/217569914-093ad9b9-61f0-44f5-9274-64df20dbc722.jpg)
 
-For detailed explanation on how things work, check out the [documentation](https://nuxtjs.org).
+## 機能一覧
+**Favplace登録、管理機能**
+- Favplace登録、<font color="Red">編集、削除機能</font>
+- Favplace画像登録機能
+- <font color="Red">いいね機能</font>
+- <font color="Red">コメント機能</font>
+- <font color="Red">お気に入り（保存）機能</font>
+- <font color="Red">Favplace検索機能</font>
 
-## Special Directories
+**スケジュール登録、管理機能**
+- スケジュール登録、<font color="Red">編集、削除機能</font>
 
-You can create the following extra directories, some of which have special behaviors. Only `pages` is required; you can delete them if you don't want to use their functionality.
+**ユーザー登録、管理機能**
+- ユーザー登録、編集、削除機能
+- プロフィール画像登録機能
+- <font color="Red">ユーザーフォロー機能</font>
+- メール認証機能
+- ログイン、ログアウト機能
+- ゲストログイン機能
+- パスワードリセット機能
+- <font color="Red">ユーザー検索機能</font>
 
-### `assets`
+**その他の機能**
+- レスポンシブ対応(スマホ表示)
+- ページネーション機能
+- <font color="Red">無限スクロール機能</font>
+- 画像投稿時のプレビュー機能
+- HTTPS通信(AWS Certificate Manager)
 
-The assets directory contains your uncompiled assets such as Stylus or Sass files, images, or fonts.
+## 使用技術
+**バックエンド**
+- Java
+- SpringBoot(RestApi)
+- SpringDataJpa
+- SpringSecurity
+- maven
+- lombok
+- MapStruct
 
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/assets).
+**フロントエンド**
+- HTML/CSS
+- TypeScript
+- NuxtJS
+- Vuetify
+- nuxt-property-decorator
+- vuex-module-decorators
+- nuxt-i18n
+- axios
 
-### `components`
+**開発環境**
+- Docker/Docker-compose
+- Postgresql
+- pgadmin4
 
-The components directory contains your Vue.js components. Components make up the different parts of your page and can be reused and imported into your pages, layouts and even other components.
+**本番環境**
+- AWS
+  - VPC
+  - ECS
+  - Fargate
+  - ECR
+  - Route53
+  - ALB
+  - ACM
+  - S3
+  - IAM
+- Postgresql(RDS)
+- pgadmin4
 
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/components).
-
-### `layouts`
-
-Layouts are a great help when you want to change the look and feel of your Nuxt app, whether you want to include a sidebar or have distinct layouts for mobile and desktop.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/layouts).
-
-
-### `pages`
-
-This directory contains your application views and routes. Nuxt will read all the `*.vue` files inside this directory and setup Vue Router automatically.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/get-started/routing).
-
-### `plugins`
-
-The plugins directory contains JavaScript plugins that you want to run before instantiating the root Vue.js Application. This is the place to add Vue plugins and to inject functions or constants. Every time you need to use `Vue.use()`, you should create a file in `plugins/` and add its path to plugins in `nuxt.config.js`.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/plugins).
-
-### `static`
-
-This directory contains your static files. Each file inside this directory is mapped to `/`.
-
-Example: `/static/robots.txt` is mapped as `/robots.txt`.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/static).
-
-### `store`
-
-This directory contains your Vuex store files. Creating a file in this directory automatically activates Vuex.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/store).
+**その他**
+- Git
+- VSCode
+- JWT
+- Json
