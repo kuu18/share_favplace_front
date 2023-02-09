@@ -40,7 +40,8 @@ import { ErrorResponse } from '~/types/ErrorResponse'
     components: {
       LoggedinFormCard,
       Toaster
-    }
+    },
+    layout: 'beforeLogin'
   }
 )
 export default class PasswordForget extends Vue {

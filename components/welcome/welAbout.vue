@@ -47,15 +47,56 @@
         </v-card>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col>
+        <v-card
+          class="mt-10"
+          color="transparent"
+          flat
+        >
+          <v-card-title
+            class="justify-center font-weight-black"
+          >
+            今すぐ始める
+          </v-card-title>
+          <v-card-actions
+            class="justify-center"
+          >
+            <signup-link 
+              class="mr-5"
+              :height="50"
+              :width="150"
+            />
+            <login-link
+              :height="50"
+              :width="150"
+            />
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
 <script lang = 'ts'>
 import { Component, Vue } from 'nuxt-property-decorator'
+import signupLink from '../beforeLogin/signupLink.vue'
+import loginLink from '../beforeLogin/loginLink.vue'
 
-@Component
+interface Features {
+  icon: string
+  title: string
+  text: string
+}
+
+@Component({
+  components: {
+    signupLink,
+    loginLink,
+  }
+})
 export default class WelAbout extends Vue {
-  features: Array<Object> = [
+  features: Array<Features> = [
     {
       icon: 'mdi-account-group-outline',
       title: 'Vibrant Community',

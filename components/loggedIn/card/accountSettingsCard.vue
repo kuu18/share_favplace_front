@@ -13,11 +13,15 @@
             :color="$route.name != 'account-delete' ? 'grey darken-3' : 'myred'"
           >
             <v-spacer />
-            <v-toolbar-title>{{ $my.pageTitle($route.name) }}</v-toolbar-title>
+            <v-toolbar-title>{{ $my.pageTitle(getRouteName) }}</v-toolbar-title>
             <v-spacer />
           </v-app-bar>
           <toaster />
-          <v-tabs vertical class="hidden-mobile-and-down">
+          <v-tabs 
+            vertical
+            class="hidden-mobile-and-down"
+            :color="$route.name === 'account-delete' ? 'myred' : ''"
+          >
             <v-tab
               v-for="(item, i) in items"
               :key="`item-tab-${i}`"
@@ -83,5 +87,9 @@ export default class AccountSettingsCard extends Vue {
     { title: 'account-password', icon: 'mdi-lock' },
     { title: 'account-delete', icon: 'mdi-account-off' }
   ]
+
+  get getRouteName() {
+    return this.$route.name ? this.$route.name :''
+  }
 }
 </script>
