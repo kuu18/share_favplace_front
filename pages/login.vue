@@ -39,6 +39,7 @@
         <v-card-text class="px-0">
           <v-btn
             :loading="loading"
+            :disabled="loading"
             block
             color="myred"
             class="white--text"
