@@ -1,17 +1,17 @@
 # ShareFavplace
 
-ShareFavplaceはお気に入りの場所を管理、シェアするアプリケーションです。
+ShareFavplaceはお気に入りの場所を管理、シェアするアプリケーションです。 <br />
 旅の思い出を残すアルバムのように使用したり、友達との旅行計画に使用するなど自由に使用できます。
 
-1. 管理機能
+1. 管理機能 <br />
 今後行ってみたい場所や実際に行ってみて気に入った場所を登録し、管理することができます。
-2. スケジュール機能
+2. スケジュール機能 <br />
 行ってみたい場所のスケジュールを登録することができます。
-3. 共有機能
+3. 共有機能 <br />
 他のユーザーをフォローし、お気に入りの場所を共有することができます。
 ## アプリURL
 
-https://sharefavplace.com
+https://sharefavplace.com <br />
 バックエンド　[github](https://github.com/kuu18/share_favplace_api)
 ![](https://user-images.githubusercontent.com/64303128/217571306-56f1acd3-b020-4222-8439-c583bcc2718b.png)
 
@@ -21,30 +21,30 @@ https://sharefavplace.com
 
 ## 機能一覧
 **Favplace登録、管理機能**
-- Favplace登録、<font color="Red">編集、削除機能</font>
+- Favplace登録、**編集、削除**機能
 - Favplace画像登録機能
-- <font color="Red">いいね機能</font>
-- <font color="Red">コメント機能</font>
-- <font color="Red">お気に入り（保存）機能</font>
-- <font color="Red">Favplace検索機能</font>
+- いいね機能
+- コメント機能
+- お気に入り（保存）機能
+- Favplace検索機能
 
 **スケジュール登録、管理機能**
-- スケジュール登録、<font color="Red">編集、削除機能</font>
+- スケジュール登録、編集、削除機能
 
 **ユーザー登録、管理機能**
 - ユーザー登録、編集、削除機能
 - プロフィール画像登録機能
-- <font color="Red">ユーザーフォロー機能</font>
+- ユーザーフォロー機能
 - メール認証機能
 - ログイン、ログアウト機能
 - ゲストログイン機能
 - パスワードリセット機能
-- <font color="Red">ユーザー検索機能</font>
+- ユーザー検索機能
 
 **その他の機能**
 - レスポンシブ対応(スマホ表示)
 - ページネーション機能
-- <font color="Red">無限スクロール機能</font>
+- 無限スクロール機能
 - 画像投稿時のプレビュー機能
 - HTTPS通信(AWS Certificate Manager)
 
