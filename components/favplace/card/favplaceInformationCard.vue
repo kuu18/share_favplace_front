@@ -54,7 +54,11 @@
         </v-list-item-icon>
         <v-list-item-content>
           <v-list-item-title>URL</v-list-item-title>
-          <v-list-item-subtitle><a :href="favplace.referenceUrl">{{ favplace.referenceUrl }}</a></v-list-item-subtitle>
+          <v-list-item-subtitle>
+            <a :href="favplace.referenceUrl" target="_blank">{{
+              favplace.referenceUrl
+            }}</a>
+          </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
 
@@ -91,7 +95,7 @@
     </v-list>
   </v-card-text>
 </template>
-<script lang='ts'>
+<script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { FavplacesStore, SchedulesStore } from '~/store'
 import { ResponseFavplace } from '~/types/Favplace'
@@ -105,9 +109,7 @@ export default class favplaceInformationCard extends Vue {
   readonly color!: string
 
   get getCategoryName () {
-    return this.favplace.categoryName
-      ? this.favplace.categoryName
-      : '未設定'
+    return this.favplace.categoryName ? this.favplace.categoryName : '未設定'
   }
 
   get getAddress () {
@@ -122,10 +124,16 @@ export default class favplaceInformationCard extends Vue {
       let format = ''
       if (schedule.timed) {
         format = 'YYYY年MM月DD日HH時mm分'
-        return this.dateTimeFormat(start, format) + ' 〜 ' + this.dateTimeFormat(end, format)
+        return (
+          this.dateTimeFormat(start, format) +
+          ' 〜 ' +
+          this.dateTimeFormat(end, format)
+        )
       } else {
         format = 'YYYY年MM月DD日'
-        return this.dateFormat(start, format) + ' 〜 ' + this.dateFormat(end, format)
+        return (
+          this.dateFormat(start, format) + ' 〜 ' + this.dateFormat(end, format)
+        )
       }
     }
     return '未設定'
@@ -136,9 +144,10 @@ export default class favplaceInformationCard extends Vue {
     format = format.replace(/MM/, String(date.getMonth() + 1))
     format = format.replace(/DD/, String(date.getDate()))
     format = format.replace(/HH/, String(date.getHours()))
-    format = date.getMinutes() !== 0
-      ? format.replace(/mm/, String(date.getMinutes()))
-      : format.substring(0, format.length - 3)
+    format =
+      date.getMinutes() !== 0
+        ? format.replace(/mm/, String(date.getMinutes()))
+        : format.substring(0, format.length - 3)
     return format
   }
 

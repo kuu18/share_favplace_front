@@ -1,5 +1,5 @@
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
-import { FavplacesGetResponse, Favplace } from '../types/Favplace';
+import { FavplacesGetResponse, Favplace } from '../types/Favplace'
 import { $axios } from '~/utils/api'
 
 @Module({
