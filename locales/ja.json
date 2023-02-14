@@ -22,6 +22,12 @@
   "favplace": {
     "favplacename": "場所名",
     "prefecture": "住所",
-    "category": "カテゴリー"
+    "category": "カテゴリー",
+    "menus": {
+      "Edit": "編集する",
+      "Delete": "削除する",
+      "ShowFavplace": "Favplace詳細へ移動",
+      "ShowAccount": "アカウント詳細へ移動"
+    }
   }
 }

@@ -1,5 +1,5 @@
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
-import { ResponseFavplace, FavplacesGetResponse } from '../types/Favplace'
+import { FavplacesGetResponse, Favplace } from '../types/Favplace';
 import { $axios } from '~/utils/api'
 
 @Module({
@@ -8,9 +8,9 @@ import { $axios } from '~/utils/api'
   namespaced: true
 })
 export default class Favplaces extends VuexModule {
-  private favplace = {} as ResponseFavplace
-  private timeLineFavplaces: Array<ResponseFavplace> = []
-  private currentUserFavplaces: Array<ResponseFavplace> = []
+  private favplace = {} as Favplace
+  private timeLineFavplaces: Array<Favplace> = []
+  private currentUserFavplaces: Array<Favplace> = []
   private favplaceCount: number = 0
 
   public get getTimeLineFavplaces () {
@@ -30,17 +30,17 @@ export default class Favplaces extends VuexModule {
   }
 
   public get getAddress () {
-    const address = (favplace: ResponseFavplace) => favplace.prefecture + ' ' + favplace.municipality + favplace.address
+    const address = (favplace: Favplace) => favplace.prefecture + ' ' + favplace.municipality + favplace.address
     return address
   }
 
   @Mutation
-  private setTimeLineFavplaces (payload: Array<ResponseFavplace>) {
+  private setTimeLineFavplaces (payload: Array<Favplace>) {
     payload.forEach(fp => this.timeLineFavplaces.push(fp))
   }
 
   @Mutation
-  private setCurrenUserFavplaces (payload: Array<ResponseFavplace>) {
+  private setCurrenUserFavplaces (payload: Array<Favplace>) {
     payload.forEach(fp => this.currentUserFavplaces.push(fp))
   }
 
@@ -50,12 +50,12 @@ export default class Favplaces extends VuexModule {
   }
 
   @Mutation
-  private setFavplace (payload: ResponseFavplace) {
+  private setFavplace (payload: Favplace) {
     this.favplace = payload
   }
 
   @Action({ rawError: true })
-  public commitTimeLineFavplaces (favplaces: Array<ResponseFavplace>) {
+  public commitTimeLineFavplaces (favplaces: Array<Favplace>) {
     this.setTimeLineFavplaces(favplaces)
   }
 
@@ -68,7 +68,7 @@ export default class Favplaces extends VuexModule {
 
   @Action({ rawError: true })
   public async fetchFavplaceById (favplaceId: number) {
-    const { data } = await $axios.get<ResponseFavplace>(`/api/v1/favplaces/${favplaceId}`)
+    const { data } = await $axios.get<Favplace>(`/api/v1/favplaces/${favplaceId}`)
     this.setFavplace(data)
   }
 }

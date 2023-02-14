@@ -4,17 +4,20 @@
     persistent
     max-width="400"
   >
-    <v-card height="500">
-      <v-app-bar flat color="white">
+    <v-card height="500" color="grey lighten-3">
+      <v-app-bar dark flat color="grey darken-3">
         <v-spacer />
-        <v-btn icon @click="closeDialog">
+        <v-btn dark icon @click="closeDialog">
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-app-bar>
       <v-container fluid>
         <v-row>
           <v-col cols="12">
-            <v-card-title class="mb-5 d-flex justify-center">
+            <v-card-title v-if="!error" class="mb-5 mt-5 d-flex justify-center myblue--text">
+              {{ title || 'loading.....' }}
+            </v-card-title>
+            <v-card-title v-if="error" class="mb-5 mt-5 d-flex justify-center myred--text">
               {{ title || 'loading.....' }}
             </v-card-title>
           </v-col>

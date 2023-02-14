@@ -39,16 +39,24 @@ export default class FavplaceFormImage extends Vue {
       image.crossOrigin = 'Anonymous'
       image.onload = () => {
         if (image.height > image.width) {
-          const width = 500
-          const height = 700
+          let width = 500
+          let height = 650
+          if (this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs) {
+            width = this.$vuetify.breakpoint.width / 2 + 50
+            height = 400
+          }
           canvas.width = width
           canvas.height = height
           ctx?.drawImage(image, 0, 0, width, height)
           const base64 = canvas.toDataURL()
           this.$emit('resized', { url: base64, blob: e, canvas })
         } else {
-          const width = 700
-          const height = 500
+          let width = 700
+          let height = 450
+          if (this.$vuetify.breakpoint.sm || this.$vuetify.breakpoint.xs) {
+            width = this.$vuetify.breakpoint.width - 20
+            height = 250
+          }
           canvas.width = width
           canvas.height = height
           ctx?.drawImage(image, 0, 0, width, height)

@@ -166,6 +166,7 @@
                 :title="lDialogTitle"
               />
             </v-card-actions>
+            {{ favplaceParams }}
           </v-form>
         </v-col>
       </v-row>
@@ -175,32 +176,16 @@
 <script lang='ts'>
 import { Component, PropSync, Vue } from 'nuxt-property-decorator'
 import { AxiosError } from 'axios'
-import { FavplaceSaveResponse } from '../../types/Favplace'
-import ScheduleForm, { ScheduleData } from '../shedule/form/scheduleForm.vue'
+import ScheduleForm from '../shedule/form/scheduleForm.vue'
 import LoadingDialog from '../dialogs/loadingDialog.vue'
+import { FavplaceParams, FavplaceSaveResponse } from '@/types/Favplace'
 import { ErrorResponse } from '~/types/ErrorResponse'
+import { ScheduleData, ScheduleParams } from '~/types/schedule'
 
 interface Image {
   url: string
   blob: Blob
   canvas: HTMLCanvasElement
-}
-
-interface FavplaceParams {
-  favplacename: string
-  prefecture: string
-  municipality: string
-  address: string
-  categoryId: number
-  referenceUrl?: string
-  remarks?: string
-  userId: number
-}
-
-interface ScheduleParams {
-  start: string
-  end: string
-  timed: boolean
 }
 
 @Component({
@@ -264,14 +249,14 @@ export default class FavPlaceDialog extends Vue {
     formData.append('image', this.blob)
     formData.append('favplaceParams', favplaceParams)
     // スケジュール登録がある場合
-    if (this.scheduleData.startDate != null) {
+    if (this.scheduleData.startDay != null) {
       if (!this.scheduleData.allDay) {
-        this.scheduleParams.start = this.scheduleData.startDate + ' ' + this.scheduleData.startTime
-        this.scheduleParams.end = this.scheduleData.endDate + ' ' + this.scheduleData.endTime
+        this.scheduleParams.start = this.scheduleData.startDay + ' ' + this.scheduleData.startTime
+        this.scheduleParams.end = this.scheduleData.endDay + ' ' + this.scheduleData.endTime
         this.scheduleParams.timed = true
       } else {
-        this.scheduleParams.start = this.scheduleData.startDate
-        this.scheduleParams.end = this.scheduleData.endDate
+        this.scheduleParams.start = this.scheduleData.startDay
+        this.scheduleParams.end = this.scheduleData.endDay
       }
       const scheduleParams = new Blob([JSON.stringify(this.scheduleParams)], { type: 'application/json' })
       formData.append('scheduleParams', scheduleParams)
