@@ -62,7 +62,7 @@
           <v-card-actions
             class="justify-center"
           >
-            <signup-link 
+            <signup-link
               class="mr-5"
               :height="50"
               :width="150"
@@ -92,7 +92,7 @@ interface Features {
 @Component({
   components: {
     signupLink,
-    loginLink,
+    loginLink
   }
 })
 export default class WelAbout extends Vue {

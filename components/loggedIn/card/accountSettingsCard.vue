@@ -17,7 +17,7 @@
             <v-spacer />
           </v-app-bar>
           <toaster />
-          <v-tabs 
+          <v-tabs
             vertical
             class="hidden-mobile-and-down"
             :color="$route.name === 'account-delete' ? 'myred' : ''"
@@ -88,8 +88,8 @@ export default class AccountSettingsCard extends Vue {
     { title: 'account-delete', icon: 'mdi-account-off' }
   ]
 
-  get getRouteName() {
-    return this.$route.name ? this.$route.name :''
+  get getRouteName () {
+    return this.$route.name ? this.$route.name : ''
   }
 }
 </script>
