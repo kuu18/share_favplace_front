@@ -188,7 +188,7 @@ export default class UpdateFavplaceDialog extends Vue {
     this.favplaceParams.categoryId = this.favplace.category.id
     this.favplaceParams.referenceUrl = this.favplace.referenceUrl
     this.favplaceParams.remarks = this.favplace.remarks
-    this.favplaceParams.userId = this.favplace.user.id
+    if (this.favplace.user.id) { this.favplaceParams.userId = this.favplace.user.id }
     const schedule = this.favplace.schedule
     if (schedule) {
       this.scheduleData.allDay = !schedule.timed

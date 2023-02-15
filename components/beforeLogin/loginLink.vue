@@ -16,8 +16,7 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component
 export default class LoginLink extends Vue {
-
-  @Prop({ type: Number, default: 38})
+  @Prop({ type: Number, default: 38 })
     height!: number
 
   @Prop({ type: Number, default: 100 })
