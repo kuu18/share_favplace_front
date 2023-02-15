@@ -21,7 +21,7 @@ https://sharefavplace.com <br />
 
 ## 機能一覧
 **Favplace登録、管理機能**
-- Favplace登録、**編集、削除**機能
+- Favplace登録、編集、削除機能
 - Favplace画像登録機能
 - いいね機能
 - コメント機能
