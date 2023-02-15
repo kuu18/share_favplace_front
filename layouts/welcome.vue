@@ -8,7 +8,7 @@
     <v-img
       id="scroll-top"
       dark
-      src="https://share-favplace-local.s3.ap-northeast-1.amazonaws.com/default/heroimg.jpg"
+      :src="heroImage"
       :height="imgHeight"
     >
       <v-row
@@ -99,6 +99,7 @@ import { GlobalStore } from '~/store'
   }
 })
 export default class Welcome extends Vue {
+  heroImage = this.$config.heroImage
   imgHeight: number = window.innerHeight
   h3TextResponsive = this.$vuetify.breakpoint.smAndDown ? 'text-h5' : 'text-h3'
   menus: Array<Menus> = [

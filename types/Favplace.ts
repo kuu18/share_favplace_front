@@ -1,21 +1,36 @@
 import { User } from './user'
 import { Schedule } from './schedule'
+import { Category } from './Category'
 
 export interface Favplace {
-  id?: number
-  favplacename?: string
-  prefecture?: string
-  municipality?: string
-  address?: string
+  id: number
+  favplacename: string
+  prefecture: string
+  municipality: string
+  address: string
   categoryName?: String
+  category: Category
+  referenceUrl?: string
+  imageUrl: string
+  remarks?: string
+  user: User
+  schedule?: Schedule
+  scheduleId?: number
+  createdAt: Date
+  updatedAt: Date
+}
+
+export interface FavplaceParams {
+  id?: number
+  favplacename: string
+  prefecture: string
+  municipality: string
+  address: string
   referenceUrl?: string
   imageUrl?: string
   remarks?: string
-  user?: User
-  schedule?: Schedule
-  scheduleId?: number
-  createdAt?: Date
-  updatedAt?: Date
+  categoryId: number
+  userId: number
 }
 
 export interface RequestFavplace extends Favplace {
@@ -25,9 +40,6 @@ export interface RequestFavplace extends Favplace {
   address: string
   categoryId: number
   userId: number
-  start: string
-  end: string
-  timed: Boolean
 }
 
 export interface ResponseFavplace extends Favplace {

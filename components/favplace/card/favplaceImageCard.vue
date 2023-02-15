@@ -2,7 +2,7 @@
   <v-card-text>
     <v-img
       class="white--text align-end"
-      :src="imageUrl || defaultImage"
+      :src="imageUrl"
       max-height="500"
       contain
     />
@@ -13,8 +13,6 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component
 export default class favplaceImageCard extends Vue {
-  defaultImage = this.$config.defaultImage
-
   @Prop({ type: Number, default: 400 })
     height!: number
 

@@ -21,14 +21,14 @@
     >
       <v-row>
         <schedule-form-date-picker
-          :date.sync="scheduleData.startDate"
+          :date.sync="scheduleData.startDay"
           :label="'開始日'"
         />
         <p class="mr-5 ml-5 pt-5">
           ＞
         </p>
         <schedule-form-date-picker
-          :date.sync="scheduleData.endDate"
+          :date.sync="scheduleData.endDay"
           :label="'終了日'"
         />
       </v-row>
@@ -39,7 +39,7 @@
     >
       <v-row>
         <schedule-form-date-picker
-          :date.sync="scheduleData.startDate"
+          :date.sync="scheduleData.startDay"
           :label="'開始日'"
         />
         <schedule-form-time-picker
@@ -50,7 +50,7 @@
           ＞
         </p>
         <schedule-form-date-picker
-          :date.sync="scheduleData.endDate"
+          :date.sync="scheduleData.endDay"
           :label="'終了日'"
         />
         <schedule-form-time-picker
@@ -65,14 +65,7 @@
 import { Component, PropSync, Vue } from 'nuxt-property-decorator'
 import ScheduleFormDatePicker from './scheduleFormDatePicker.vue'
 import ScheduleFormTimePicker from './scheduleFormTimePicker.vue'
-
-export interface ScheduleData {
-  startDate: string
-  startTime: string
-  endDate: string
-  endTime: string
-  allDay: boolean
-}
+import { ScheduleData } from '~/types/schedule'
 
 @Component({
   components: {
