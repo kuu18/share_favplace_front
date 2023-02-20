@@ -14,6 +14,7 @@ let FavplacesStore: Favplaces
 // eslint-disable-next-line import/no-mutable-exports
 let SchedulesStore: Schedules
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function initialiseStores (store: Store<any>): void {
   GlobalStore = getModule(Global, store)
   CurrentUserStore = getModule(CurrentUser, store)

@@ -77,7 +77,7 @@ import { AxiosError } from 'axios'
 import AccountSettingsCard from '../../components/loggedIn/card/accountSettingsCard.vue'
 import LoggedinFormCard from '../../components/loggedIn/card/loggedinFormCard.vue'
 import { CurrentUserStore, GlobalStore } from '~/store'
-import { UpdateUserResponse } from '~/types/user'
+import { UserResponse } from '~/types/user'
 import UserDialogAvatar from '@/components/user/userDialogAvatar.vue'
 import { ErrorResponse } from '~/types/ErrorResponse'
 
@@ -89,9 +89,9 @@ import { ErrorResponse } from '~/types/ErrorResponse'
   }
 })
 export default class AccountSettings extends Vue {
-  avatarDialog: boolean = false
-  isValid: boolean = false
-  loading: boolean = false
+  avatarDialog = false
+  isValid = false
+  loading = false
   errorMessages?: Array<string> | null = null
   params = {
     id: this.$auth.currentUser.id,
@@ -106,7 +106,7 @@ export default class AccountSettings extends Vue {
         '/api/v1/users/update',
         this.params
       )
-        .then((response: UpdateUserResponse) => this.updateSuccess(response))
+        .then((response: UserResponse) => this.updateSuccess(response))
         .catch((error: AxiosError<ErrorResponse>) => this.updateFailure(error))
     }
     this.loading = false
@@ -116,7 +116,7 @@ export default class AccountSettings extends Vue {
    * 成功時の処理
    *
    */
-  async updateSuccess (response: UpdateUserResponse) {
+  async updateSuccess (response: UserResponse) {
     await CurrentUserStore.commitCurrentUser(response.user)
     GlobalStore.commitToast({ msg: response.message, color: 'success' })
   }

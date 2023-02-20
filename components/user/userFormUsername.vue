@@ -15,7 +15,7 @@ import { Validation } from '@/types/validation'
 
 @Component
 export default class UserFormUserName extends Vue {
-  max:number = 50
+  max = 50
   // バリデーション
   rules: Array<Validation> = [
     v => !!v || '',

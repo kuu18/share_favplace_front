@@ -1,6 +1,6 @@
 import { Context } from '@nuxt/types'
 import { CurrentUserStore } from '@/store'
-import { User } from '@/types/user'
+import { User } from '~/types/user'
 
 interface Response {
   user: User
@@ -29,7 +29,7 @@ export default async ({ $auth, $axios }: Context) => {
       .then((response: Response) => CurrentUserStore.commitCurrentUser(response.user))
       .catch(() => $auth.removeStorage())
   // アクセストークンもリフレッシュトークンも有効期限切れの場合
-  } else if (!$auth.isAccessTokenAuthenticated() && $auth.isRefreshTokenAuthenticated()) {
+  } else if (!$auth.isAccessTokenAuthenticated() && !$auth.isRefreshTokenAuthenticated()) {
     // ログアウト処理
     $auth.logout()
     $auth.removeStorage()

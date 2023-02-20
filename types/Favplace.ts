@@ -8,7 +8,7 @@ export interface Favplace {
   prefecture: string
   municipality: string
   address: string
-  categoryName?: String
+  categoryName?: string
   category: Category
   referenceUrl?: string
   imageUrl: string
@@ -20,7 +20,7 @@ export interface Favplace {
   updatedAt: Date
 }
 
-export interface FavplaceParams {
+export interface FavplaceParam {
   id?: number
   favplacename: string
   prefecture: string
@@ -33,35 +33,13 @@ export interface FavplaceParams {
   userId: number
 }
 
-export interface RequestFavplace extends Favplace {
-  favplacename: string
-  prefecture: string
-  municipality: string
-  address: string
-  categoryId: number
-  userId: number
-}
-
-export interface ResponseFavplace extends Favplace {
-  id: number
-  favplacename: string
-  prefecture: string
-  municipality: string
-  address: string
-  categoryName: String
-  user: User
-  scheduleId: number
-  createdAt: Date
-  updatedAt: Date
-}
-
-export interface FavplaceSaveResponse {
-  favplace: ResponseFavplace
+export interface FavplaceResponse {
+  favplace: Favplace
   message: string
 }
 
-export interface FavplacesGetResponse {
-  favplaces:Array<ResponseFavplace>
-  message?: string
+export interface FavplacesResponse {
+  favplaces:Array<Favplace>
+  message: string
   count: number
 }

@@ -67,8 +67,8 @@ import { ErrorResponse } from '~/types/ErrorResponse'
   }
 )
 export default class AccountPassword extends Vue {
-  isValid: boolean = false
-  loading: boolean = false
+  isValid = false
+  loading = false
   params = { id: this.$auth.currentUser.id, email: this.$auth.currentUser.email }
   errorMessages?: Array<string> | null = null
 

@@ -45,8 +45,8 @@ import { ErrorResponse } from '~/types/ErrorResponse'
   }
 )
 export default class PasswordForget extends Vue {
-  isValid: boolean = false
-  loading: boolean = false
+  isValid = false
+  loading = false
   params = { email: this.$auth.currentUser.email }
 
   /**

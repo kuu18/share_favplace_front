@@ -20,7 +20,7 @@ import { Validation } from '@/types/validation'
 
 @Component
 export default class UserFormPassword extends Vue {
-  show: boolean = false
+  show = false
   @Prop({ type: Boolean, default: false })
     noValidation!: boolean
 
@@ -32,8 +32,8 @@ export default class UserFormPassword extends Vue {
 
   // バリデーション
   get form () {
-    const min: string = '8文字以上'
-    const msg: string = `${min}。半角英数字•ﾊｲﾌﾝ•ｱﾝﾀﾞｰﾊﾞｰが使えます`
+    const min = '8文字以上'
+    const msg = `${min}。半角英数字•ﾊｲﾌﾝ•ｱﾝﾀﾞｰﾊﾞｰが使えます`
     const required: Validation = v => !!v || ''
     const format: Validation = v => /^[\w-]{8,72}$/.test(v) || msg
     const rules: Array<Validation> = this.noValidation ? [required] : [format]

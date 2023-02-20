@@ -1,5 +1,5 @@
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
-import { FavplacesGetResponse, Favplace } from '../types/Favplace'
+import { Favplace, FavplacesResponse } from '../types/Favplace';
 import { $axios } from '~/utils/api'
 
 @Module({
@@ -11,7 +11,7 @@ export default class Favplaces extends VuexModule {
   private favplace = {} as Favplace
   private timeLineFavplaces: Array<Favplace> = []
   private currentUserFavplaces: Array<Favplace> = []
-  private favplaceCount: number = 0
+  private favplaceCount = 0
 
   public get getTimeLineFavplaces () {
     return this.timeLineFavplaces
@@ -61,7 +61,7 @@ export default class Favplaces extends VuexModule {
 
   @Action({ rawError: true })
   public async fetchCurrenUserFavplaces ({ userId, pageIndex }: {userId: number, pageIndex: number}) {
-    const { data } = await $axios.get<FavplacesGetResponse>(`/api/v1/favplaces/user/${userId}/${pageIndex}`)
+    const { data } = await $axios.get<FavplacesResponse>(`/api/v1/favplaces/user/${userId}/${pageIndex}`)
     this.setCurrenUserFavplaces(data.favplaces)
     this.setFavplaceCount(data.count)
   }

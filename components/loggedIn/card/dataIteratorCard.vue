@@ -150,7 +150,7 @@
 </template>
 <script lang='ts'>
 import { Component, Vue } from 'nuxt-property-decorator'
-import FavplaceCard from '../favplace/card/favplaceCard.vue'
+import FavplaceCard from '@/components/favplace/card/favplaceCard.vue'
 import { FavplacesStore } from '@/store'
 
 @Component({

@@ -98,12 +98,12 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import { FavplacesStore, SchedulesStore } from '~/store'
-import { ResponseFavplace } from '~/types/Favplace'
+import { Favplace } from '~/types/Favplace'
 
 @Component
 export default class favplaceInformationCard extends Vue {
-  @Prop({ type: Object, default: () => {}, required: true })
-    favplace!: ResponseFavplace
+  @Prop({ type: Object, default: () => ({}), required: true })
+    favplace!: Favplace
 
   @Prop({ type: String, default: '' })
   readonly color!: string
@@ -117,7 +117,7 @@ export default class favplaceInformationCard extends Vue {
   }
 
   get getScheduleById () {
-    const schedule = SchedulesStore.getScheduleById(this.favplace.scheduleId)
+    const schedule = this.favplace.schedule ? SchedulesStore.getScheduleById(this.favplace.schedule.id) : null
     if (schedule) {
       const start = new Date(schedule.start)
       const end = new Date(schedule.end)

@@ -25,11 +25,11 @@ import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component
 export default class BefLoginFooter extends Vue {
-  appName: String = this.$config.appName
-  height: number = 32
+  appName: string = this.$config.appName
+  height = 32
 
   get copyRightYear () {
-    const beginningYear: number = 2022
+    const beginningYear = 2022
     const thisYear: number = new Date().getFullYear()
     return (beginningYear < thisYear)
       ? `${beginningYear} - ${thisYear}`

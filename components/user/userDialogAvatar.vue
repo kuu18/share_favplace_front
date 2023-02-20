@@ -58,8 +58,8 @@ interface SuccessResponse {
 
 @Component
 export default class UserDialogAvatar extends Vue {
-  isValid: boolean = false
-  loading: boolean = false
+  isValid = false
+  loading = false
   rules = [
     (v: File) => !!v || '',
     (v: File) => !v || v.size < 2000000 || '画像サイズは2MB以内にしてください。'

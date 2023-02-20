@@ -127,17 +127,17 @@
   </v-dialog>
 </template>
 <script lang="ts">
-import { Component, Prop, PropSync, Vue } from 'nuxt-property-decorator'
+import { Component, Prop, PropSync, Ref, Vue } from 'nuxt-property-decorator'
 import { AxiosError } from 'axios'
 import ScheduleForm from '@/components/shedule/form/scheduleForm.vue'
 import LoadingDialog from '@/components/dialogs/loadingDialog.vue'
 import {
-  FavplaceParams,
-  FavplaceSaveResponse,
+  FavplaceParam,
+  FavplaceResponse,
   Favplace
 } from '@/types/Favplace'
 import { ErrorResponse } from '@/types/ErrorResponse'
-import { ScheduleData, ScheduleParams } from '@/types/schedule'
+import { ScheduleData, ScheduleParam } from '@/types/schedule'
 
 interface Image {
   url: string;
@@ -157,22 +157,25 @@ export default class UpdateFavplaceDialog extends Vue {
   loading = false
   lDialog = false
   lDialogTitle = ''
-  base64Url: string = ''
+  base64Url = ''
   blob: Blob = new Blob()
   canvas = {} as HTMLCanvasElement
-  favplaceParams = {} as FavplaceParams
+  favplaceParams = {} as FavplaceParam
   scheduleParams = {
     timed: false
-  } as ScheduleParams
+  } as ScheduleParam
 
   scheduleData = {
     allDay: false
   } as ScheduleData
 
+  @Ref()
+    form!: HTMLFormElement
+
   @PropSync('dialog', { type: Boolean, default: false })
     syncedDialog!: boolean
 
-  @Prop({ type: Object, default: () => {} })
+  @Prop({ type: Object, default: () => ({}) })
     favplace!: Favplace
 
   /**
@@ -206,7 +209,7 @@ export default class UpdateFavplaceDialog extends Vue {
    * formリセット処理
    */
   resetForm () {
-    (this.$refs as any).form.reset()
+    this.form.reset()
     this.base64Url = ''
   }
 
@@ -255,13 +258,13 @@ export default class UpdateFavplaceDialog extends Vue {
     if (this.isValid) {
       await this.$axios
         .$post('/api/v1/favplaces/update', formData, hedears)
-        .then((response: FavplaceSaveResponse) => this.success(response))
+        .then((response: FavplaceResponse) => this.success(response))
         .catch((error: AxiosError<ErrorResponse>) => this.failure(error))
     }
     this.loading = false
   }
 
-  success (response: FavplaceSaveResponse) {
+  success (response: FavplaceResponse) {
     this.lDialogTitle = response.message
   }
 

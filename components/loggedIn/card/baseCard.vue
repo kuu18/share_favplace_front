@@ -39,11 +39,11 @@
 
 <script lang='ts'>
 import { Component, Prop, Vue } from 'nuxt-property-decorator'
-import FavplaceCard from '../favplace/card/favplaceCard.vue'
-import CalendarCard from '../shedule/cards/calendarCard.vue'
-import DataIteratorCard from './dataIteratorCard.vue'
-import TimeLineCard from './timeLineCard.vue'
-import { ResponseFavplace } from '~/types/Favplace'
+import FavplaceCard from '@/components/favplace/card/favplaceCard.vue'
+import CalendarCard from '@/components/shedule/cards/calendarCard.vue'
+import DataIteratorCard from '@/components/loggedIn/card/dataIteratorCard.vue'
+import TimeLineCard from '@/components/loggedIn/card/timeLineCard.vue'
+import { Favplace } from '@/types/Favplace'
 
 export interface Tab {
   name: string,
@@ -61,21 +61,21 @@ export interface Tab {
 })
 export default class BaseCard extends Vue {
   @Prop({ type: String, default: '' })
-    cardTitle!: string
+    readonly cardTitle!: string
 
   @Prop({ type: String, default: '' })
-    color!: string
+    readonly color!: string
 
   @Prop({ type: Array, default: () => [] })
-    icons!: Array<string>
+    readonly icons!: Array<string>
 
   @Prop({ type: Array, default: () => [] })
-    btnIcons!: Array<string>
+    readonly btnIcons!: Array<string>
 
   @Prop({ type: String, default: '' })
-    viewComponent!: string
+    readonly viewComponent!: string
 
-  @Prop({ type: Object, default: () => {} })
-    favplace!: ResponseFavplace
+  @Prop({ type: Object, default: () => ({}) })
+    readonly favplace!: Favplace
 }
 </script>

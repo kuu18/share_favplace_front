@@ -55,7 +55,7 @@ export default class SettingDialog extends Vue {
   updateDialog = false
   updateFromresetKey = 0
 
-  @Prop({ type: Object, default: () => {}, required: true })
+  @Prop({ type: Object, default: () => ({}), required: true })
     favplace!: Favplace
 
   @PropSync('dialog', { type: Boolean, default: false })

@@ -96,7 +96,7 @@ export default class FavplaceCard extends Vue {
   @Prop({ type: Number, default: 0 })
     elevation!: number
 
-  @Prop({ type: Object, default: () => {}, required: true })
+  @Prop({ type: Object, default: () => ({}), required: true })
     favplace!: Favplace
 
   get getAddress () {

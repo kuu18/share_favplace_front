@@ -8,6 +8,7 @@
       "ESNext.AsyncIterable",
       "DOM"
     ],
+    "skipLibCheck": true,
     "esModuleInterop": true,
     "isolatedModules": true,
     "allowJs": true,
@@ -37,7 +38,7 @@
     ]
   },
   "vueCompilerOptions": {
-    "target": 2
+    "target": 2.7
   },
   "exclude": [
     "node_modules",
