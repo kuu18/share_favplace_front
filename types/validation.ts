@@ -1,3 +1,3 @@
-export interface Validation {
-  (v: string): boolean | string
-}
+type ValidationFunction = (v: string) => boolean | string
+
+export type Validation = ValidationFunction | string | boolean

@@ -1,18 +1,22 @@
 <template>
   <logged-in-container>
     <template #my-content>
-      <v-row class="mt-5">
+      <v-row :class="$vuetify.breakpoint.mdAndUp ? 'my-5 mx-5' : 'my-5'">
         <v-col
           cols="12"
           md="6"
           :class="[$vuetify.breakpoint.smAndDown ? 'mb-5': '']"
         >
           <base-card
-            v-if="getNextSchedule"
-            card-title="NextFavplace"
-            color="myred"
-            :favplace="getNextSchedule.favplace"
-            view-component="favplace-card"
+            v-if="getNextSchedules.length !== 0"
+            card-title="NextSchedules"
+            view-component="next-schedules-card"
+          />
+          <base-card
+            v-if="getNextSchedules.length === 0"
+            card-title="Information"
+            :icons="['mdi-information-outline']"
+            view-component="information-card"
           />
         </v-col>
         <v-col
@@ -21,29 +25,26 @@
         >
           <base-card
             card-title="Calendar"
-            color="teal darken-1"
             :icons="['mdi-calendar']"
             :btn-icons="['mdi-pencil', 'mdi-dots-vertical']"
             view-component="calendar-card"
           />
         </v-col>
       </v-row>
-      <v-row class="mt-10">
+      <v-row :class="$vuetify.breakpoint.mdAndUp ? 'my-5 mx-5' : 'my-5'">
         <v-col>
           <base-card
             card-title="Favplaces"
-            color="yellow darken-2"
             :icons="['mdi-map-marker-multiple-outline']"
             :btn-icons="['mdi-plus-circle']"
             view-component="data-iterator-card"
           />
         </v-col>
       </v-row>
-      <v-row class="mt-10">
+      <v-row :class="$vuetify.breakpoint.mdAndUp ? 'my-5 mx-5' : 'my-5'">
         <v-col>
           <base-card
             card-title="TimeLine"
-            color="light-blue darken-2"
             :icons="['mdi-timeline']"
             :btn-icons="['mdi-plus-circle']"
             view-component="time-line-card"
@@ -57,7 +58,7 @@
 <script lang = "ts">
 import { Component, Vue } from 'nuxt-property-decorator'
 
-import BaseCard from '../components/cards/baseCard.vue'
+import BaseCard from '@/components/loggedIn/card/baseCard.vue'
 import { GlobalStore, SchedulesStore } from '~/store'
 
 @Component({
@@ -77,8 +78,8 @@ export default class Index extends Vue {
     if (message) { GlobalStore.commitToast({ msg: String(message), color: String(color), timeout: Number(timeout) }) }
   }
 
-  get getNextSchedule () {
-    return SchedulesStore.getNextSchedule
+  get getNextSchedules () {
+    return SchedulesStore.getNextSchedules
   }
 }
 </script>

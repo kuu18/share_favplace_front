@@ -8,6 +8,7 @@ export interface Favplace {
   prefecture: string
   municipality: string
   address: string
+  fullAddress: string
   categoryName?: string
   category: Category
   referenceUrl?: string

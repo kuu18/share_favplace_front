@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <bef-login-app-bar />
-    <v-main style="background-color: #EEEEEE;">
+    <v-main>
       <nuxt />
     </v-main>
     <bef-login-footer />

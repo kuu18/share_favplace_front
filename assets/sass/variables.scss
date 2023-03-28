@@ -1,6 +1,12 @@
 // custom変数 => https://vuetifyjs.com/en/customization/sass-variables/#sass-variables
 $material-light: (
-  'background': #BDBDBD
+  'background': white
+);
+
+$shades: (
+  'black': #50554E,
+  'white': #FFFFFF,
+  'transparent': transparent
 );
 
 $grid-breakpoints: (

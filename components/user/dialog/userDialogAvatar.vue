@@ -36,7 +36,7 @@
             :loading="loading"
             color="myblue"
             text
-            @click="upload"
+            @click="upload()"
           >
             submit
           </v-btn>

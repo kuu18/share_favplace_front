@@ -78,7 +78,7 @@ import AccountSettingsCard from '../../components/loggedIn/card/accountSettingsC
 import LoggedinFormCard from '../../components/loggedIn/card/loggedinFormCard.vue'
 import { CurrentUserStore, GlobalStore } from '~/store'
 import { UserResponse } from '~/types/user'
-import UserDialogAvatar from '@/components/user/userDialogAvatar.vue'
+import UserDialogAvatar from '~/components/user/dialog/userDialogAvatar.vue'
 import { ErrorResponse } from '~/types/ErrorResponse'
 
 @Component({
@@ -116,8 +116,8 @@ export default class AccountSettings extends Vue {
    * 成功時の処理
    *
    */
-  async updateSuccess (response: UserResponse) {
-    await CurrentUserStore.commitCurrentUser(response.user)
+  updateSuccess (response: UserResponse) {
+    CurrentUserStore.commitCurrentUser(response.user)
     GlobalStore.commitToast({ msg: response.message, color: 'success' })
   }
 

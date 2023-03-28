@@ -13,62 +13,91 @@ export default class Favplaces extends VuexModule {
   private currentUserFavplaces: Array<Favplace> = []
   private favplaceCount = 0
 
-  public get getTimeLineFavplaces () {
+  public get getTimeLineFavplaces() {
     return this.timeLineFavplaces
   }
 
-  public get getCurrenUserFavplaces () {
+  public get getCurrenUserFavplaces() {
     return this.currentUserFavplaces
   }
 
-  public get getFavplaceCount () {
+  public get getFavplaceCount() {
     return this.favplaceCount
   }
 
-  public get getFavplace () {
+  public get getFavplace() {
     return this.favplace
   }
 
-  public get getAddress () {
+  public get getAddress() {
     const address = (favplace: Favplace) => favplace.prefecture + ' ' + favplace.municipality + favplace.address
     return address
   }
 
   @Mutation
-  private setTimeLineFavplaces (payload: Array<Favplace>) {
+  private setTimeLineFavplaces(payload: Array<Favplace>) {
     payload.forEach(fp => this.timeLineFavplaces.push(fp))
   }
 
   @Mutation
-  private setCurrenUserFavplaces (payload: Array<Favplace>) {
+  private setCurrenUserFavplaces(payload: Array<Favplace>) {
     payload.forEach(fp => this.currentUserFavplaces.push(fp))
   }
 
   @Mutation
-  private setFavplaceCount (payload: number) {
+  private setFavplaceCount(payload: number) {
     this.favplaceCount = payload
   }
 
   @Mutation
-  private setFavplace (payload: Favplace) {
+  private setFavplace(payload: Favplace) {
     this.favplace = payload
   }
 
+  @Mutation
+  private addCurrentUserFavplaces(payload: Favplace) {
+    const index = this.currentUserFavplaces.findIndex(({ id }) => id === payload.id)
+    if (index !== -1) {
+      this.currentUserFavplaces.splice(index, 1)
+      this.timeLineFavplaces.splice(index, 1)
+      this.favplaceCount--
+    }
+    this.currentUserFavplaces.push(payload)
+    this.favplaceCount++
+  }
+
+  @Mutation
+  private removeFavplace(payload: number) {
+    const index = this.currentUserFavplaces.findIndex(({ id }) => id === payload)
+    this.currentUserFavplaces.splice(index, 1)
+    this.timeLineFavplaces.splice(index, 1)
+  }
+
   @Action({ rawError: true })
-  public commitTimeLineFavplaces (favplaces: Array<Favplace>) {
+  public commitTimeLineFavplaces(favplaces: Array<Favplace>) {
     this.setTimeLineFavplaces(favplaces)
   }
 
   @Action({ rawError: true })
-  public async fetchCurrenUserFavplaces ({ userId, pageIndex }: {userId: number, pageIndex: number}) {
+  public commitCurrentUserFavplace(favplace: Favplace) {
+    this.addCurrentUserFavplaces(favplace)
+  }
+
+  @Action({ rawError: true })
+  public async fetchCurrenUserFavplaces({ userId, pageIndex }: { userId: number, pageIndex: number }) {
     const { data } = await $axios.get<FavplacesResponse>(`/api/v1/favplaces/user/${userId}/${pageIndex}`)
     this.setCurrenUserFavplaces(data.favplaces)
     this.setFavplaceCount(data.count)
   }
 
   @Action({ rawError: true })
-  public async fetchFavplaceById (favplaceId: number) {
+  public async fetchFavplaceById(favplaceId: number) {
     const { data } = await $axios.get<Favplace>(`/api/v1/favplaces/${favplaceId}`)
     this.setFavplace(data)
+  }
+
+  @Action({ rawError: true })
+  public deleteFavplace(favplaceId: number) {
+    this.removeFavplace(favplaceId)
   }
 }

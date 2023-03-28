@@ -12,7 +12,7 @@ import { Component, PropSync, Vue } from 'nuxt-property-decorator'
 
 @Component
 export default class FavplaceFormName extends Vue {
-  max = 100
+  max = 50
   // バリデーション
   rules = [
     (v: string) => !!v || '場所名は必須入力です。',
