@@ -1,51 +1,22 @@
 <template>
   <v-carousel
-    class="pa-2 align-self-stretch"
+    class="pa-2"
     height="100%"
     hide-delimiter-background
     show-arrows-on-hover
     hide-delimiters
   >
-    <v-carousel-item v-for="(schedule, i) in getNextSchedules" :key="i">
+    <v-carousel-item v-for="(schedule, i) in getNextSchedules" :key="`schedule-key-${i}`">
+      <v-card class="pa-2" flat>
+        <v-img
+          class="white--text align-end"
+          height="200px"
+          :src="schedule.favplace.imageUrl"
+          gradient="to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)"
+        >
+          <v-card-title class="font-weight-black">{{ $my.omitString(schedule.name, 15) }}</v-card-title>
+        </v-img>
       <v-row>
-        <v-col cols="12" :class="$vuetify.breakpoint.mdAndUp && 'ml-5 mt-3'">
-          <div
-            class="font-weight-black"
-            :class="
-              $vuetify.breakpoint.lgAndUp
-                ? 'text-h5'
-                : 'text-h6'
-            "
-          >
-            {{ $my.omitString(schedule.name, 15) }}
-          </div>
-        </v-col>
-        <v-col cols="12" lg="6" xl="6" :class="$vuetify.breakpoint.mdAndUp && 'ml-3'">
-          <v-img
-            :class="$vuetify.breakpoint.smAndDown && 'ma-1'"
-            :src="schedule.favplace.imageUrl"
-            style="border-radius: 10%"
-          />
-        </v-col>
-        <v-col cols="12" lg="5" xl="5" class="d-flex align-start flex-column mb-6">
-          <div class="pa-2">
-            <v-btn
-              class="mr-2"
-              dark
-              fab
-              depressed
-              color="#50554E"
-              nuxt
-              :to="`/favplace/${schedule.favplace.id}`"
-            >
-              <v-icon dark>mdi-open-in-new</v-icon>
-            </v-btn>
-            <span class="grey--text ml-2">詳細を表示する</span>
-          </div>
-        </v-col>
-      </v-row>
-      <v-row class="">
-        <v-col cols="12" :class="$vuetify.breakpoint.mdAndUp && 'ml-5 mt-3'">
           <div
             class="mb-auto pa-2"
             :class="$vuetify.breakpoint.mdAndUp ? 'text-subtitle-1' : 'text-subtitle-3'"
@@ -69,8 +40,8 @@
               }}
             </span>
           </div>
-        </v-col>
       </v-row>
+    </v-card>
     </v-carousel-item>
   </v-carousel>
 </template>
@@ -79,26 +50,35 @@
 import { Component, Vue } from "nuxt-property-decorator"
 import { SchedulesStore } from "@/store"
 
-@Component
+@Component({
+})
 export default class NextSchedulesCard extends Vue {
-  defaultImgUrl = "https://share-favplace-local.s3.ap-northeast-1.amazonaws.com/default"
-  colors = ["indigo", "warning", "pink darken-2", "red lighten-1", "deep-purple accent-4"]
-
-  slides = ["First", "Second", "Third", "Fourth", "Fifth"]
-
   get getNextSchedules() {
     return SchedulesStore.getNextSchedules
   }
 
-  omitString(str: string, maxLength: number) {
-    const MAX_LENGTH = maxLength
-    if (str.length > MAX_LENGTH) {
-      if (this.$vuetify.breakpoint.xl) {
-        return str.slice(0, MAX_LENGTH * 1.5) + "..."
+  // インフォメーションカード取得
+  get getInformationCard() {
+    // 今後予定があるなら
+    if (this.getNextSchedules.length !== 0) {
+      const today = new Date().getDate()
+      const todaySchedules = []
+      this.getNextSchedules.forEach((schedule) => {
+        const startDay = new Date(schedule.scheduleData.startDay).getDate()
+        const endDay = new Date(schedule.scheduleData.endDay).getDate()
+        if (startDay <= today && endDay >= today) {
+          todaySchedules.push(schedule)
+        }
+      })
+      // 当日の予定があるなら
+      if (todaySchedules.length !== 0) {
+        return "TodaySchedules"
+      } else {
+        return "NextSchedules"
       }
-      return str.slice(0, MAX_LENGTH) + "..."
+    } else {
+      return "Information"
     }
-    return str
   }
 }
 </script>

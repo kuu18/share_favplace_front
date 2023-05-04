@@ -5,7 +5,7 @@
     clipped
     mobile-breakpoint="960"
     light
-    color="white"
+    color="mygrey"
   >
     <v-list>
       <v-list-item class="px-2">
@@ -28,7 +28,7 @@
 
     <v-divider />
 
-    <v-list color="white">
+    <v-list color="mygrey">
       <v-list-item v-for="[icon, text] in links" :key="icon" link>
         <v-list-item-icon>
           <v-icon>{{ icon }}</v-icon>

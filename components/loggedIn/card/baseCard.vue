@@ -1,13 +1,13 @@
 <template>
-  <v-card class="my-3 pa-3" color="#F5F5F4" elevation="10" :min-height="$vuetify.breakpoint.lgAndDown ? '700px' : '900px'">
+  <v-card class="ma-3 pa-3" color="white" flat :min-height="$vuetify.breakpoint.lgAndDown ? '700px' : '900px'">
     <v-sheet
       width="100%"
       class="overflow-hidden mt-n9 transition-swing"
-      elevation="6"
+      elevation="5"
       rounded
       dark
     >
-      <v-toolbar color="#50554E" flat>
+      <v-toolbar color="mygrey" flat light>
         <v-toolbar-title class="font-weight-bold">{{ cardTitle }}</v-toolbar-title>
         <v-spacer />
         <v-icon v-for="(icon, i) in icons" :key="`icon-${i}`">

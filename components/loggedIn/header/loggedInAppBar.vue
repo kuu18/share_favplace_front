@@ -2,10 +2,11 @@
   <v-app-bar
     app
     light
+    flat
     dense
     elevation="1"
     clipped-left
-    color="white"
+    color="mygrey"
   >
     <slot name="nav-icon" />
     <nuxt-link
