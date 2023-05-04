@@ -51,8 +51,8 @@ import { ErrorResponse } from '~/types/ErrorResponse'
 })
 export default class PasswordReset extends Vue {
   private token?: string
-  isValid: boolean = false
-  loading: boolean = false
+  isValid = false
+  loading = false
   params = { password: '' }
 
   /**

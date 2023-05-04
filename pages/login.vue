@@ -61,7 +61,7 @@ import userFormPassword from '@/components/user/userFormPassword.vue'
 import userFormUsername from '@/components/user/userFormUsername.vue'
 import Toaster from '@/components/ui/toaster.vue'
 import { GlobalStore } from '@/store'
-import { LoginResponse, User } from '@/types/user'
+import { LoginResponse, UserParam } from '@/types/user'
 import { ErrorResponse } from '~/types/ErrorResponse'
 
 @Component({
@@ -74,9 +74,9 @@ import { ErrorResponse } from '~/types/ErrorResponse'
   }
 })
 export default class Login extends Vue {
-  isValid: boolean = false
-  loading: boolean = false
-  params:User = { username: '', password: '' }
+  isValid = false
+  loading = false
+  params = {} as UserParam
 
   /**
    *ログイン処理

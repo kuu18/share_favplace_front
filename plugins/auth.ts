@@ -100,7 +100,7 @@ class Authentication implements AuthenticationInterface {
    * @returns ログイン中のユーザー
    */
   get currentUser () {
-    return CurrentUserStore.getCurrentUser || {}
+    return CurrentUserStore.getCurrentUser
   }
 
   /**
@@ -140,7 +140,7 @@ class Authentication implements AuthenticationInterface {
   logout () {
     this.$axios.$delete('/api/v1/logout')
     this.removeStorage()
-    CurrentUserStore.commitCurrentUser(null)
+    CurrentUserStore.commitCurrentUser(({} as User))
   }
 
   /**

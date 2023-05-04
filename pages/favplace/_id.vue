@@ -47,7 +47,7 @@ export default class FavplaceShow extends Vue {
   }
 
   get getAddress () {
-    if (this.getFavplace) { return FavplacesStore.getAddress(this.getFavplace) }
+    return FavplacesStore.getAddress(this.getFavplace)
   }
 }
 </script>

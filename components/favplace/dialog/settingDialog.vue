@@ -24,6 +24,10 @@
             :dialog.sync="updateDialog"
             :favplace="favplace"
           />
+          <delete-favplace-dialog
+            :dialog.sync="deleteDialog"
+            :favplace="favplace"
+          /> 
         </v-list-item-group>
       </v-list>
     </v-card>
@@ -33,6 +37,7 @@
 import { Component, Prop, PropSync, Vue } from 'nuxt-property-decorator'
 import { Favplace } from '@/types/Favplace'
 import UpdateFavplaceDialog from '@/components/favplace/dialog/updateFavplaceDialog.vue'
+import DeleteFavplaceDialog from '@/components/favplace/dialog/deleteFavplaceDialog.vue'
 
 interface Item {
   text: string;
@@ -41,7 +46,8 @@ interface Item {
 
 @Component({
   components: {
-    UpdateFavplaceDialog
+    UpdateFavplaceDialog,
+    DeleteFavplaceDialog
   }
 })
 export default class SettingDialog extends Vue {
@@ -53,9 +59,10 @@ export default class SettingDialog extends Vue {
   ]
 
   updateDialog = false
+  deleteDialog = false
   updateFromresetKey = 0
 
-  @Prop({ type: Object, default: () => {}, required: true })
+  @Prop({ type: Object, default: () => ({}), required: true })
     favplace!: Favplace
 
   @PropSync('dialog', { type: Boolean, default: false })
@@ -66,6 +73,10 @@ export default class SettingDialog extends Vue {
       case 'Edit':
         this.updateDialog = true
         this.updateFromresetKey++
+        this.syncedDialog = false
+        break
+      case 'Delete':
+        this.deleteDialog = true
         this.syncedDialog = false
         break
       case 'ShowFavplace':

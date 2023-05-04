@@ -105,9 +105,9 @@ import { ErrorResponse } from '~/types/ErrorResponse'
   }
 })
 export default class AcccountDelete extends Vue {
-  isValid: boolean = false
-  loading: boolean = false
-  dialog: boolean = false
+  isValid = false
+  loading = false
+  dialog = false
   params = { id: this.$auth.currentUser.id, password: '' }
 
   async deleteAccount () {

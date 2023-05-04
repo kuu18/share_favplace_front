@@ -20,7 +20,7 @@ export interface Schedule {
   color: string
 }
 
-export interface ScheduleParams {
+export interface ScheduleParam {
   id?: number
   start: string
   end: string

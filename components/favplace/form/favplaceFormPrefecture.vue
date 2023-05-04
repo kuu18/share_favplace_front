@@ -1,5 +1,5 @@
 <template>
-  <v-select
+  <v-autocomplete
     v-model="syncedPrefecture"
     :rules="rules"
     :items="items"

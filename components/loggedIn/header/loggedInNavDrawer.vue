@@ -4,8 +4,8 @@
     app
     clipped
     mobile-breakpoint="960"
-    dark
-    color="grey darken-3"
+    light
+    color="mygrey"
   >
     <v-list>
       <v-list-item class="px-2">
@@ -28,7 +28,7 @@
 
     <v-divider />
 
-    <v-list color="grey darken-3">
+    <v-list color="mygrey">
       <v-list-item v-for="[icon, text] in links" :key="icon" link>
         <v-list-item-icon>
           <v-icon>{{ icon }}</v-icon>
@@ -41,11 +41,16 @@
     </v-list>
 
     <template #append>
-      <div class="pa-2 mb-10">
-        <v-btn dark block color="myred" @click.stop="dialog = true">
-          登録する
+      <div class="pa-2 mb-10 ml-5">
+        <v-btn large fab dark depressed color="#50554E" @click.stop="dialog = true">
+          <v-icon dark>
+            mdi-plus
+          </v-icon>
         </v-btn>
         <register-favplace-dialog :dialog.sync="dialog" />
+        <span class="pt-1 ml-5 text-h6 font-weight-bold" style="color: #50554E;">
+          登録する
+        </span>
       </div>
     </template>
   </v-navigation-drawer>

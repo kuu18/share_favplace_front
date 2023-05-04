@@ -1,11 +1,12 @@
 <template>
   <v-app-bar
     app
-    dark
+    light
+    flat
     dense
     elevation="1"
     clipped-left
-    color="grey darken-3"
+    color="mygrey"
   >
     <slot name="nav-icon" />
     <nuxt-link
@@ -28,6 +29,7 @@
       <template #activator="{ on }">
         <v-btn
           icon
+          color="black"
           v-on="on"
         >
           <v-icon>

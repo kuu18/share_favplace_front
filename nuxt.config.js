@@ -81,7 +81,9 @@ export default {
           error: 'FB8678',
           background: 'F8F8FF',
           myblue: '1867C0',
-          myred: 'c86a71'
+          myred: 'c86a71',
+          mygrey: 'C7D5D6',
+          myblack: '50554E'
         }
       }
     }

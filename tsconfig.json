@@ -13,8 +13,6 @@
     "allowJs": true,
     "sourceMap": true,
     "strict": true,
-    "strictNullChecks": true,
-    "noImplicitAny": true,
     "noEmit": true,
     "experimentalDecorators": true,
     "removeComments": true,
@@ -37,7 +35,7 @@
     ]
   },
   "vueCompilerOptions": {
-    "target": 2
+    "target": 2.7
   },
   "exclude": [
     "node_modules",

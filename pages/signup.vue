@@ -42,13 +42,13 @@
   </bef-login-form-card>
 </template>
 <script lang = 'ts'>
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Component, Ref, Vue } from 'nuxt-property-decorator'
 import { AxiosError } from 'axios'
 import befLoginFormCard from '@/components/beforeLogin/befLoginFormCard.vue'
 import userFormEmail from '@/components/user/userFormEmail.vue'
 import userFormUsername from '@/components/user/userFormUsername.vue'
 import userFormPassword from '@/components/user/userFormPassword.vue'
-import { User } from '@/types/user'
+import { UserParam } from '@/types/user'
 import { MessageResponse } from '@/types/messageResponse'
 import { GlobalStore } from '@/store'
 import Toaster from '@/components/ui/toaster.vue'
@@ -65,10 +65,13 @@ import { ErrorResponse } from '~/types/ErrorResponse'
   }
 })
 export default class Signup extends Vue {
-  isValid: boolean = false
-  loading: boolean = false
-  params: User = { username: '', email: '', password: '' }
+  isValid = false
+  loading = false
+  params = {} as UserParam
   errorMessages?: Array<string> | null = null
+  
+  @Ref()
+    form!: HTMLFormElement
 
   async signup () {
     this.errorMessages = null
@@ -100,7 +103,7 @@ export default class Signup extends Vue {
   }
 
   formReset () {
-    (this.$refs as any).form.reset()
+    this.form.reset()
   }
 }
 </script>
