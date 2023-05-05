@@ -7,7 +7,6 @@
         :right="$vuetify.breakpoint.smAndDown ? true : false"
         :slider-color="color"
         :color="color"
-        style="width: 90%"
       >
         <v-tab href="#information">
           <v-icon class="mr-2">
