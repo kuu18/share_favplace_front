@@ -12,7 +12,7 @@
       <template #header>
         <v-row class="d-flex justify-center">
           <v-col cols="6">
-          <v-autocomplete
+            <v-autocomplete
               v-model="search"
               :items="searchKeys"
               color="grey"
@@ -23,7 +23,7 @@
               prepend-inner-icon="mdi-magnify"
               label="Search"
             />
-        </v-col>
+          </v-col>
         </v-row>
       </template>
 
@@ -129,7 +129,7 @@ export default class DataIteratorCard extends Vue {
     ) {
       if (this.$auth.currentUser.id) {
         // 次のページを取得する
-        await FavplacesStore.fetchCurrenUserFavplaces({
+        await FavplacesStore.fetchCurrentUserFavplaces({
           userId: this.$auth.currentUser.id,
           pageIndex: this.pagenationIndex,
         })

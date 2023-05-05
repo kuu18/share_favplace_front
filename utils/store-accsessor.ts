@@ -4,6 +4,7 @@ import Global from '@/store/global'
 import CurrentUser from '@/store/currentUser'
 import Favplaces from '@/store/favplaces'
 import Schedules from '@/store/schedules'
+import Users from '@/store/users';
 
 // eslint-disable-next-line import/no-mutable-exports
 let GlobalStore: Global
@@ -13,6 +14,8 @@ let CurrentUserStore: CurrentUser
 let FavplacesStore: Favplaces
 // eslint-disable-next-line import/no-mutable-exports
 let SchedulesStore: Schedules
+// eslint-disable-next-line import/no-mutable-exports
+let UsersStore: Users
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function initialiseStores (store: Store<any>): void {
@@ -20,6 +23,7 @@ function initialiseStores (store: Store<any>): void {
   CurrentUserStore = getModule(CurrentUser, store)
   FavplacesStore = getModule(Favplaces, store)
   SchedulesStore = getModule(Schedules, store)
+  UsersStore = getModule(Users, store)
 }
 
 export {
@@ -27,5 +31,6 @@ export {
   GlobalStore,
   CurrentUserStore,
   FavplacesStore,
-  SchedulesStore
+  SchedulesStore,
+  UsersStore
 }

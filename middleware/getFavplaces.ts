@@ -7,7 +7,7 @@ export default async ({ $auth }: Context) => {
   if ($auth.loggedIn && userId) {
     // ログインユーザーのFavplacesが存在しないとき
     if (!FavplacesStore.getCurrenUserFavplaces.length) {
-      await FavplacesStore.fetchCurrenUserFavplaces({ userId, pageIndex: 0 })
+      await FavplacesStore.fetchCurrentUserFavplaces({ userId, pageIndex: 0 })
     }
     // ログインユーザーのスケジュールが存在しないとき
     if (!SchedulesStore.getSchedules.length) {

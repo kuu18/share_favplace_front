@@ -7,35 +7,14 @@
     light
     color="mygrey"
   >
-    <v-list>
-      <v-list-item class="px-2">
-        <v-list-item-avatar size="64">
-          <v-img alt="Avatar" :src="$auth.currentUser.avatarUrl" />
-        </v-list-item-avatar>
-      </v-list-item>
-
-      <v-list-item link>
-        <v-list-item-content>
-          <v-list-item-title class="text-h6">
-            {{ $auth.currentUser.username }}
-          </v-list-item-title>
-          <v-list-item-subtitle>
-            {{ $auth.currentUser.email }}
-          </v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
-    </v-list>
-
-    <v-divider />
-
     <v-list color="mygrey">
-      <v-list-item v-for="[icon, text] in links" :key="icon" link>
+      <v-list-item v-for="link in links" :key="link.icon" link :to="link.to">
         <v-list-item-icon>
-          <v-icon>{{ icon }}</v-icon>
+          <v-icon>{{ link.icon }}</v-icon>
         </v-list-item-icon>
 
         <v-list-item-content>
-          <v-list-item-title>{{ text }}</v-list-item-title>
+          <v-list-item-title>{{ link.text }}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </v-list>
@@ -58,7 +37,7 @@
 
 <script lang="ts">
 import { Vue, Component, PropSync } from 'nuxt-property-decorator'
-import RegisterFavplaceDialog from '../../favplace/dialog/registerFavplaceDialog.vue'
+import RegisterFavplaceDialog from '@/components/favplace/dialog/registerFavplaceDialog.vue'
 
 @Component({
   components: {
@@ -67,11 +46,14 @@ import RegisterFavplaceDialog from '../../favplace/dialog/registerFavplaceDialog
 })
 export default class LoggedInNavDrawer extends Vue {
   dialog = false
+  mini = true
   links = [
-    ['mdi-inbox-arrow-down', 'Inbox'],
-    ['mdi-send', 'Send'],
-    ['mdi-delete', 'Trash'],
-    ['mdi-alert-octagon', 'Spam']
+    {icon: 'mdi-home', text: 'Home', to: '/'},
+    {icon: 'mdi-account', text: 'MyAccount', to: `/user/${this.$auth.currentUser.id}`},
+    {icon: 'mdi-inbox-arrow-down', text: 'Inbox', to: '#'},
+    {icon: 'mdi-send', text: 'Send', to: '#'},
+    {icon: 'mdi-delete', text: 'Trash', to: '#'},
+    {icon: 'mdi-alert-octagon', text: 'Spam', to: '#'}
   ]
 
   @PropSync('drawer', { type: Boolean, default: null })
