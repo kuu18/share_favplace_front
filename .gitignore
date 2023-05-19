@@ -58,6 +58,7 @@ typings/
 
 # dotenv environment variables file
 .env
+environment
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -79,6 +80,7 @@ dist
 
 # IDE / Editor
 .idea
+.vscode
 
 # Service worker
 sw.*
@@ -88,3 +90,6 @@ sw.*
 
 # Vim swap files
 *.swp
+
+# other
+.ash_history

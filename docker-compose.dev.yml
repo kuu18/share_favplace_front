@@ -4,9 +4,11 @@ services:
   front:
       build:
         context: .
+        dockerfile: Dockerfile.dev
         args:
           WORKDIR: $WORKDIR
           CONTAINER_PORT: $CONTAINER_PORT
+          API_URL: "http://localhost:$API_PORT/"
       container_name: share_favplace_front
       command: yarn run dev
       volumes:

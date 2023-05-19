@@ -9,11 +9,14 @@
       "DOM"
     ],
     "esModuleInterop": true,
+    "isolatedModules": true,
     "allowJs": true,
     "sourceMap": true,
     "strict": true,
     "noEmit": true,
     "experimentalDecorators": true,
+    "removeComments": true,
+    "importHelpers": true,
     "baseUrl": ".",
     "paths": {
       "~/*": [
@@ -26,8 +29,13 @@
     "types": [
       "@nuxt/types",
       "@nuxtjs/axios",
-      "@types/node"
+      "@types/node",
+      "@nuxtjs/vuetify",
+      "nuxt-i18n"
     ]
+  },
+  "vueCompilerOptions": {
+    "target": 2.7
   },
   "exclude": [
     "node_modules",

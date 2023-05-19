@@ -1,0 +1,33 @@
+{
+  "menus": {
+    "about": "サイトについて",
+    "contact": "お問合せ"
+  },
+  "pages": {
+    "signup": "会員登録",
+    "login": "ログイン",
+    "logout": "ログアウト",
+    "account": {
+      "settings": "アカウント設定",
+      "email": "メールアドレス変更",
+      "password": "パスワード変更",
+      "delete": "アカウント削除"
+    }
+  },
+  "error": {
+    "Unauthorized": "認証に失敗しました",
+    "This page could not be found": "ページが見つかりません",
+    "Network Error": "サーバーで問題が発生しました"
+  },
+  "favplace": {
+    "favplacename": "場所名",
+    "prefecture": "住所",
+    "category": "カテゴリー",
+    "menus": {
+      "Edit": "編集する",
+      "Delete": "削除する",
+      "ShowFavplace": "Favplace詳細へ移動",
+      "ShowAccount": "アカウント詳細へ移動"
+    }
+  }
+}
