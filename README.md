@@ -17,7 +17,7 @@ https://sharefavplace.com <br />
 
 ## AWS構成図
 
-![](https://user-images.githubusercontent.com/64303128/217569914-093ad9b9-61f0-44f5-9274-64df20dbc722.jpg)
+![](https://github.com/kuu18/share_favplace_front/assets/64303128/92f51315-32e9-4dea-a0d0-ece952748655)
 
 ## 機能一覧
 **Favplace登録、管理機能**
